@@ -128,11 +128,64 @@ import { setSourceMapsSupport } from "module";
         }
     }
 
+    const masterTagList = await generateTagsFromMasterCsv(masterCsvPath);
+
+    if (masterTagList.length > 0) {
+        console.log(`\n--- Master Tag List (${masterTagList.length} unique tags) ---`);
+        console.log(masterTagList);
+        
+        // Optionally, save this list to a new, clean CSV
+        const tagCsvContent = 'tag\n' + masterTagList.join('\n');
+        fs.writeFileSync('./unique_tags.csv', tagCsvContent);
+        console.log('\nSaved unique tags to unique_tags.csv');
+    } else {
+        console.log('No tags found in the master CSV file.');
+    }
+
+
+
     //await browser.close();
 
   console.log("\nAll done.");
     
 })();
+
+
+function generateTagsFromMasterCsv(filePath) {
+  const uniqueTags = new Set();
+
+  return new Promise((resolve, reject) => {
+    // Check if the master file exists first
+    if (!fs.existsSync(filePath)) {
+      console.error(`Error: Master CSV file not found at ${filePath}`);
+      return resolve([]); // Return an empty array if no file
+    }
+
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (row) => {
+        // Check if the 'tags' column exists and is not empty
+        if (row.tags && row.tags.trim() !== '') {
+          // The tags are stored as a " | " separated string, so we split them back into an array
+          const tagsArray = row.tags.split(' | ');
+          
+          // Add each individual tag to our Set to handle uniqueness
+          tagsArray.forEach(tag => {
+            const cleanedTag = tag.trim();
+            if (cleanedTag) { // Ensure we don't add empty strings
+              uniqueTags.add(cleanedTag);
+            }
+          });
+        }
+      })
+      .on('end', () => {
+        // Convert the Set to an array and sort it alphabetically
+        const sortedTagList = Array.from(uniqueTags).sort();
+        resolve(sortedTagList);
+      })
+      .on('error', reject);
+  });
+}
 
 
 
