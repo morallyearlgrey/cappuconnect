@@ -11,7 +11,248 @@ const categories = [405, 436, 546, 652]
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { time } from "console";
+import { setSourceMapsSupport } from "module";
 
+
+async function debugDetailsContainer(page) {
+  const containerHTML = await page.evaluate(() => {
+    // 1. Find the first paragraph of the event details.
+    // We search within '#main' to be more specific.
+    const firstParagraph = document.querySelector('#main p.mb-4');
+
+    if (firstParagraph) {
+      // 2. Get its direct parent element and return the parent's full HTML.
+      return firstParagraph.parentElement.outerHTML;
+    }
+
+    return 'Could not find a <p class="mb-4"> tag inside the #main container.';
+  });
+  return containerHTML;
+}
+
+
+/**
+ * FINAL ADAPTIVE SCRAPER: Detects the page layout and uses the correct selectors.
+ * @param {object} page - The Puppeteer page object.
+ * @returns {Promise<object>} - An object containing the scraped data.
+ */
+
+// this one works entirely on layout A, minus the mapURL system. which can be figured out later
+async function scrapeEventDetails(page) {
+  const eventData = await page.evaluate(() => {
+    // --- Default values ---
+    let details = 'Details not found';
+    let tags = [];
+    let imageUrl = 'Image not found';
+    let mapUrl = 'Map link not found';
+
+    // --- 1. Layout Detection ---
+    // The presence of '#event-details' is our key to identifying the older layout (Layout A).
+    const isLayoutA = document.querySelector('#event-details') !== null;
+    
+
+    // --- 2. Scrape Based on Detected Layout ---
+    if (isLayoutA) {
+      // --- LAYOUT A LOGIC ---
+      details = document.querySelector('#event-details')?.innerText || 'Details not found';
+      
+      // Use the new selector you found for Layout A's tags
+      const tagElements = document.querySelectorAll('a.tag--topic');
+      tags = Array.from(tagElements).map(el => el.innerText.trim());
+
+    } else {
+      // --- LAYOUT B LOGIC ---
+      //details = document.querySelector('[data-testid="event-details"]')?.innerText || 'Details not found';
+      ///details = document.querySelector('[data-testid="event-details"]')?.innerText || 'Details not found';
+      details = document.querySelector('div[class*="line-clamp"]')?.innerText || 'Details not found';
+      
+      
+      // Use the selector for Layout B's tags
+      const tagsContainer = document.querySelector('div.flex.flex-wrap.gap-ds2-8');
+      if (tagsContainer) {
+      const tagElements = tagsContainer.querySelectorAll('span.truncate.px-ds2-2');
+      tags = Array.from(tagElements).map(el => el.innerText.trim());
+      }
+    
+      //details = "b";
+      //tags = "b";
+    }
+
+    // --- 3. Scrape Common Elements (Image and Map) ---
+    // This image logic works for both layouts
+    const titleElement = document.querySelector('h1');
+    if (titleElement) {
+      const titleText = titleElement.innerText.trim();
+      const escapedTitleText = titleText.replace(/"/g, '\\"');
+      const imageSelector = `img[alt="${escapedTitleText}"]`;
+      const imageElement = document.querySelector(imageSelector);
+      if (imageElement) {
+        imageUrl = imageElement.src;
+      }
+    }
+    
+    // This map logic is generic enough to try on both
+    const mapElement = document.querySelector('a[href*="maps.google.com"]');
+    if (mapElement) {
+      mapUrl = mapElement.href;
+    }
+
+    return {
+      details,
+      tags,
+      imageUrl,
+      mapUrl,
+    };
+  });
+
+  return eventData;
+}
+
+
+
+
+
+//  int main lmao
+(async () => {
+  const browser = await puppeteer.launch({
+    headless: false,              // use false if you want to show the browser 
+    defaultViewport: null,        // use a real window size
+    args: ["--start-maximized"],
+    // args: [
+    //   "--no-sandbox",
+    //   "--disable-setuid-sandbox",
+    //   "--disable-features=Translate,site-per-process",
+    //   "--disable-dev-shm-usage"
+    // ]
+  });
+
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 });
+//   await page.setViewport({
+//   width: 430,
+//   height: 932,
+//   isMobile: true,
+//   hasTouch: true
+// });
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+  );
+  // use wide viewporta
+  
+  //await page.setViewport({ width: 1600, height: 1000, deviceScaleFactor: 1 });
+    const get_new_events = false;
+
+    // this downloads th base event IDs and information neccesssary to build the proper schemas for the mongo DB
+    if(get_new_events)
+    {
+        for (let index = 0; index <= categories.length; index++) 
+        {
+            //`${BASE}${chapter_number}${SUFFIX}
+            const category_id = categories[index];
+            const url = `https://www.meetup.com/find/?location=us--ny--new-york&categoryId=${category_id}405&source=EVENTS`;
+            //console.log(`\n=== Chapter ${chapter_number} ===`);
+            console.log("Navigating:", url);
+
+            await page.goto(url, { waitUntil: "domcontentloaded" });
+            
+            // tiny nudge
+            await page.mouse.wheel({ deltaY: 1200 });
+            // ensure something image-like exists
+            await page.waitForSelector('img, [data-src], [data-original]', { timeout: 15000 });
+            //await sleep(2000);
+            await sweepDown(page, 900, 250); 
+
+            await settleAtBottom(page, 500, 10, 200);
+        // const outDir = path.join(__dirname, `chapter_${chapter_number}_nodeshots`);
+
+        sleep(10)
+
+
+        console.log("Extracting event data...");
+            const events = await extractEventData(page);
+            console.log(`Found ${events.length} events.`);
+
+            if (events.length > 0) {
+                saveAsCSV(events, 'meetup_events.csv');
+            }
+            // --- END OF NEW PART ---
+        }
+    }
+
+
+    // this is where we start grabbing more information per event, including tags etc.
+
+
+
+    const eventUrl = 'https://www.meetup.com/new-york-site-reliability-engineering-tech-talks/events/311021088/';
+
+    await page.goto(eventUrl, { waitUntil: "domcontentloaded" });
+
+    const scrapedData = await scrapeEventDetails(page);
+
+    console.log(scrapedData);
+
+    //await browser.close();
+
+    // future plan: debug map api system to give location link:
+    //const htmlChunk = await debugMapContainer(page);
+
+    //   console.log('\n--- HTML of the Map Link Container ---');
+    //   console.log(htmlChunk);
+    //   console.log('--------------------------------------\n');
+
+  console.log("\nAll done.");
+    
+})();
+
+async function debugMapInteraction(page) {
+  // --- Part 1: Get the HTML around the button ---
+  const buttonContainerHTML = await page.evaluate(() => {
+    // Find the button by looking for its unique SVG icon inside
+    const button = document.querySelector('svg path[d^="M13.083"]').closest('button');
+    return button ? button.parentElement.outerHTML : 'Could not find button container.';
+  });
+  
+  console.log('\n--- HTML of the Button Container ---');
+  console.log(buttonContainerHTML);
+  console.log('------------------------------------\n');
+
+  // --- Part 2: Click the button and get the page's new HTML ---
+  try {
+    const buttonSelector = 'svg path[d^="M13.083"]';
+    await page.click(buttonSelector);
+    console.log('Successfully clicked the directions button.');
+    
+    // Wait for a moment for the map/modal to appear
+    await new Promise(r => setTimeout(r, 2000)); 
+
+    const pageHtmlAfterClick = await page.content();
+    console.log('\n--- Full Page HTML After Click ---');
+    console.log(pageHtmlAfterClick);
+    console.log('----------------------------------\n');
+
+  } catch (error) {
+    console.log('Could not click the button. The selector may be incorrect or element not visible.');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/// done stuff
 
 // basic sleep function system
 function sleep(ms) 
@@ -58,14 +299,53 @@ async function settleAtBottom(page, dwellMs = 500, stableRounds = 8, maxRounds =
   }
 }
 
+
+/**
+ * Converts an array of objects to a CSV string and saves it to a file.
+ * @param {Array<object>} data - The array of event data.
+ * @param {string} filePath - The path to the output CSV file.
+ *//**
+ * Saves data to a CSV file, appending if the file already exists.
+ * @param {Array<object>} data - The array of event data.
+ * @param {string} filePath - The path to the output CSV file.
+ */
+function saveAsCSV(data, filePath) {
+  if (data.length === 0) {
+    console.log("No new data to save.");
+    return;
+  }
+
+  // 1. Check if the file already exists
+  const fileExists = fs.existsSync(filePath);
+
+  // 2. Convert the new data objects to CSV rows
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => 
+    headers.map(header => `"${obj[header]}"`).join(',')
+  );
+
+  let csvContent = '';
+
+  // 3. If the file doesn't exist, create the header row
+  if (!fileExists) {
+    csvContent += headers.join(',') + '\n';
+    console.log("Creating new CSV file with headers.");
+  }
+
+  // 4. Add the new rows to the content
+  csvContent += rows.join('\n');
+
+  // 5. Use appendFileSync to add the content to the file
+  // This will create the file if it doesn't exist, or add to it if it does.
+  // We add a newline character at the beginning for subsequent appends.
+  fs.appendFileSync(filePath, (fileExists ? '\n' : '') + csvContent);
   
+  console.log(`Successfully appended ${data.length} new events to ${filePath}`);
+}
+
+
 
 // 
-/**
- * Extracts the ID, Name, Location, Host, and URL for each event on the page.
- * @param {object} page - The Puppeteer page object.
- * @returns {Promise<Array<object>>} - A promise that resolves to an array of event objects.
- */
 /**
  * FINAL ROBUST VERSION (with Regex ID): Handles multiple layouts and gets the ID from the URL.
  * @param {object} page - The Puppeteer page object.
@@ -110,6 +390,33 @@ async function extractEventData(page) {
     });
   });
 }
+
+/**
+ * A debugging function to get the HTML of the header area.
+ * @param {object} page - The Puppeteer page object.
+ * @returns {Promise<string>} - The outerHTML of the title's parent container.
+ */
+async function debugHeaderArea(page) {
+  const headerHTML = await page.evaluate(() => {
+    // 1. Find the most reliable landmark: the main title.
+    const titleElement = document.querySelector('h1');
+
+    if (titleElement) {
+      // 2. Get its direct parent element and return the parent's full HTML.
+      return titleElement.parentElement.outerHTML;
+    }
+
+    return 'Could not find the <h1> title element.';
+  });
+  return headerHTML;
+}
+
+
+
+
+// unused stuff
+
+
 // async function extractEventData(page) {
 //   return page.evaluate(() => {
 //     // First, try to find cards using the NEW layout's main container.
@@ -168,120 +475,3 @@ async function extractEventData(page) {
 //     });
 //   });
 // }
-
-/**
- * Converts an array of objects to a CSV string and saves it to a file.
- * @param {Array<object>} data - The array of event data.
- * @param {string} filePath - The path to the output CSV file.
- *//**
- * Saves data to a CSV file, appending if the file already exists.
- * @param {Array<object>} data - The array of event data.
- * @param {string} filePath - The path to the output CSV file.
- */
-function saveAsCSV(data, filePath) {
-  if (data.length === 0) {
-    console.log("No new data to save.");
-    return;
-  }
-
-  // 1. Check if the file already exists
-  const fileExists = fs.existsSync(filePath);
-
-  // 2. Convert the new data objects to CSV rows
-  const headers = Object.keys(data[0]);
-  const rows = data.map(obj => 
-    headers.map(header => `"${obj[header]}"`).join(',')
-  );
-
-  let csvContent = '';
-
-  // 3. If the file doesn't exist, create the header row
-  if (!fileExists) {
-    csvContent += headers.join(',') + '\n';
-    console.log("Creating new CSV file with headers.");
-  }
-
-  // 4. Add the new rows to the content
-  csvContent += rows.join('\n');
-
-  // 5. Use appendFileSync to add the content to the file
-  // This will create the file if it doesn't exist, or add to it if it does.
-  // We add a newline character at the beginning for subsequent appends.
-  fs.appendFileSync(filePath, (fileExists ? '\n' : '') + csvContent);
-  
-  console.log(`Successfully appended ${data.length} new events to ${filePath}`);
-}
-
-
-
-//  int main lmao
-(async () => {
-  const browser = await puppeteer.launch({
-    headless: false,              // use false if you want to show the browser 
-    defaultViewport: null,        // use a real window size
-    args: ["--start-maximized"],
-    // args: [
-    //   "--no-sandbox",
-    //   "--disable-setuid-sandbox",
-    //   "--disable-features=Translate,site-per-process",
-    //   "--disable-dev-shm-usage"
-    // ]
-  });
-
-  const page = await browser.newPage();
-  
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
-  );
-  // use wide viewporta
-  
-  //await page.setViewport({ width: 1600, height: 1000, deviceScaleFactor: 1 });
-
-    for (let index = 0; index <= categories.length; index++) 
-    {
-        //`${BASE}${chapter_number}${SUFFIX}
-        const category_id = categories[index];
-        const url = `https://www.meetup.com/find/?location=us--ny--new-york&categoryId=${category_id}405&source=EVENTS`;
-        //console.log(`\n=== Chapter ${chapter_number} ===`);
-        console.log("Navigating:", url);
-
-        await page.goto(url, { waitUntil: "domcontentloaded" });
-        
-        // tiny nudge
-        await page.mouse.wheel({ deltaY: 1200 });
-        // ensure something image-like exists
-        await page.waitForSelector('img, [data-src], [data-original]', { timeout: 15000 });
-        //await sleep(2000);
-        await sweepDown(page, 900, 250); 
-
-        await settleAtBottom(page, 500, 10, 200);
-       // const outDir = path.join(__dirname, `chapter_${chapter_number}_nodeshots`);
-
-       sleep(10)
-
-
-       console.log("Extracting event data...");
-        const events = await extractEventData(page);
-        console.log(`Found ${events.length} events.`);
-
-        if (events.length > 0) {
-            saveAsCSV(events, 'meetup_events.csv');
-        }
-        // --- END OF NEW PART ---
-
-       
-
-
-
-        // ensureDir(outDir);
-        // const count = await capturePanelsAsNodeScreenshots(page, outDir, {
-        //     minW: 300,      // tweak if it grabs small UI bits aka things went to shit
-        //     minH: 300
-        //   });
-        //   console.log(`Captured ${count} node screenshots to: ${outDir}`);
-
-    }
-
-  console.log("\nAll done.");
-    
-})();
