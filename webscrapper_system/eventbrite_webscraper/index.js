@@ -1,5 +1,10 @@
 // index.js
 import puppeteer from "puppeteer";
+//import fs from 'fs';
+import csv from 'csv-parser';
+
+const filePath = './events.csv';
+const results = [];
 
 const URL = "https://www.meetup.com/find/?location=us--ny--new-york&categoryId=405&source=EVENTS"; // basically  which url we want to scrape from, I figure we set 2 main ones  
 
@@ -38,76 +43,7 @@ async function debugDetailsContainer(page) {
  * @returns {Promise<object>} - An object containing the scraped data.
  */
 
-// this one works entirely on layout A, minus the mapURL system. which can be figured out later
-async function scrapeEventDetails(page) {
-  const eventData = await page.evaluate(() => {
-    // --- Default values ---
-    let details = 'Details not found';
-    let tags = [];
-    let imageUrl = 'Image not found';
-    let mapUrl = 'Map link not found';
 
-    // --- 1. Layout Detection ---
-    // The presence of '#event-details' is our key to identifying the older layout (Layout A).
-    const isLayoutA = document.querySelector('#event-details') !== null;
-    
-
-    // --- 2. Scrape Based on Detected Layout ---
-    if (isLayoutA) {
-      // --- LAYOUT A LOGIC ---
-      details = document.querySelector('#event-details')?.innerText || 'Details not found';
-      
-      // Use the new selector you found for Layout A's tags
-      const tagElements = document.querySelectorAll('a.tag--topic');
-      tags = Array.from(tagElements).map(el => el.innerText.trim());
-
-    } else {
-      // --- LAYOUT B LOGIC ---
-      //details = document.querySelector('[data-testid="event-details"]')?.innerText || 'Details not found';
-      ///details = document.querySelector('[data-testid="event-details"]')?.innerText || 'Details not found';
-      details = document.querySelector('div[class*="line-clamp"]')?.innerText || 'Details not found';
-      
-      
-      // Use the selector for Layout B's tags
-      const tagsContainer = document.querySelector('div.flex.flex-wrap.gap-ds2-8');
-      if (tagsContainer) {
-      const tagElements = tagsContainer.querySelectorAll('span.truncate.px-ds2-2');
-      tags = Array.from(tagElements).map(el => el.innerText.trim());
-      }
-    
-      //details = "b";
-      //tags = "b";
-    }
-
-    // --- 3. Scrape Common Elements (Image and Map) ---
-    // This image logic works for both layouts
-    const titleElement = document.querySelector('h1');
-    if (titleElement) {
-      const titleText = titleElement.innerText.trim();
-      const escapedTitleText = titleText.replace(/"/g, '\\"');
-      const imageSelector = `img[alt="${escapedTitleText}"]`;
-      const imageElement = document.querySelector(imageSelector);
-      if (imageElement) {
-        imageUrl = imageElement.src;
-      }
-    }
-    
-    // This map logic is generic enough to try on both
-    const mapElement = document.querySelector('a[href*="maps.google.com"]');
-    if (mapElement) {
-      mapUrl = mapElement.href;
-    }
-
-    return {
-      details,
-      tags,
-      imageUrl,
-      mapUrl,
-    };
-  });
-
-  return eventData;
-}
 
 
 
@@ -183,15 +119,72 @@ async function scrapeEventDetails(page) {
 
     // this is where we start grabbing more information per event, including tags etc.
 
+    // fs.createReadStream(filePath)
+    // .pipe(csv())
+    // .on('data', (row) => {
+    //     // This part of the code runs for each row in the CSV.
+    //     // 'row' is a JavaScript object created from the CSV data.
+        
+    //     console.log(`Processing event: ${row.id}`);
+        
+    //     results.push(row);
+    // })
+    // .on('end', () => {
+    //     // This part runs once the entire file has been read.
+    //     console.log('\nCSV file successfully processed.');
+    //     console.log('Total events found:', results.length);
+    //     // console.log(results); // You can uncomment this to see the full array of objects.
+    // });
+
+    // console.log("Now going to each one")
+
+    // for(const event_data in row)
+    // {     
+    //     const id = row.id;
+    //     const name = row.name;
+    //     const time = row.time;
+    //     const location = row.location;
+    //     const host = row.host;
+    //     const url = row.url;
+
+    //     // parse out trackers
+    //     const match = url.match(/^(.*\/events\/\d+\/)/)
+    //     const cleaned_url = match ? match[0] : url;
+
+    //     // now that it is done, we can start rebuilding the full schema
+    //     // have it go to the new link to grab more base information, including tags etc
+    //     const scrapedData = await scrapeEventDetails(page);
+    //     // Optionally, you can push each row object into an array. for later
+
+    // }
+
+    const csvFilePath = './events.csv';
+    const masterTags = new Set(); // Use a Set to automatically handle unique tags
+
+    try {
+        await processCsvFile(csvFilePath, page, masterTags);
+    } catch (error) {
+        console.error("An error occurred:", error);
+    } finally {
+        await browser.close();
+        console.log('\n--- All events processed. Browser closed. ---');
+        
+        // Convert the Set to an array and print the master list of unique tags
+        const uniqueTagList = Array.from(masterTags).sort();
+        console.log(`\nMaster Tag List (${uniqueTagList.length} unique tags):`);
+        console.log(uniqueTagList);
+    }
+
+    
 
 
-    const eventUrl = 'https://www.meetup.com/new-york-site-reliability-engineering-tech-talks/events/311021088/';
+    // const eventUrl = 'https://www.meetup.com/new-york-site-reliability-engineering-tech-talks/events/311021088/';
 
-    await page.goto(eventUrl, { waitUntil: "domcontentloaded" });
+    // await page.goto(eventUrl, { waitUntil: "domcontentloaded" });
 
-    const scrapedData = await scrapeEventDetails(page);
+    // const scrapedData = await scrapeEventDetails(page);
 
-    console.log(scrapedData);
+    // console.log(scrapedData);
 
     //await browser.close();
 
@@ -205,6 +198,176 @@ async function scrapeEventDetails(page) {
   console.log("\nAll done.");
     
 })();
+
+async function processCsvFile(filePath, page, masterTags) {
+  const rows = [];
+  await new Promise((resolve, reject) => {
+    fs.createReadStream(filePath).pipe(csv())
+      .on('data', (row) => rows.push(row))
+      .on('end', resolve)
+      .on('error', reject);
+  });
+
+  for (const row of rows) {
+    const url = row.url;
+    const match = url.match(/^(.*\/events\/\d+\/)/);
+    const cleaned_url = match ? match[0] : url;
+
+    console.log(`\nProcessing event ID: ${row.id}`);
+    await page.goto(cleaned_url, { waitUntil: 'domcontentloaded' });
+    const scrapedData = await scrapeEventDetails(page);
+    scrapedData.cleaned_url = cleaned_url; // Add the cleaned URL to the object
+
+    // --- Perform the 3 tasks for each event ---
+    // 1. Save full details to a text file
+    saveDetailsAsTxt(row.id, scrapedData.details);
+    
+
+    // 2. Append the main data to the master CSV
+    appendToMasterCsv(scrapedData, row);
+
+    // 3. Add the event's tags to our master list 🏷️
+    if (scrapedData.tags && scrapedData.tags.length > 0) {
+      scrapedData.tags.forEach(tag => masterTags.add(tag));
+    }
+  }
+}
+
+
+// --- Helper Function 1: Save details to a .txt file 📝 ---
+function saveDetailsAsTxt(eventId, details) {
+
+    console.log("details saving?");
+  if (!eventId || !details || details === 'Details not found') return;
+
+  const dirPath = path.join(process.cwd(), 'event_details');
+  fs.mkdirSync(dirPath, { recursive: true });
+  const filePath = path.join(dirPath, `${eventId}.txt`);
+  
+  fs.writeFileSync(filePath, details);
+  console.log(`Saved details for event ${eventId} to ${filePath}`);
+}
+
+
+//
+//
+//
+// --- Helper Function 2: Append structured data to the master CSV 📊 ---
+function appendToMasterCsv(data, row) {
+  const filePath = './master_events.csv';
+  const headers = ['id', 'name', 'time', 'host','venue', 'address', 'cleaned_url', 'image_url', 'map_url', 'tags'];
+  
+    const id = row.id;
+    const name = row.name;
+    const time = row.time;
+    //const location = row.location;
+    const host = row.host;
+    const url = row.url;
+
+    // parse out trackers
+    const match = url.match(/^(.*\/events\/\d+\/)/)
+    const cleaned_url = match ? match[0] : url;
+
+
+  // Flatten the location object and format the tags array for the CSV
+  const location = data.location || {};
+  const rowData = {
+    id: id,
+    name: name,
+    time: time,
+    host: host,
+    venue: location.venue,
+    address: location.address,
+    cleaned_url: data.cleaned_url,
+    image_url: data.imageUrl,
+    map_url: data.mapUrl,
+    tags: data.tags.join(' | ') // Join tags with a pipe separator
+  };
+
+  const csvLine = headers.map(header => `"${rowData[header]}"`).join(',') + '\n';
+
+  if (!fs.existsSync(filePath)) {
+    // If file doesn't exist, write the header first
+    fs.writeFileSync(filePath, headers.join(',') + '\n');
+  }
+
+  fs.appendFileSync(filePath, csvLine);
+  console.log(`Appended data for event ${data.id} to ${filePath}`);
+}
+
+
+
+// this one works entirely on layout A, minus the mapURL system. which can be figured out later
+async function scrapeEventDetails(page) {
+  const eventData = await page.evaluate(() => {
+    // --- Default values ---
+    let details = 'Details not found';
+    let tags = [];
+    let imageUrl = 'Image not found';
+    let mapUrl = 'Map link not found';
+
+    // --- 1. Layout Detection ---
+    // The presence of '#event-details' is our key to identifying the older layout (Layout A).
+    const isLayoutA = document.querySelector('#event-details') !== null;
+    
+
+    // --- 2. Scrape Based on Detected Layout ---
+    if (isLayoutA) {
+      // --- LAYOUT A LOGIC ---
+      details = document.querySelector('#event-details')?.innerText || 'Details not found';
+      
+      // Use the new selector you found for Layout A's tags
+      const tagElements = document.querySelectorAll('a.tag--topic');
+      tags = Array.from(tagElements).map(el => el.innerText.trim());
+
+    } else {
+      // --- LAYOUT B LOGIC ---
+      //details = document.querySelector('[data-testid="event-details"]')?.innerText || 'Details not found';
+      ///details = document.querySelector('[data-testid="event-details"]')?.innerText || 'Details not found';
+      details = document.querySelector('div[class*="line-clamp"]')?.innerText || 'Details not found';
+      
+      
+      // Use the selector for Layout B's tags
+      const tagsContainer = document.querySelector('div.flex.flex-wrap.gap-ds2-8');
+      if (tagsContainer) {
+      const tagElements = tagsContainer.querySelectorAll('span.truncate.px-ds2-2');
+      tags = Array.from(tagElements).map(el => el.innerText.trim());
+      }
+    
+      //details = "b";
+      //tags = "b";
+    }
+
+    // --- 3. Scrape Common Elements (Image and Map) ---
+    // This image logic works for both layouts
+    const titleElement = document.querySelector('h1');
+    if (titleElement) {
+      const titleText = titleElement.innerText.trim();
+      const escapedTitleText = titleText.replace(/"/g, '\\"');
+      const imageSelector = `img[alt="${escapedTitleText}"]`;
+      const imageElement = document.querySelector(imageSelector);
+      if (imageElement) {
+        imageUrl = imageElement.src;
+      }
+    }
+    
+    // This map logic is generic enough to try on both
+    const mapElement = document.querySelector('a[href*="maps.google.com"]');
+    if (mapElement) {
+      mapUrl = mapElement.href;
+    }
+
+    return {
+      details,
+      tags,
+      imageUrl,
+      mapUrl,
+    };
+  });
+
+  return eventData;
+}
+
 
 async function debugMapInteraction(page) {
   // --- Part 1: Get the HTML around the button ---
