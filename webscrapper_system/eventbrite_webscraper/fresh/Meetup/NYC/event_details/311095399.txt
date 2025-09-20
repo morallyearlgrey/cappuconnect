@@ -1,0 +1,24 @@
+Join us for an evening of technical presentations featuring two exciting talks on simulation and database observability!
+
+Agenda:
+
+🎤 Talk 1: Observability-Based Index Recommendations - Alex Weisberger
+
+Alex, a full stack software engineer at Datadog, will discuss database observability and index optimization techniques.
+
+Speaker Bio - Alex Weisberger:
+Alex is a full stack software engineer at Datadog with experience across diverse environments including trucking navigation, sheet music recognition, karaoke apps, payment processing, commercial real estate SaaS, and database observability. Passionate about correctness and reliability, with expertise in TLA+, property-based testing, and discrete event simulation.
+
+🎤 Talk 2: Persona Based Simulation - Uri Goren
+Uri will present his talk on persona-based simulation, previously given at the Haystack conference in April.
+
+📅 Date: Tuesday, October 1, 2025
+🕕 Time: 6:00 PM - 8:00 PM
+📍 Venue: Datadog NYC Office
+🎥 Recording: This event will be recorded, including Q&A
+
+***
+
+⚠️ Registration: Please register here by September 30th at 12:00 PM as we need to give the guest list to security in advance. Please make sure you are using your real name (check your ID) to speed up the process of getting in.
+
+This event is open to all levels. Newcomers and beginners are welcome. All NYC Python events are governed by our Code of Conduct.

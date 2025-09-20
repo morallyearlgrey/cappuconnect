@@ -1,0 +1,22 @@
+Details
+
+Please join us in 2025 as a citizen scientist, as we push forward research in cancers drug discovery, often for rare diseases.
+
+We have published work in 2023, and two articles planned for publication in 2025 - with new work streams ramping up.
+This will be a working meeting developing a new algorithm similar to the delta S algorithm in our published article:
+https://pubmed.ncbi.nlm.nih.gov/38136356/
+
+We have various backgrounds on our team including, biology, computer science, and others. Some members have PhDs or research experience, and others do not. All backgrounds that are willing to 'contribute' or learn are welcome.
+
+What we need most: We need a mathematical and computational review of a new algorithm for cancer drug screening using quantitative High Throughput Screening data (where wells of drugs are tested at various concentrations, and the luminescence of the well relates to cell death).
+
+If this is your first time attending, please review this getting started guide:
+https://compbio.dmvpetridish.com/onboarding/
+Roles that would help our group:
+Mathematicians/Statisticians
+Biologists
+Python developers
+Grant writers
+Anybody able to contribute to a scientific evaluation a biomedical assessment
+
+Please join this discussion and help support research for a rare genetic disease and cancers in general.

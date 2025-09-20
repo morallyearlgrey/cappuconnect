@@ -1,0 +1,40 @@
+Google SRE NYC proudly announces the next event in the Google SRE NYC Tech Talk series.
+
+This event is co-sponsored by Lenses. Thank you Lenses for your partnership!
+
+Join us for an hour of interactive short talks on Site Reliability and DevOps topics with an opportunity to mingle with the speakers and attendees over some light snacks and beverages.
+
+The event will take place on Tuesday, 23rd of September 2025 at 6:30 PM at our Chelsea Markets office in NYC. The doors will open at 6:00 pm. Pls RSVP only if you're able to attend in-person, there will be no live streaming.
+
+When RSVP'ing to this event, please enter your full name exactly as it appears on your government issued ID. You will be required to present your ID at check in.
+
+Agenda:
+
+Kir Titievsky - Sr PM Managed Kafka, Google
+In collaboration with Guillaume Ayme (CEO), Drew Oetzel (Developer Advocate), Germain Cassis (Lead sales and alliances), lenses.io
+
+Managing Kafka Reliability
+
+Apache Kafka is the simplest possible reliable, horizontally scalable low-latency storage system for commodity hardware. This is increasingly making it the backbone of analytic data collection stacks and event-bus like architectures. Critical systems like this require very reliable operations. Kafka is both stateful and distributed, so it has traditional sysadmin kind of problems and those that require pretty deep expertise. We will discuss the problems with CPU and disk capacity management as well as defining availability SLOs for a distributed stateful system. We will also show some of the ways in which the Google Cloud Managed Service for Apache Kafka and lenses.io helps in solving these problems in a demo.
+
+After a successful academic career at MIT Kir has over a decade working with several high profile Google Cloud products, specialising in distributed messaging systems. Guillaume is a passionate technologist and thought leader focused on real-time experiences and AI fed by streaming data. His background includes data analytics and cybersecurity at Splunk, HP Software, and Celonis. Drew has over 25 years of experience in distributed systems and data platforms from companies like Splunk, Heptio, and Mesosphere, specializing in optimizing data infrastructure and cloud-native architectures. Germain is growing partnerships and leveraging his experience from Salesforce and Celonis to help businesses with their digital transformations.
+
+Naveen Kumar - Founder & CEO of truxt.ai
+
+Beyond the Dashboard: Enhancing DORA Intelligence with Generative AI
+
+DORA metrics are the gold standard for measuring software delivery performance and stability. However, conventional methods of capturing these metrics are increasingly challenged by siloed DevOps toolchains, manual data collection, and the growing prevalence of AI-generated code in production. Enterprise delivery pipelines demand resilience and accuracy, but today's measurement systems struggle with both integration complexity and the specialized expertise required to operate in large, distributed environments. This talk will discuss these challenges in detail and show how Generative AI can elevate DORA from static, descriptive dashboards to dynamic diagnostic, prescriptive, and predictive insights—unlocking a new era of actionable intelligence.
+
+With deep expertise in Open source Continuous Deployments Technologies, AI, cloud, and DevOps, Naveen has worked with Fortune 100 companies to accelerate AI adoption, ensuring scalability, security, and efficiency in modern enterprises. A recognized thought leader, he is passionate about AI-driven automation, enterprise data governance, and scalable AI architectures.
+
+Victoria Wang - Sr SRE BigTable, Google
+
+Retrieval Augmented Generation (RAG) to improve customer self-service and upskill your team's knowledge
+
+SRE gets many customer tickets, some of which are answered in the many go links we have on our page that no one will read. RAG trains an LLm on our codebase, internal documentation, forums, issues queries, etc. These contextual resources help the customer get better answers to their questions faster, freeing up time on both the customer, dev, and SRE side. Additionally, this helps train our team more efficiently as well.
+
+Victoria is a software engineer at Google on the Bigtable Site Reliability Engineering team. Bigtable is a distributed database that stores over 10 Exabytes of data and responds to 8 Billion queries per second while maintaining 5 nines of reliability. She leads the observability squad because she believes telemetry and data analysis are the key to lower toil for a happy team and customers. She's excited for AI use cases in observability and SRE in general and would love to chat about your experiences in this area. In her free time, Victoria enjoys playing tennis, lagree, and in general challenge arcades, particularly Activate Games.
+
+Our Tech Talks series are for professional development and networking: no recruiters, sales or press please! Google is committed to providing a harassment-free and inclusive conference experience for everyone, and all participants must follow our Event Community Guidelines. The event will be photographed and video recorded.
+
+Event space is limited! A reservation is required to attend. Reserve your spot today and share the event details with your SRE/DevOps friends 🙂

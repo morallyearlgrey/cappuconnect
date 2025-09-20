@@ -1,0 +1,13 @@
+Sorting might sound like an undergraduate topic, but it turns out you can literally do Machine Learning by sorting data. This is the result of a theorem I proved in my paper, "Sorting, Information, and Recursion", in which I prove that a list is sorted if and only if every entry is adjacent to its Nearest Neighbor.
+
+We'll walk through the paper as a whole, which also presents what I believe to be the fastest known sorting algorithm, with a runtime of O(log(N)).
+
+This means that you can do Machine Learning with an O(log(N)) algorithm, which is pretty impressive.
+
+These techniques were implemented in the "Massive" version of my AutoML software BlackTree, which can train and test 500,000 rows in about 10 minutes, running on an ordinary PC.
+
+As you can tell, this is more than an academic result, it produced extremely powerful commercial software, which we will discuss as well.
+
+See you all then!
+
+Charles

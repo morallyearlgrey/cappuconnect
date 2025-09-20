@@ -1,0 +1,19 @@
+Join us for an informative and hands-on workshop focused on building scalable web applications using Serverless Architecture for data ingestion on Microsoft Azure. In this workshop, you will learn how to leverage powerful Azure services like Azure Functions, Service Bus, Azure SQL Database and Azure NoSQL Table Storage to develop near real-time ETL with Endpoint solutions for immediate searching and reporting using PBI or EXCEL
+
+We will delve into various topics including , data integration techniques, secure API development, performance monitoring, and log analysis. Discover how to take advantage of Azure's PaaS offerings to streamline your application development process and leverage the power of cloud computing.
+
+Whether you are a seasoned professional or just getting started with Microsoft Azure, this workshop will equip you with valuable knowledge and practical skills to design and develop high-performance serverless applications. Don't miss this opportunity to network with experts in the field and gain insights into the latest developments in Serverless Architecture on Azure. Join us for an exciting day of learning, collaboration, and innovation.
+
+Description for Demo
+Show off Azure Cloud Features for the following:
+
+Container Instance :- Secure FTP Server
+Storage Account :- Files received via SFTP, stored in a Share folder
+Service Bus :- Received messages
+MS SQL Database :- store the ingested data with a predefined schema.
+Storge Table :- store the ingested data. No Schema
+Azure Function :- REST Endpoint support for Search, reporting and ingestion of data using events,
+Azure Application Insights :- Show quick performance counts and failures
+Log analytics :- Show data ingestion charts progress in near real-time
+Power BI :- Query search Endpoints to visual charts.
+Read less

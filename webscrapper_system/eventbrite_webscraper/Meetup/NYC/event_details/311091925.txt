@@ -1,0 +1,23 @@
+About the Event
+Join us for Coding Night, a hands-on collaborative session where developers of all levels come together to code, learn, and build projects in real time.
+We’ll kick off by working with **React.js** as our starting point, but future sessions will explore different frameworks, tools, and technologies. Whether you’re a frontend enthusiast, backend engineer, or curious full-stack dev, there’s a seat at the table.
+What to Expect
+
+Live collaborative coding on a shared project (starting with React.js).
+Pair programming and problem-solving with peers.
+Knowledge sharing, tips, and best practices.
+A welcoming space to sharpen your skills, ask questions, and grow.
+
+Upcoming Project / Focus
+📌 *This week: Intro project in *React.js** — we’ll spin up a new app, walk through components, and build something simple together.
+Who It’s For
+
+Developers at any level who want to code with others.
+Anyone looking to grow their React.js, JavaScript, or broader coding skills.
+Professionals wanting to practice collaboration in a casual environment.
+
+What You’ll Need
+
+A laptop or computer
+Node.js and VS Code installed
+Curiosity and a willingness to code together!

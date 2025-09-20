@@ -1,0 +1,26 @@
+Software Book Club is a ~biweekly online gathering for curious builders from all backgrounds to discuss software engineering practices. Every meeting, our discussion will be grounded in something written by a developer.
+
+We value socratic inquiry, healthy debate, bike-shedding, war stories, and most of all, learning and craft!
+
+Participation is purely interest-based. No one’s taking attendance, nor expected to join every session.
+
+There is no goal but to exchange perspectives and opinions on best practices, interpret ideas and whether they’ve stood the test of time, give examples to things we don't understand 🕊️
+
+This Event
+We’ll be discussing the "Codebase" chapter from “12 Factor App” by Adam Wiggins.
+Reading: https://12factor.net/codebase
+Location: Discord (check the event page)
+
+Schedule
+Intros - 10-15 min
+Discussion: Rest of the session.
+Do you want to lead a discussion for a specific chapter? Let us know.
+We’re open to different approaches and formats.
+
+Ground rules
+
+Read the text beforehand. Come with questions and interpretations.
+We want everyone to get a chance to speak or raise questions. So while we welcome speaking up, we encourage being mindful of other participants.
+It's ok to spectate if you're shy or tired, but since this is an activity grounded in discussion, we'd also appreciate that you introduce yourself or interact with the subject on chat.
+
+In keeping with the contributor convenant, we don't tolerate harassment, abuse, elitism or unwelcoming behaviour.

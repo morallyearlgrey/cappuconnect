@@ -1,0 +1,16 @@
+OpenAI’s Computer-Using Agent (CUA) can see your screen, click buttons, type, scroll, and complete multi-step workflows—just like a human operator. In this session we’ll demystify how it works and then build and run a CUA locally using a sample app and API. You’ll leave with a working template you can adapt for tasks like form-filling, scraping with consent, back-office automation, and QA “simulated users.”
+
+What you’ll learn
+
+How CUA “sees” the UI and translates instructions into mouse/keyboard actions
+The sample app’s architecture (agent loop, computer abstraction, action planning)
+Prompt design for reliability and safe-guards/confirmations for sensitive steps
+Running CUA against real websites and desktop flows using the OpenAI API
+
+Agenda
+
+Intro & concepts – What CUA is, core capabilities, and where it shines vs. API integrations. Live tour of OpenAI’s announcement and model behavior.
+Project setup – Clone, configure, and run the openai-cua-sample-app; keys, auth, and environment notes.
+First run – Drive a browser task end-to-end (e.g., search → navigate → fill form → download). We’ll inspect logs, screenshots, and actions as the agent self-corrects.
+Prompting & reliability – Decomposing goals, adding guardrails/confirmations, and handling CAPTCHAs, auth walls, and flaky UIs (with best practices from docs).
+Q&A + next steps – Patterns, security considerations, and where to take it next (testing bots, accessibility aids, light RPA).

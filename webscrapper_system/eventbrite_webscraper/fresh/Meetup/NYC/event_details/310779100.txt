@@ -1,0 +1,29 @@
+Join us for an evening where developers (of all experience levels) can learn, share, and make friends. We’ll kick things off with quick introductions and a featured talk on using SonarQube in a microservice migration. Afterward, we’ll have free-form networking and coding time to dive deeper into your projects.
+
+🗓️ Schedule
+6:30-6:50 PM 💡 Arrival & Welcome Grab a drink, pizza, meet fellow devs, and get settled.
+6:50-7:00 PM 💬 Intro Circle Quick intros so we know who's in the room.
+7:00-7:30 PM 🎤 Featured Talk: How containers stay contained by Carson Weeks
+7:30-9:00 PM 🚀 Software Social Stick around for food, drinks, and convos over code.
+
+Talk Synopsis
+A short introduction on Containers from the ground up. See how containers are kept secure from the outside world, and a short walkthrough on how they’re internally made up.
+
+What you’ll learn:
+
+Container internals with the Linux Kernel
+Decreasing the attack vector for containers
+Creating containers without Docker
+
+Get involved 🙋 Do you want to speak at a future meetup? Do you have a cool DevOps project you’d like to share? Send us a message at [steve.chen@sonarsource.com](mailto:steve.chen@sonarsource.com) for details on how to give a talk.
+
+❓ Frequently Asked Questions ❓
+
+I won't be available immediately, can I show up later? We’re flexible about the time you show up. If you plan to arrive 1 hour or more late, check for directions on the front door or in the event comments section.
+Can I bring a guest? Of course - be sure to have them RSVP so we can accommodate seating and food!
+Do I need a laptop? Ideally, but not mandatory. The primary focus is on building community and connections amongst the Sonar community. Hence why we emphasize socializing and connection. You'll have a great time regardless!
+I'm new to coding, is this a good place to start? Of course! Sonar is a language agnostic tool thatf helps you code better in the age of AI. Although some words may sound scary, we strive to create a friendly environment for all skill levels and backgrounds.
+
+More Questions? Contact steve.chen@sonarsource.com
+
+❤️ Looking forward to meeting you! - Steve Chen

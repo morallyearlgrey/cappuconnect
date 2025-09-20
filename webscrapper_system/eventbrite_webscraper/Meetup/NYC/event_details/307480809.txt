@@ -1,0 +1,11 @@
+Hello Friends!
+Coffee Hour is a casual virtual chat for local game developers held every Friday as folks are starting their day (to make the meetup group easier to navigate this reminder only is posted once each month).
+
+What to expect:
+
+Bring your own morning beverage and breakfast (coffee optional)!
+Meet & get to know local game developers!
+Introduce yourself and your interest in game design / development!
+Ask questions, pitch ideas, discuss game concepts, learn about narrative, audio, game engines, 3D art, UI/UX, marketing and all the other things that goes into game development!
+
+The meeting will be held via Zoom, RSVP here for a link to join the Boston GameDev Slack where you'll find the link posted weekly in the #events channel. Feel free to share and spread the word -- This event is open to all who are interested. Drop in for any or all of the hour and discuss everything your latest design challenge, something cool you played, or anything else related to makin' games!

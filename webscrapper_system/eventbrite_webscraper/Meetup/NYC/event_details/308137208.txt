@@ -1,0 +1,15 @@
+PGConf NYC 2025 (September 29 - October 1, 2025, Convene - 117 W 46th St, New York, NY) is packed with user stories and best practices for how to use PostgreSQL. Join us and connect with other developers, DBAs, administrators, decisions makers, and contributors to the open source PostgreSQL community!
+
+The schedule is now available! You can see the schedule here:
+https://postgresql.us/events/pgconfus2025/schedule/
+
+PGConf NYC 2025 also has lots of content relevant to how you're running PostgreSQL, including case studies on managing large fleets and workloads on PostgreSQL, how to improve your query performance, hot topics like the intersection of AI and databases and PostgreSQL support for analytics, advanced deployment models, different ways to minimize your downtime, and learning about upcoming PostgreSQL features!
+
+PGConf NYC 2025 is not possible without the generous support of our sponsors. PGConf NYC takes place in one of the largest markets of PostgreSQL users. Your sponsorship lets you connect with decision makers, developers, DBAs, and PostgreSQL contributors, helps keep ticket prices low, and helps grow the PostgreSQL community. For more information on sponsorship, please visit the below link:
+
+https://2025.pgconf.nyc/sponsors/
+
+Can't wait to participate in PGConf NYC 2025? Registration is available:
+https://2025.pgconf.nyc/tickets/
+
+We look forward to seeing you this fall!

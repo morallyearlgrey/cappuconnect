@@ -1,0 +1,27 @@
+This class is limited to three seats to ensure a high quality experience for attendees. Please confirm your seat by purchasing a ticket here: https://luma.com/cj06v80f
+
+Join us on Tuesday, September 30th at 6:00 PM for this hands-on class on how to run a Bitcoin node for beginners. A Bitcoin node connects your wallet to the Bitcoin network, allowing you to personally verify that the Bitcoin you hold is in fact Bitcoin, and giving you a voice in the consensus rules you choose to follow.
+
+This class is geared towards beginners, no experience necessary! In this class, you’ll learn what a node is, why to run one, and how to set up and use your own hardware. We highly encourage you to bring your own hardware and a flashdrive (8 GB) in order to get the most out of the class.
+Our recommended hardware is one of the following:
+
+HP 600 G2 Micro Computer Mini Tower PC ($115)
+This computer strikes the perfect balance between affordability and quality.
+If the above is out of stock, check out the HP EliteDesk Mini Computer 800 G3 ($150)
+Additionally, please purchase a 2TB NVMe SSD which we will install in the class.
+i. NVMe SSD - 2TB ($100)
+RaspberryPi 4 8GB ($100), with a cooling fan ($6) and 64GB microSD card ($10)
+We only recommend this option if you don’t care about the longevity of your node, but instead only want to buy something to use as a learning tool.
+Start9 Server One ($620)
+This is a mini computer that already has the open-source software we’ll be teaching installed onto it. It is the absolute easiest, but also most expensive option.
+A good choice if price is no object and the most frictionless set-up experience possible is the goal.
+
+4. Choose your own option
+
+The previous options were chosen to make your purchase as simple as possible, but there are many hardware options that you can use to run a node! So long as they meet these minimum specifications:
+i. Quad-Core CPU 2.5Ghz+ boost (processing power)
+ii. 16GB+ RAM (temporary storage)
+iii. 2TB+ Storage minimum
+If you would like to research further, there is a community of Node Runners who have outlined a hardware master list of computers capable of running StartOS
+
+If you’ve purchased a ticket to the class, feel free to join our Telegram for any questions you have before attending. Hold Bitcoin, run your own node, and be free!

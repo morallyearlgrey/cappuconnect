@@ -1,0 +1,28 @@
+A creative AI workshop on mood, remix, and intuition
+
+Full event details coming soon — please save the date!
+Details Date & Time: Wednesday, Sep 24 | 6:30–9:00PM
+Location: NYIT, 16 W 61st St, NY, NY 10023 (Room 822)
+
+Step into the world of Vibecoding — where coding meets creativity, and technology meets mood. In this workshop, we’ll explore how to use AI tools to create playful, expressive outputs that capture emotions, aesthetics, and vibes. Instead of focusing on technical perfection, we’ll focus on feeling, experimentation, and flow.
+Participants will learn how to craft prompts, remix ideas, and use AI as a co-creator — whether that means designing generative text, playful chatbots, or interactive mood-based experiences. No coding background is required — just curiosity and creativity.
+
+What We'll Cover
+⚡ Base44 101: Vibe Coding in Action
+What vibe coding
+Quick tour of the Base44 interface and core features
+Turning a plain-English idea into a working web app in minutes
+🛠️ Guided Build-Along
+Draft your first prompt and watch Base44 scaffold a real app
+Iteratively refine the design using natural-language edits
+🤖 Creating Agents in Base44
+What Base44 “agents” are and how they automate tasks inside your app
+Example: a personal task-reminder agent or a content-curation bot
+🎨 Using Styles & Themes
+Applying global style presets and custom palettes
+Quick tips for consistent typography, spacing, and responsive layouts.
+
+By the end of the session, you’ll walk away with your own mini “vibecoding” project to share with others.
+
+Light refreshments provided.
+Hosted by: NYIT + Kevin & the NYC UX & Digital Product Designers Team

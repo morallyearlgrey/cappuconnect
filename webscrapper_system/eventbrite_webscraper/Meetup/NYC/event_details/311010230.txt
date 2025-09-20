@@ -1,0 +1,23 @@
+Please join us for a night of PostgreSQL!
+
+PostgreSQL is awesome - and out of the box performance could certainly be customized! In this talk, we’ll dig into the key fundamentals for PostgreSQL performance.
+
+We’ll approach this from two angles - first memory cache and data management. There are a couple tricks for getting the most out of PostgreSQL memory without throwing more RAM (and money) at the problem. Second, we’ll look at PostgreSQL’s internal EXPLAIN tools to diagnose issues with queries, test improvements, and make your queries faster. You’ll leave this talk with a better grasp on what helps PostgreSQL perform and how to get started on your own performance improvements.
+
+RSVP details:
+This meetup will be held at the Snowflake Manhattan Office at 114 West 40th Street, NY, NY 10018.
+
+Building security will require a complete list of RSVPs more than 24 hours ahead of time. Space is strictly limited at 30 guests so please change your RSVP if you cannot make it. Guests will be registered in the system via email and must fill out a check in form. At the time of the event, guests will check in and present identification to lobby security, and then be let up to the meeting suite.
+
+Please specify your dietary needs in the RSVP form as well so we can plan the food accordingly.
+
+Details:
+Tuesday, September 30th. 6-7:30pm
+Snowflake Manhattan Office at 114 West 40th Street
+Snacks and drinks will be served
+
+Sponsor:
+Snowflake
+
+Additional Info:
+This is our first meeting after a very long break and we are so excited to meet and kickstart our group again. If you have ideas for future group spaces, events, or talks - please reach out. This group is open to anyone interested in PostgreSQL and we welcome speakers and attendees at all points in their data careers.

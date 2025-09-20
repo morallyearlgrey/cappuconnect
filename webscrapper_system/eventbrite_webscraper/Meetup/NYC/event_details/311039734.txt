@@ -1,0 +1,1 @@
+Let's get together and chat about vibe-coding tools / tactics. If you have worked with Claude Code, Cursor, or similar tools, this meetup is a great spot to chat about what works, what doesn't, and how this changes the face of building quick prototypes.

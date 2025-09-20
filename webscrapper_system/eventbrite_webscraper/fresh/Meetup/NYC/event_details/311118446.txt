@@ -1,0 +1,16 @@
+Join us in celebrating Hacktoberfest 2025 with a fun-filled hackathon right here in NEW YORK CITY! This event is perfect for developers, open-source enthusiasts, and anyone curious about contributing to impactful projects while sharpening their skills.
+
+DAY 1 - This event will start with registering your teams on 10/3 at the Okta NYC Office followed by workshops and networking.
+DAY 2 - On 10/4, all teams will come to the venue and will present their projects to the panel of judges and that will be followed by announcing 3 winners who would be winning exclusive prizes, Hacktoberfest T-Shirts and more!
+
+With the theme around Open Source and AI, we will kick things off with a quick introduction to Hacktoberfest, followed by some projects you can contribute to this year and Gradient AI and Auth0 workshops to spark ideas and give you hands-on experience.
+
+Then, it’s time to roll up your sleeves for the hackathon build session (3 hours), where you’ll collaborate, code, and create something awesome. The day wraps up with submissions, judging, and crowning our winners.Whether you’re a beginner or an experienced contributor, this is a great opportunity to learn, build, and be part of the open-source community.
+
+IMPORTANT NOTE:
+
+Please carry physical ID (Both days)
+Bring your laptops/required hardware for the presentation on the second day
+Register your/your teams repositories built as a part of this hackathon here, to qualify: https://forms.gle/uxYAJ5qv4kq4R5cv8
+
+Disclaimer: Please note this is a DigitalOcean community event and we will be taking pictures at the event. By being here you give us consent to be featured in these pictures that would be published across social media. This event is first come first served and will adhere to venue capacity constraints.

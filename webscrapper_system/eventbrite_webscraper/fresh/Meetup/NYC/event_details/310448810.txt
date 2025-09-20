@@ -1,0 +1,7 @@
+So, we've talked incessantly before about LangChain and various coding solutions for Agentic Development. But recently a number of no-code solutions have come out that do a reasonably good job without needing code.
+
+We'll talk about the state of the industry, from the original LangChain wrappers to Make, Lindy, and now Opal. We'll concentrate more on n8n as that is probably the leading swiss army knife system for this type of thing and seems to have the most headspace.
+
+We'll also talk about support platforms like Zapier, and how MCP server support vastly broadens the scope of integration between different systems via AI.
+
+Time permitting, we'll compare No-Code solutions versus just Vibing it up.

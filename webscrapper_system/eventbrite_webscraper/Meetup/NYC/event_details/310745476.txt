@@ -1,0 +1,5 @@
+Join us in New York City for DYNA Fall 2025, a two-day in-person event aimed at bringing the North American APL community together through presentations, workshops, and hands-on learning.
+
+Whether you're exploring APL for the first time or pushing the boundaries of modern software with Dyalog, DYNA is your chance to connect, learn, and shape the future of array programming.
+
+Registration is required – see https://dyna.dyalog.com/

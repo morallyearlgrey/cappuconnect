@@ -1,0 +1,8 @@
+Sign up at https://www.javasig.com
+
+As Java developers, we pride ourselves on handling edge cases in our code, but what about edge cases in the Java language itself?
+Join us for an interactive session with certification book author Jeanne Boyarsky as she uncovers real-world Java “gotchas”, quirks, and surprises you’re likely to encounter in your day-to-day coding (not just puzzlers for entertainment). You’ll explore fresh language twists introduced in Java 17 through Java 25 (scheduled for Sept 16 release), along with a few timeless classics, and leave with sharper instincts to recognize and avoid these hidden pitfalls in your own applications.
+
+Thunder Talk: Introduction to AI Agents
+Speaker: Frank Greco, NYJavaSIG Founder, Java Champion
+Ever wonder what the heck AI agents are? This short session breaks down how tools (function-calling) and reasoning models combine to form agents**,** ie, intelligent entities that can complete tasks on their own. We’ll start by clarifying what tools are, then show how agents build on that concept using LangChain4j.

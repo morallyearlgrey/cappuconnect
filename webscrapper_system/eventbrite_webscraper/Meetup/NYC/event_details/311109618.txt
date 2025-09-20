@@ -1,0 +1,22 @@
+Pre-registration is REQUIRED.
+Add to your calendar - https://hubs.li/Q03HQmw30
+
+Speaker: Amit Maraj PhD, Senior AI Developer Relations Engineer at Google
+
+***
+In the rapidly evolving world of generative AI, standalone large language models (LLMs) are powerful, but their true potential is unlocked when they can interact with the outside world. This is where agents and tools come in. An agent acts as an intelligent orchestrator, leveraging tools to perform goal-oriented operations that go beyond simple text generation—like looking up real-time data, interacting with APIs, or managing files.
+
+Join us for this 1-hour webinar where you'll learn how to build and deploy your very first AI agent with tools using the Agent Development Kit (ADK), an open-source, code-first Python toolkit from Google. We will demystify the core concepts of agents and tools, and guide you through a practical, step-by-step process to create a functional agent that can access and use external data.
+
+Who Should Attend:
+This webinar is for developers, data scientists, and anyone interested in moving from simple AI prototypes to building intelligent, autonomous applications. A basic understanding of Python is recommended.
+
+ODSC Links:
+• Get free access to more talks/trainings like this at Ai+ Training platform:
+https://hubs.li/H0Zycsf0
+• ODSC blog: https://opendatascience.com/
+• Facebook: https://www.facebook.com/OPENDATASCI
+• Twitter: https://twitter.com/_ODSC & @odsc
+• LinkedIn: https://www.linkedin.com/company/open-data-science
+• Slack Channel: https://hubs.li/Q038cQBy0
+• Code of conduct: https://odsc.com/code-of-conduct/

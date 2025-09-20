@@ -1,0 +1,8 @@
+Join us for an exclusive stop on the AWS Developer Advocates Northeast & Midwest Road Tour! AWS Principal Developer Advocates Darko Mesaros and Aaron Hunter are bringing interactive workshops directly to the NYC developer community.
+
+Featured Sessions:
+Trust your events: How I've built a Link shortener with serverless - Darko Mesaros
+Join Darko on an adventure building a link shortener using serverless and event-driven architectures. Learn about eventual consistency, Lambda functions, and get a bit Rusty!
+Make your dev environment work for you! - Darko Mesaros
+Discover tricks every developer should know to build the most efficient dev environment. Automate builds, augment your coding experience, and aspire to leave work early!
+Workshop with Aaron Hunter - Details coming soon!

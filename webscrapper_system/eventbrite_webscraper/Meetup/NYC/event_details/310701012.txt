@@ -1,3 +1,5 @@
+Details
+
 Join us for the October edition of the New York AI Engineers Tech Talk, a monthly gathering focused exclusively on AI engineering. Whether you’re a seasoned machine learning engineer or a fullstack dev curious about how to work with LLMs, this is your space to dive deep into real-world projects, technical challenges, and creative solutions.
 
 What to Expect:

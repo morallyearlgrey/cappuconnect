@@ -1,0 +1,87 @@
+A six hour intensive course, A to Z on blockchain, we cover every subject. Perfect for beginners, entrepreneurs, business leaders and blockchain enthusiast.
+
+ONLINE SELF-PACED COURSE
+
+ONLY $97.99
+
+Online Course - Register Here: https://rb.gy/ht6n0w
+
+Course Syllabus:
+
+Introduction
+What is Blockchain
+Blockchain Glossary
+We provide 64 technical terms and definitions that relate to blockchain technology.
+Why is Blockchain a revolutionary Technology
+Blockchain Applications by Industry
+Blockchain Transaction Model
+Bitcoin & Blockchain: how are they connected
+What is a Cryptocurrency
+Bitcoin: A Peer to Peer Electronic Cash System
+Benefits of using Blockchain Technology
+Consensus
+Consensus Protocol
+Safety
+Liveness
+Fault Tolerance
+Blockchain Fork
+Consensus Failure
+Dominance
+Cheating
+Poor Performance
+Choosing the right blockchain
+What is Cryptography
+Cryptographic encryption
+Elliptic-curve Cryptography (ECC)
+What is Blockchain Mining (Bitcoin Examples)
+The Computationally-Difficult Program
+The Difficulty Metric
+Block Reward
+Hardware
+Blockchain Business Use Cases
+Private vs. Public Blockchain
+Permissionless vs. Permissioned
+What is Ethereum
+Proof of Work
+Solidity
+Homestead
+EthHash
+Ethereum Virtual Machine (EVM)
+Serenity (POS)
+What is Microsoft Azure Workbench Blockchain
+What is Hyperledger
+Hyperledger Fabric
+The Practical Byzantine Fault Tolerance (PBFT)
+SIEVE
+Cross-Fault Tolerance (XFT)
+Hyperledger SawtoothLake
+Proof of Elapsed Time
+Hyperledger Iroha
+Hyperledger Burrow
+What is Ripple & Stellar Blockchain
+Ripple Consensus Protocol Algorithm
+Stellar Consensus Protocol Algorithm
+What is a Smart contract
+What is Proof of Stake
+What is the EOS blockchain
+Proof of Stake
+EOS Vs. Ethereum
+Denial of Service Attacks
+Consensus Mechanism & Governance
+What is Bitshares Blockchain & DEX
+Delegated Proof of Stake (DPOS)
+Transaction Confirmation
+Proof of Stake Consensus
+Block Production by Elected Witnesses
+Parameter Change by Elected Delegates
+Changing the Rules (aka Hard Forks)
+Double Spend Attack
+Transactions as Proof of Stake
+Blockchain Reorganizations
+Maximally Decentralized
+NEM Blockchain Review
+AI / Quantum computing and Blockchain
+
+We will provide an online exam to provide your final grade and certificate of completion.
+
+About Us: www.BlockchainEducators.org

@@ -1,0 +1,23 @@
+Salesforce isn't just a CRM—it's one of the most powerful data platforms in existence.
+
+Join us for a session exploring Salesforce Government Cloud Plus and Government Cloud Plus Defense—purpose-built environments delivering secure, scalable, and mission-ready solutions for public sector and defense organizations.
+
+These dedicated platforms meet the stringent requirements of federal, state, and local agencies with FedRAMP High and DoD IL5 authorizations. Learn how agencies are using Salesforce to manage sensitive data, drive digital transformation, and maintain continuous compliance—without sacrificing innovation or agility.
+
+What You’ll Learn
+
+How Government Cloud Plus and GovCloud Plus Defense are structured to meet federal mandates
+What FedRAMP High and DoD IL5 really mean for your mission
+What Agentforce for Public Sector is and how it supports secure service delivery
+Opportunities to upskill with Salesforce’s Trailhead, plus Military and Veteran programs
+
+Whether you're a federal IT contractor, public sector technologist, or exploring secure platforms for government use, this session will help demystify the compliance landscape while showcasing what’s possible with Salesforce.
+https://www.salesforce.com/government/cloud/
+https://www.salesforce.com/government/solutions/
+
+Featured Speaker - Stephen Pipino, CISSP
+Distinguished Cybersecurity Architect, Salesforce
+
+Stephen Pipino brings deep experience designing secure cloud solutions for public sector organizations across defense, civilian, and national security missions. As a Distinguished Cybersecurity Architect at Salesforce, he helps government agencies align cybersecurity, compliance, and technology strategy while delivering systems that scale. Stephen holds a CISSP and has spent years working at the intersection of cloud architecture, Zero Trust, and mission-critical IT.
+
+Who Should Attend: Government employees, federal contractors, GovTech professionals, cloud architects, compliance and security leads.

@@ -1,0 +1,28 @@
+Join us the night before ElasticON NYC for an exclusive joint meetup with Microsoft! A perfect warm-up to the big day ahead! This is your chance to connect with the Elastic community, mingle with fellow attendees, and get energized for a full day of presentations at ElasticON.
+
+Don’t miss out! Register for the meetup and make sure you’re signed up for ElasticON NYC as well to experience a full day of learning and networking!
+
+Agenda:
+
+5:30 pm: Doors open; say hi and eat some food
+6:00 pm: Responsible AI with Microsoft and Elastic: Building Secure, Agent-Powered Intelligence, by Mike Richter, Principal Partner Solution Architect at Microsoft
+6:30 Q&A with Mike
+6:45 pm: Demystifying AI Agents with Python and Elasticsearch, by William Horton, a Staff Engineer at Maven Clinic
+7:15 pm: Q&A with William
+7:30 pm: Networking and event wrap up
+
+Abstract
+
+Responsible AI with Microsoft and Elastic: Building Secure, Agent-Powered Intelligence
+Join this session to see how Microsoft and Elastic are partnering to deliver secure, AI-powered solutions for regulated industries. You’ll learn how to combine Elastic’s new Serverless offering on Azure with Microsoft’s Agent Framework to build intelligent, conversational experiences over embedded document data. We’ll walk through a real-world-inspired demo that shows how to ingest and semantically search sensitive documents using Elastic’s vector search and OneChat capabilities—then expose that functionality through Microsoft Teams using a custom-built Agent. The solution is enhanced with Microsoft’s Trustworthy AI capabilities to ensure responses are safe, secure, and compliant—all within a fully Azure-native environment.
+
+Demystifying AI Agents with Python and Elasticsearch
+Everyone’s talking about AI agents! But what are they, and how do you build one? This talk cuts through the hype. Drawing on my experience building a GenAI platform, I’ll show that powerful agents are within reach, no advanced degree required. We’ll define agents simply: LLMs + tools + memory. Then we’ll build an agent with the OpenAI Python SDK, using coding basics you know: functions, loops, and conditions. I’ll show how you can enhance your agent with a knowledge base using Elasticsearch as a tool. By the end, you won't just understand agents; you'll be fully equipped to build your own.
+
+Where: Elastic NYC Office
+1250 Broadway, Floor 16, Training Room
+New York, NY 10001
+
+When: Wednesday, Oct 8th | Doors open at 5:30 PM
+
+If you’re a long-time Elastic user or just starting your journey, this is the perfect opportunity to share ideas, meet new people, and get inspired. See you there!

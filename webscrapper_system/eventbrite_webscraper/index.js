@@ -6,21 +6,134 @@ import csv from 'csv-parser';
 import axios from 'axios';
 //import {URL} from 'url';
 
+//import './findEvents.js';
+
+const csvFilePath = './meetup_events.csv';
 const filePath = './events.csv';
 const masterCsvPath = './master_events.csv';
 const results = [];
+
+// future plan: debug map api system to give location link:
 
 const URL = "https://www.meetup.com/find/?location=us--ny--new-york&categoryId=405&source=EVENTS"; // basically  which url we want to scrape from, I figure we set 2 main ones  
 
 const categories = [405, 436, 546, 652]
 //https://www.meetup.com/find/?location=us--ny--new-york&categoryId=652&source=EVENTS
 
-// [main.js] Step 1: open the page visibly
-//import puppeteer from "puppeteer";
-
 //import { fileURLToPath } from "url";
 import { time } from "console";
 import { setSourceMapsSupport } from "module";
+
+
+//  int main lmao
+(async () => {
+  const browser = await puppeteer.launch({
+    headless: false,              // use false if you want to show the browser 
+    defaultViewport: null,        // use a real window size
+    args: ["--start-maximized"],
+    // args: [
+    //   "--no-sandbox",
+    //   "--disable-setuid-sandbox",
+    //   "--disable-features=Translate,site-per-process",
+    //   "--disable-dev-shm-usage"
+    // ]
+  });
+
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 });
+//   await page.setViewport({
+//   width: 430,
+//   height: 932,
+//   isMobile: true,
+//   hasTouch: true
+// });
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+  );
+  // use wide viewporta
+  
+  //await page.setViewport({ width: 1600, height: 1000, deviceScaleFactor: 1 });
+    const get_new_events = false;
+    const analysis_events = true;
+
+    // this downloads th base event IDs and information neccesssary to build the proper schemas for the mongo DB
+    if(get_new_events)
+    {
+        for (let index = 0; index <= categories.length; index++) 
+        {
+            //`${BASE}${chapter_number}${SUFFIX}
+            const category_id = categories[index];
+            const url = `https://www.meetup.com/find/?location=us--ny--new-york&categoryId=${category_id}&source=EVENTS`;
+            //console.log(`\n=== Chapter ${chapter_number} ===`);
+            console.log("Navigating:", url);
+
+            await page.goto(url, { waitUntil: "domcontentloaded" });
+            
+            // tiny nudge
+            await page.mouse.wheel({ deltaY: 1200 });
+            // ensure something image-like exists
+            await page.waitForSelector('img, [data-src], [data-original]', { timeout: 15000 });
+            //await sleep(2000);
+            await sweepDown(page, 900, 250); 
+
+            await settleAtBottom(page, 500, 10, 200);
+        // const outDir = path.join(__dirname, `chapter_${chapter_number}_nodeshots`);
+
+        sleep(10)
+
+
+        console.log("Extracting event data...");
+            const events = await extractEventData(page);
+            console.log(`Found ${events.length} events.`);
+
+            if (events.length > 0) {
+                saveAsCSV(events, 'meetup_events.csv');
+            }
+            
+        }
+    }
+
+
+
+  
+    // this is where we start grabbing more information per event, including tags etc.
+    // now that it is done, we can start rebuilding the full schema
+    // have it go to the new link to grab more base information, including tags etc
+
+    if(analysis_events)
+    {
+        const masterTags = new Set(); // Use a Set to automatically handle unique tags
+        const errorIds = new Set();
+        const existingIds = await getExistingIds(masterCsvPath);
+
+        try 
+        {
+            await processCsvFile(csvFilePath, page, masterTags, existingIds, errorIds);
+        } catch (error) {
+            console.error("An error occurred:", error);
+        } finally {
+            //await browser.close();
+            console.log('\n--- All events processed. Browser closed. ---');
+            
+            // Convert the Set to an array and print the master list of unique tags
+            const uniqueTagList = Array.from(masterTags).sort();
+            console.log(`\nMaster Tag List (${uniqueTagList.length} unique tags):`);
+            console.log(uniqueTagList);
+
+            // Save the collected unique tags to a separate CSV file.
+            saveTagsToCsv(masterTags);
+
+            console.log("Error IDs");
+            console.log(errorIds);
+        }
+    }
+
+    //await browser.close();
+
+  console.log("\nAll done.");
+    
+})();
+
 
 
 /**
@@ -117,7 +230,7 @@ async function downloadImage(imageUrl, eventId) {
 
     return new Promise((resolve, reject) => {
       writer.on('finish', () => {
-        console.log(`Successfully saved image to: ${filePath}`);
+        //console.log(`Successfully saved image to: ${filePath}`);
         resolve(filePath);
       });
       writer.on('error', (err) => {
@@ -131,187 +244,7 @@ async function downloadImage(imageUrl, eventId) {
   }
 }
 
-
-
-
-
-
-
-//  int main lmao
-(async () => {
-  const browser = await puppeteer.launch({
-    headless: false,              // use false if you want to show the browser 
-    defaultViewport: null,        // use a real window size
-    args: ["--start-maximized"],
-    // args: [
-    //   "--no-sandbox",
-    //   "--disable-setuid-sandbox",
-    //   "--disable-features=Translate,site-per-process",
-    //   "--disable-dev-shm-usage"
-    // ]
-  });
-
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1920, height: 1080 });
-//   await page.setViewport({
-//   width: 430,
-//   height: 932,
-//   isMobile: true,
-//   hasTouch: true
-// });
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
-  );
-  // use wide viewporta
-  
-  //await page.setViewport({ width: 1600, height: 1000, deviceScaleFactor: 1 });
-    const get_new_events = false;
-
-    // this downloads th base event IDs and information neccesssary to build the proper schemas for the mongo DB
-    if(get_new_events)
-    {
-        for (let index = 0; index <= categories.length; index++) 
-        {
-            //`${BASE}${chapter_number}${SUFFIX}
-            const category_id = categories[index];
-            const url = `https://www.meetup.com/find/?location=us--ny--new-york&categoryId=${category_id}405&source=EVENTS`;
-            //console.log(`\n=== Chapter ${chapter_number} ===`);
-            console.log("Navigating:", url);
-
-            await page.goto(url, { waitUntil: "domcontentloaded" });
-            
-            // tiny nudge
-            await page.mouse.wheel({ deltaY: 1200 });
-            // ensure something image-like exists
-            await page.waitForSelector('img, [data-src], [data-original]', { timeout: 15000 });
-            //await sleep(2000);
-            await sweepDown(page, 900, 250); 
-
-            await settleAtBottom(page, 500, 10, 200);
-        // const outDir = path.join(__dirname, `chapter_${chapter_number}_nodeshots`);
-
-        sleep(10)
-
-
-        console.log("Extracting event data...");
-            const events = await extractEventData(page);
-            console.log(`Found ${events.length} events.`);
-
-            if (events.length > 0) {
-                saveAsCSV(events, 'meetup_events.csv');
-            }
-            // --- END OF NEW PART ---
-        }
-    }
-
-
-    // this is where we start grabbing more information per event, including tags etc.
-
-    // fs.createReadStream(filePath)
-    // .pipe(csv())
-    // .on('data', (row) => {
-    //     // This part of the code runs for each row in the CSV.
-    //     // 'row' is a JavaScript object created from the CSV data.
-        
-    //     console.log(`Processing event: ${row.id}`);
-        
-    //     results.push(row);
-    // })
-    // .on('end', () => {
-    //     // This part runs once the entire file has been read.
-    //     console.log('\nCSV file successfully processed.');
-    //     console.log('Total events found:', results.length);
-    //     // console.log(results); // You can uncomment this to see the full array of objects.
-    // });
-
-    // console.log("Now going to each one")
-
-    // for(const event_data in row)
-    // {     
-    //     const id = row.id;
-    //     const name = row.name;
-    //     const time = row.time;
-    //     const location = row.location;
-    //     const host = row.host;
-    //     const url = row.url;
-
-    //     // parse out trackers
-    //     const match = url.match(/^(.*\/events\/\d+\/)/)
-    //     const cleaned_url = match ? match[0] : url;
-
-    //     // now that it is done, we can start rebuilding the full schema
-    //     // have it go to the new link to grab more base information, including tags etc
-    //     const scrapedData = await scrapeEventDetails(page);
-    //     // Optionally, you can push each row object into an array. for later
-
-    // }
-
-    // image downlaoidng test:
-//     const scrapedData = {
-//     id: '311021088',
-//     imageUrl: 'https://secure.meetupstatic.com/photos/event/7/1/6/highres_523201814.webp'
-//     // ... other scraped data ...
-//   };
-
-//   // Call the download function
-//   const localImagePath = await downloadImage(scrapedData.imageUrl, scrapedData.id);
-
-//   // You can now add the local path to your final data object
-//   if (localImagePath) {
-//     scrapedData.localImagePath = localImagePath;
-//   }
-
-//   console.log("\n--- Final Data Object ---");
-//   console.log(scrapedData);
-
-
-  
-    const csvFilePath = './events.csv';
-    const masterTags = new Set(); // Use a Set to automatically handle unique tags
-    const existingIds = await getExistingIds(masterCsvPath);
-
-    try {
-        await processCsvFile(csvFilePath, page, masterTags, existingIds);
-    } catch (error) {
-        console.error("An error occurred:", error);
-    } finally {
-        await browser.close();
-        console.log('\n--- All events processed. Browser closed. ---');
-        
-        // Convert the Set to an array and print the master list of unique tags
-        const uniqueTagList = Array.from(masterTags).sort();
-        console.log(`\nMaster Tag List (${uniqueTagList.length} unique tags):`);
-        console.log(uniqueTagList);
-
-        // Save the collected unique tags to a separate CSV file.
-        saveTagsToCsv(masterTags);
-    }
-
-    
-
-
-    // const eventUrl = 'https://www.meetup.com/new-york-site-reliability-engineering-tech-talks/events/311021088/';
-
-    // await page.goto(eventUrl, { waitUntil: "domcontentloaded" });
-
-    // const scrapedData = await scrapeEventDetails(page);
-
-    // console.log(scrapedData);
-
-    //await browser.close();
-
-    // future plan: debug map api system to give location link:
-    //const htmlChunk = await debugMapContainer(page);
-
-    //   console.log('\n--- HTML of the Map Link Container ---');
-    //   console.log(htmlChunk);
-    //   console.log('--------------------------------------\n');
-
-  console.log("\nAll done.");
-    
-})();
-
-async function processCsvFile(filePath, page, masterTags, existingIds) {
+async function processCsvFile(filePath, page, masterTags, existingIds, errorIds) {
   const rows = [];
   await new Promise((resolve, reject) => {
     fs.createReadStream(filePath).pipe(csv())
@@ -320,43 +253,59 @@ async function processCsvFile(filePath, page, masterTags, existingIds) {
       .on('error', reject);
   });
 
-  for (const row of rows) {
+  for (const row of rows)   
+  {
+    try{
 
-    // If the Set of existing IDs already has this row's ID, skip it.
-    if (existingIds.has(row.id)) {
-      console.log(`Skipping event ID: ${row.id} (already processed).`);
-      continue; // Jumps to the next row in the loop
+            if (!row || !row.url) {
+            console.warn('Skipping a malformed or empty row in the CSV:', row);
+            continue; // Jumps to the next row in the loop
+            }
+            
+            // If the Set of existing IDs already has this row's ID, skip it.
+            if (existingIds.has(row.id)) {
+            console.log(`Skipping event ID: ${row.id} (already processed).`);
+            continue; // Jumps to the next row in the loop
+            }
+
+            const url = row.url;
+            const match = url.match(/^(.*\/events\/\d+\/)/);
+            const cleaned_url = match ? match[0] : url;
+            console.log(cleaned_url);
+
+            console.log(`\nProcessing event ID: ${row.id}`);
+            await page.goto(cleaned_url, { waitUntil: 'domcontentloaded' });
+            
+            const scrapedData = await scrapeEventDetails(page);
+            scrapedData.cleaned_url = cleaned_url; // Add the cleaned URL to the object
+
+            // do image downlaod
+            const localImagePath = await downloadImage(scrapedData.imageUrl, row.id);
+
+            // You can now add the local path to your final data object
+            if (localImagePath) {
+                scrapedData.localImagePath = localImagePath;
+            }
+
+            // --- Perform the 3 tasks for each event ---
+            // 1. Save full details to a text file
+            saveDetailsAsTxt(row.id, scrapedData.details);
+            
+
+            // 2. Append the main data to the master CSV
+            appendToMasterCsv(scrapedData, row);
+
+            // 3. Add the event's tags to our master list 🏷️
+            if (scrapedData.tags && scrapedData.tags.length > 0) {
+            scrapedData.tags.forEach(tag => masterTags.add(tag));
+            }
     }
+    catch(error)
+    {
+        console.error(`Error on ${row.id}`)
+        errorIds.add(row.id);
+        
 
-    const url = row.url;
-    const match = url.match(/^(.*\/events\/\d+\/)/);
-    const cleaned_url = match ? match[0] : url;
-
-    console.log(`\nProcessing event ID: ${row.id}`);
-    await page.goto(cleaned_url, { waitUntil: 'domcontentloaded' });
-    
-    const scrapedData = await scrapeEventDetails(page);
-    scrapedData.cleaned_url = cleaned_url; // Add the cleaned URL to the object
-
-    // do image downlaod
-    const localImagePath = await downloadImage(scrapedData.imageUrl, row.id);
-
-    // You can now add the local path to your final data object
-    if (localImagePath) {
-        scrapedData.localImagePath = localImagePath;
-    }
-
-    // --- Perform the 3 tasks for each event ---
-    // 1. Save full details to a text file
-    saveDetailsAsTxt(row.id, scrapedData.details);
-    
-
-    // 2. Append the main data to the master CSV
-    appendToMasterCsv(scrapedData, row);
-
-    // 3. Add the event's tags to our master list 🏷️
-    if (scrapedData.tags && scrapedData.tags.length > 0) {
-      scrapedData.tags.forEach(tag => masterTags.add(tag));
     }
   }
 }
@@ -365,7 +314,7 @@ async function processCsvFile(filePath, page, masterTags, existingIds) {
 // --- Helper Function 1: Save details to a .txt file 📝 ---
 function saveDetailsAsTxt(eventId, details) {
 
-    console.log("details saving?");
+    //console.log("details saving?");
   if (!eventId || !details || details === 'Details not found') return;
 
   const dirPath = path.join(process.cwd(), 'Meetup', 'NYC', 'event_details');
@@ -373,7 +322,7 @@ function saveDetailsAsTxt(eventId, details) {
   const filePath = path.join(dirPath, `${eventId}.txt`);
   
   fs.writeFileSync(filePath, details);
-  console.log(`Saved details for event ${eventId} to ${filePath}`);
+  //console.log(`Saved details for event ${eventId} to ${filePath}`);
 }
 
 
@@ -420,7 +369,9 @@ function appendToMasterCsv(data, row) {
   }
 
   fs.appendFileSync(filePath, csvLine);
-  console.log(`Appended data for event ${data.id} to ${filePath}`);
+  //console.log(`Appended data for event ${data.id} to ${filePath}`);
+  
+  console.log(`Appended data for event ${row.id}\n\n`);
 }
 
 
