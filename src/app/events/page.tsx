@@ -1,8 +1,7 @@
-export default function Events() {
+
+export default function Home() {
   return (
-    <div>
-
-
+    <div className="fixed w-screen h-screen overflow-hidden">
     </div>
   );
 }

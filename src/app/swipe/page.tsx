@@ -1,8 +1,7 @@
-export default function Swipes() {
-  return (
-    <div>
-        
 
+export default function Home() {
+  return (
+    <div className="fixed w-screen h-screen overflow-hidden">
     </div>
   );
 }
