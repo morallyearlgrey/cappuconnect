@@ -1,9 +1,13 @@
 // index.js
 import puppeteer from "puppeteer";
-//import fs from 'fs';
+import fs from "fs";
+import path from "path";
 import csv from 'csv-parser';
+import axios from 'axios';
+//import {URL} from 'url';
 
 const filePath = './events.csv';
+const masterCsvPath = './master_events.csv';
 const results = [];
 
 const URL = "https://www.meetup.com/find/?location=us--ny--new-york&categoryId=405&source=EVENTS"; // basically  which url we want to scrape from, I figure we set 2 main ones  
@@ -13,35 +17,119 @@ const categories = [405, 436, 546, 652]
 
 // [main.js] Step 1: open the page visibly
 //import puppeteer from "puppeteer";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+
+//import { fileURLToPath } from "url";
 import { time } from "console";
 import { setSourceMapsSupport } from "module";
 
 
-async function debugDetailsContainer(page) {
-  const containerHTML = await page.evaluate(() => {
-    // 1. Find the first paragraph of the event details.
-    // We search within '#main' to be more specific.
-    const firstParagraph = document.querySelector('#main p.mb-4');
-
-    if (firstParagraph) {
-      // 2. Get its direct parent element and return the parent's full HTML.
-      return firstParagraph.parentElement.outerHTML;
+/**
+ * Reads a CSV file and returns a Set of all IDs found in the 'id' column.
+ * @param {string} filePath The path to the CSV file.
+ * @returns {Promise<Set<string>>} A Set containing the existing event IDs.
+ */
+function getExistingIds(filePath) {
+  const existingIds = new Set();
+  return new Promise((resolve, reject) => {
+    // If the file doesn't exist, return an empty set.
+    if (!fs.existsSync(filePath)) {
+      return resolve(existingIds);
     }
-
-    return 'Could not find a <p class="mb-4"> tag inside the #main container.';
+    
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (row) => {
+        if (row.id) {
+          existingIds.add(row.id);
+        }
+      })
+      .on('end', () => {
+        console.log(`Found ${existingIds.size} existing event IDs in the master CSV.`);
+        resolve(existingIds);
+      })
+      .on('error', reject);
   });
-  return containerHTML;
+}
+
+/**
+ * Saves a Set of unique tags to a one-column CSV file.
+ * @param {Set<string>} tagsSet The Set containing all unique tags.
+ */
+function saveTagsToCsv(tagsSet) {
+  const filePath = './tags.csv';
+  
+  // Convert the Set to a sorted array for consistent output
+  const sortedTags = Array.from(tagsSet).sort();
+  
+  // Create the CSV content with a header row
+  const csvHeader = 'tag\n';
+  const csvRows = sortedTags.join('\n');
+  const csvContent = csvHeader + csvRows;
+
+  fs.writeFileSync(filePath, csvContent);
+  console.log(`\nMaster list of ${sortedTags.length} unique tags saved to: ${filePath}`);
 }
 
 
+
 /**
- * FINAL ADAPTIVE SCRAPER: Detects the page layout and uses the correct selectors.
- * @param {object} page - The Puppeteer page object.
- * @returns {Promise<object>} - An object containing the scraped data.
+ * Downloads an image from a URL and saves it locally.
+ * @param {string} imageUrl The URL of the image to download.
+ * @param {string} eventId The ID of the event, used for the filename.
+ * @returns {Promise<string|null>} The local file path of the saved image, or null on failure.
  */
+async function downloadImage(imageUrl, eventId) {
+  if (!imageUrl || imageUrl.toLowerCase().includes('not found') || !eventId) {
+    console.log('Skipping download: Invalid image URL or event ID provided.');
+    return null;
+  }
+
+  const dirPath = path.join(process.cwd(), 'Meetup', 'NYC', 'Event_Flyers');
+  fs.mkdirSync(dirPath, { recursive: true });
+
+  try {
+    const response = await axios({
+      url: imageUrl,
+      method: 'GET',
+      responseType: 'stream'
+    });
+
+    // **NEW LOGIC**: Determine the extension from the response header
+    const contentType = response.headers['content-type'];
+    let extension = '';
+    if (contentType) {
+      if (contentType.includes('avif')) extension = '.avif';
+      else if (contentType.includes('webp')) extension = '.webp';
+      else if (contentType.includes('jpeg')) extension = '.jpg';
+      else if (contentType.includes('png')) extension = '.png';
+      else if (contentType.includes('gif')) extension = '.gif';
+    }
+    
+    // If we couldn't determine the type, fall back to the URL's extension
+    if (!extension) {
+      console.log("Could not determine Content-Type, falling back to URL extension.");
+      extension = path.extname(new URL(imageUrl).pathname);
+    }
+
+    const filePath = path.join(dirPath, `${eventId}${extension}`);
+    const writer = fs.createWriteStream(filePath);
+    response.data.pipe(writer);
+
+    return new Promise((resolve, reject) => {
+      writer.on('finish', () => {
+        console.log(`Successfully saved image to: ${filePath}`);
+        resolve(filePath);
+      });
+      writer.on('error', (err) => {
+        console.error('Error writing image file.', err);
+        reject(null);
+      });
+    });
+  } catch (error) {
+    console.error(`Failed to download image from ${imageUrl}: ${error.message}`);
+    return null;
+  }
+}
 
 
 
@@ -158,11 +246,32 @@ async function debugDetailsContainer(page) {
 
     // }
 
+    // image downlaoidng test:
+//     const scrapedData = {
+//     id: '311021088',
+//     imageUrl: 'https://secure.meetupstatic.com/photos/event/7/1/6/highres_523201814.webp'
+//     // ... other scraped data ...
+//   };
+
+//   // Call the download function
+//   const localImagePath = await downloadImage(scrapedData.imageUrl, scrapedData.id);
+
+//   // You can now add the local path to your final data object
+//   if (localImagePath) {
+//     scrapedData.localImagePath = localImagePath;
+//   }
+
+//   console.log("\n--- Final Data Object ---");
+//   console.log(scrapedData);
+
+
+  
     const csvFilePath = './events.csv';
     const masterTags = new Set(); // Use a Set to automatically handle unique tags
+    const existingIds = await getExistingIds(masterCsvPath);
 
     try {
-        await processCsvFile(csvFilePath, page, masterTags);
+        await processCsvFile(csvFilePath, page, masterTags, existingIds);
     } catch (error) {
         console.error("An error occurred:", error);
     } finally {
@@ -173,6 +282,9 @@ async function debugDetailsContainer(page) {
         const uniqueTagList = Array.from(masterTags).sort();
         console.log(`\nMaster Tag List (${uniqueTagList.length} unique tags):`);
         console.log(uniqueTagList);
+
+        // Save the collected unique tags to a separate CSV file.
+        saveTagsToCsv(masterTags);
     }
 
     
@@ -199,7 +311,7 @@ async function debugDetailsContainer(page) {
     
 })();
 
-async function processCsvFile(filePath, page, masterTags) {
+async function processCsvFile(filePath, page, masterTags, existingIds) {
   const rows = [];
   await new Promise((resolve, reject) => {
     fs.createReadStream(filePath).pipe(csv())
@@ -209,14 +321,30 @@ async function processCsvFile(filePath, page, masterTags) {
   });
 
   for (const row of rows) {
+
+    // If the Set of existing IDs already has this row's ID, skip it.
+    if (existingIds.has(row.id)) {
+      console.log(`Skipping event ID: ${row.id} (already processed).`);
+      continue; // Jumps to the next row in the loop
+    }
+
     const url = row.url;
     const match = url.match(/^(.*\/events\/\d+\/)/);
     const cleaned_url = match ? match[0] : url;
 
     console.log(`\nProcessing event ID: ${row.id}`);
     await page.goto(cleaned_url, { waitUntil: 'domcontentloaded' });
+    
     const scrapedData = await scrapeEventDetails(page);
     scrapedData.cleaned_url = cleaned_url; // Add the cleaned URL to the object
+
+    // do image downlaod
+    const localImagePath = await downloadImage(scrapedData.imageUrl, row.id);
+
+    // You can now add the local path to your final data object
+    if (localImagePath) {
+        scrapedData.localImagePath = localImagePath;
+    }
 
     // --- Perform the 3 tasks for each event ---
     // 1. Save full details to a text file
@@ -240,7 +368,7 @@ function saveDetailsAsTxt(eventId, details) {
     console.log("details saving?");
   if (!eventId || !details || details === 'Details not found') return;
 
-  const dirPath = path.join(process.cwd(), 'event_details');
+  const dirPath = path.join(process.cwd(), 'Meetup', 'NYC', 'event_details');
   fs.mkdirSync(dirPath, { recursive: true });
   const filePath = path.join(dirPath, `${eventId}.txt`);
   
@@ -297,6 +425,11 @@ function appendToMasterCsv(data, row) {
 
 
 
+/**
+ * FINAL ADAPTIVE SCRAPER: Detects the page layout and uses the correct selectors.
+ * @param {object} page - The Puppeteer page object.
+ * @returns {Promise<object>} - An object containing the scraped data.
+ */
 // this one works entirely on layout A, minus the mapURL system. which can be figured out later
 async function scrapeEventDetails(page) {
   const eventData = await page.evaluate(() => {
@@ -368,6 +501,23 @@ async function scrapeEventDetails(page) {
   return eventData;
 }
 
+
+
+async function debugDetailsContainer(page) {
+  const containerHTML = await page.evaluate(() => {
+    // 1. Find the first paragraph of the event details.
+    // We search within '#main' to be more specific.
+    const firstParagraph = document.querySelector('#main p.mb-4');
+
+    if (firstParagraph) {
+      // 2. Get its direct parent element and return the parent's full HTML.
+      return firstParagraph.parentElement.outerHTML;
+    }
+
+    return 'Could not find a <p class="mb-4"> tag inside the #main container.';
+  });
+  return containerHTML;
+}
 
 async function debugMapInteraction(page) {
   // --- Part 1: Get the HTML around the button ---
