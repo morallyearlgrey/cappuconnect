@@ -25,7 +25,7 @@ DB_NAME     = "cappuconnect"
 COLL_NAME   = "users_tag_spam"
 
 # <<< put Alice's ObjectId here >>>
-ALICE_ID = ObjectId("68cfd95e0856c6c4332c5672")
+ALICE_ID = ObjectId("68d051df54ca4d057ba91bed")
 
 # --- helpers ---
 def norm_skills(skills):
@@ -114,7 +114,7 @@ def main():
     for r in results[:50]:
         name = f"{r['firstname']} {r['lastname']}".strip()
         print(f"- {name:24s} | overlap={r['overlap']:2d} | jaccard={r['jaccard']:.3f} | "
-              f"cosine={r['cosine']:.3f} | common={', '.join(r['common'])}")
+              f"cosine={r['cosine']:.3f} ")
 
 if __name__ == "__main__":
     main()
