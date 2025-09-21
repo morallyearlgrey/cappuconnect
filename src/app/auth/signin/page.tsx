@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 
+
 export default function SigninPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +27,11 @@ export default function SigninPage() {
       // Redirect to register with the email pre-filled
       router.push(`/auth/register?email=${encodeURIComponent(email)}`);
     } else if (result?.ok) {
+      // Here i need to store the current user ID as a cookie
+
+      document.cookie = `userId=1; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
+
+      
       router.push("/");
     }
     
