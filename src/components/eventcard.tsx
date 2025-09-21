@@ -5,32 +5,30 @@ import React from "react";
 import Image from "next/image";
 
 interface EventCardProps {
-  id: number;
   name: string;
-  host: string;
-  address?: string;
+  time: string;
   cleaned_url: string;
   image_url?: string;
+  tags: string[]
   attendees: string[];    // array of attendee IDs
 }
 
 export const EventCard = ({
-  id,
-  name,
-  host,
-  address,
-  cleaned_url,
-  image_url,
-  attendees,
+    name,
+    time,
+    cleaned_url,
+    image_url,
+    tags,
+    attendees
 }: EventCardProps) => {
+    
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = "/caffeine.jpeg";
   };
 
   return (
-    <div className="bg-[var(--tan)] rounded-lg overflow-hidden">
+    <div className="bg-[var(--light-blue)] rounded-t-lg overflow-hidden">
       <div className="flex flex-col">
-        {/* Event Image */}
         <div className="relative w-full h-48">
           <Image
             className="w-full h-full object-cover"
@@ -50,21 +48,16 @@ export const EventCard = ({
           </h3>
           
           <p className="text-sm" style={{ color: '#5f4130' }}>
-            <span className="font-medium">Host:</span> {host}
+            <span className="font-medium">Date:</span> {time}
           </p>
           
-          {address && address !== "undefined" && (
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">Address:</span> {address}
-            </p>
-          )}
           
           <div className="pt-2">
             <a 
               href={cleaned_url} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:text-blue-800 underline"
+              className="text-sm text-[var(--brown)] hover:text-[var(--white)] underline"
             >
               View on Meetup →
             </a>

@@ -178,6 +178,21 @@ export default function DiscoverPage() {
       </main>
     );
   }
+    // Not authenticated
+    if (status === "unauthenticated") {
+      return (
+        <div className=" h-full bg-[var(--brown)]">
+  
+        <Navbar isLoggedIn={isLoggedIn} photo={"/caffeine.jpeg"} />
+  
+          <div className="flex flex-col items-center justify-center min-h-screen -translate-y-20">
+            <h2 className="text-2xl font-[subheading-font] text-white mb-4">Please log in to view events</h2>
+            <p className="text-white font-[subheading-font]">You need to be logged in to see events with your matches.</p>
+          </div>
+        </div>
+      );
+    }
+  
 
   // Empty deck view
   if (!canSwipe) {

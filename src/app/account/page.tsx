@@ -1,120 +1,188 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
+interface UserProfile {
+  _id: string;
+  firstname?: string;
+  lastname?: string;
+  image?: string;
+  skills?: string[];
+  school?: string;
+  bio?: string;
+  linkedin?: string;
+  industry?: string;
+  major?: string;
+  experience?: number; // years of experience
+}
 
 const AccountPage = () => {
-  const [activeTab, setActiveTab] = useState('ACCOUNT');
   const { data: session, status } = useSession();
-        const isLoggedIn = status === "authenticated"; 
+  const isLoggedIn = status === "authenticated";
+
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!isLoggedIn || !session) {
+        setLoading(false);
+        return;
+      }
+
+      // Type assertion to handle NextAuth session types
+      const userSession = session as any;
+      if (!userSession.user) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Use email as identifier instead of id, or get id from session token/jwt
+        const userId = userSession.user.id || userSession.user.email;
+        const res = await fetch(`/api/users/${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch profile");
+        const data = await res.json();
+        setProfile(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [isLoggedIn, session]);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
+        <Navbar isLoggedIn={isLoggedIn} photo={(session as any)?.user?.image || "/caffeine.jpeg"} />
+        
+        <div className="inset-0 fixed bg-[var(--brown)] -z-10">
+          <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
+        </div>
+
+        <div className="flex items-center justify-center h-screen w-screen  -translate-y-20">
+          <div className="bg-[var(--white)] w-[50rem] h-[30rem] flex items-center justify-center shadow-lg rounded-2xl border-4 border-[var(--white)]">
+            <div className="flex flex-col items-center justify-center p-20">
+              <h1 className="text-3xl text-[var(--tan)] font-bold mb-6">ACCESS DENIED</h1>
+              <p className="text-xl font-semibold text-[var(--dark-blue)]">Please log in to view your profile.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
+        <Navbar isLoggedIn={isLoggedIn} photo={(session as any)?.user?.image || "/caffeine.jpeg"} />
+        
+        <div className="inset-0 fixed bg-[var(--brown)] -z-10">
+          <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
+        </div>
+
+        <div className="flex items-center justify-center h-screen w-screen -translate-y-20">
+          <div className="bg-[var(--white)] w-[50rem] h-[30rem] flex items-center justify-center shadow-lg rounded-2xl border-4 border-[var(--tan)]">
+            <div className="flex flex-col items-center justify-center p-20">
+              <h1 className="text-3xl text-[var(--tan)] font-bold mb-6">LOADING</h1>
+              <p className="text-xl font-semibold text-[var(--dark-blue)]">Loading profile...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header Navigation */}
+    <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
+      <Navbar isLoggedIn={isLoggedIn} photo={(session as any)?.user?.image || "/caffeine.jpeg"} />
 
-                        <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
+      <div className="inset-0 fixed bg-[var(--brown)] -z-10">
+        <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
+      </div>
 
-
-      {/* Main Content */}
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="flex gap-0 h-[calc(100vh-200px)]">
-          {/* Settings Panel */}
-          <div className="w-1/2">
-            <div className="bg-slate-400 rounded-l-lg p-6 h-full">
-              <h2 className="text-2xl font-bold text-white mb-8">SETTINGS</h2>
-              <div className="space-y-4">
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Account Settings
-                </button>            
-              </div>
-              
-              <div className="mt-12 space-y-4">
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Delete Account
-                </button>
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Log Out
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Profile Panel */}
-          <div className="w-1/2">
-            <div className="bg-amber-200 rounded-r-lg p-6 h-full overflow-y-auto">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">PROFILE</h2>
-              
-              <div className="flex flex-col gap-6">
-                {/* Profile Image */}
-                <div className="flex-shrink-0">
-                  <div className="w-32 h-32 bg-gray-600 rounded-lg overflow-hidden">
-                    <img 
-                      src="/api/placeholder/128/128" 
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+      <div className="flex items-center justify-center h-screen w-screen -translate-y-20">
+        <div className="bg-[var(--white)] w-[70rem] h-[32rem] flex items-center justify-center shadow-lg rounded-2xl border-4 border-[var(--white)]">
+          {profile && (
+            <div className="flex flex-row w-full h-full items-center">
+              {/* Profile Image Section */}
+              <div className="relative w-1/2 h-full flex items-center justify-center p-8">
+                <div className="w-64 h-64 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
+                  <img
+                    src={profile.image || "/caffeine.jpeg"}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
+              </div>
 
-                {/* Profile Info */}
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Gigachad</h3>
-                  <p className="text-gray-700 font-semibold mb-1">Head of Department of Gigachad</p>
-                  <p className="text-gray-700 font-semibold mb-3">Serum PM</p>
-                  
-                  <div className="space-y-1 text-sm text-gray-700 mb-4">
-                    <p><span className="font-semibold">DOB:</span> 1/1/2000</p>
-                    <p><span className="font-semibold">Product Management</span></p>
-                    <p><span className="font-semibold">10+ Years of Experience</span></p>
-                    <p>
-                      <a href="#" className="text-blue-600 hover:underline font-semibold">LinkedIn</a>
-                      <span className="mx-2">|</span>
-                      <a href="#" className="text-blue-600 hover:underline font-semibold">Resume</a>
-                    </p>
-                  </div>
+              {/* Profile Info Section */}
+              <div className="w-1/2 h-full flex flex-col justify-center p-8  overflow-y-auto">
+                <h1 className="text-4xl text-[var(--tan)] font-[subheading-font] mb-6">
+                  WELCOME {profile.firstname?.toUpperCase()} {profile.lastname?.toUpperCase()}!
+                </h1>
 
-                  <p className="text-gray-800 mb-6 leading-relaxed">
-                    I am Gigachad, I sell serum to be like me. Strong and cool.
-                    My background in product development and coolness has
-                    been implemented in Meta and Apple.
-                  </p>
+                <div className="space-y-3">
 
-                  <p className="text-gray-600 mb-4 italic">Insert website if you have one</p>
+                  {profile.industry && (
+                    <p className="text-[var(--dark-blue)] text-xl font-[subheading-font]">{profile.industry}</p>
+                  )}
 
-                  {/* Skill Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      React
-                    </span>
-                    <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Product Management
-                    </span>
-                    <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Leadership
-                    </span>
-                    <span className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Meta
-                    </span>
-                    <span className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Apple
-                    </span>
-                    <span className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      iOS
-                    </span>
-                  </div>
+                  {profile.major && (
+                    <div className="flex flex-row">
+                       <p className="text-[var(--dark-blue)] text-lg font-[body-font]">Degree in {profile.major} from {profile.school}</p>
+                      </div>
 
-                  {/* Edit Profile Button */}
-                  <div className="flex justify-end">
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
-                      Edit Profile
-                    </button>
+                  )}
+                                   
+
+                  {profile.bio && (
+                    <div className="my-4">
+                      <h3 className="text-[var(--tan)] text-xl font-[subheading-font] mb-2">PROFILE DESCRIPTION</h3>
+                      <p className="text-[var(--dark-blue)] text-base leading-relaxed font-[body-font]">{profile.bio}</p>
+                    </div>
+                  )}
+
+                  {profile.skills && profile.skills.length > 0 && (
+                    <div className="my-4">
+                      <h3 className="text-[var(--tan)] font-bold mb-2">SKILLS</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {profile.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="bg-[var(--light-blue)] text-[var(--white)] px-3 py-1 rounded-full text-sm font-medium"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-4 mt-6">
+                    
+                    {profile.linkedin && (
+                      <a
+                        href={profile.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-[var(--light-blue)] text-white px-4 py-2 rounded-lg font-semibold hover:scale-102 transition-transform cursor-pointer"
+                      >
+                        LinkedIn
+                      </a>
+                    )}
+                    
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
