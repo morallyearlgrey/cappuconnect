@@ -108,7 +108,7 @@ const NetworkPage = () => {
         {/* People Section */}
         <div className="w-1/3 bg-[#768CA3] p-6">
           <h2 className="text-2xl font-bold text-[#25344F] mb-6">PEOPLE</h2>
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-[calc(100vh-100px)]">
             {people.map((person) => (
               <PersonCard
                 key={person.id}
