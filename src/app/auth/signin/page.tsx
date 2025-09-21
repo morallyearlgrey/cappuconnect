@@ -4,6 +4,8 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Navbar } from "@/components/navbar";
+import { useSession } from "next-auth/react";
 
 
 export default function SigninPage() {
@@ -11,6 +13,9 @@ export default function SigninPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+    const { data: session, status } = useSession();
+        const isLoggedIn = status === "authenticated"; 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +31,11 @@ export default function SigninPage() {
       // Redirect to register with the email pre-filled
       router.push(`/auth/register?email=${encodeURIComponent(email)}`);
     } else if (result?.ok) {
+      // Here i need to store the current user ID as a cookie
+
+      document.cookie = `userId=1; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
+
+      
       router.push("/");
     }
     
@@ -34,11 +44,14 @@ export default function SigninPage() {
 
   return (
       <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
+                  <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
+
+
         <div className="inset-0 fixed bg-[var(--brown)] -z-10">
                 <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
         </div>
 
-       <div className="flex items-center justify-center h-screen w-screen ">
+       <div className="flex items-center justify-center h-screen w-screen -translate-y-20 ">
             <div className="bg-[var(--white)] w-[50rem] h-[30rem] flex items-center justify-center shadow-lg rounded-lg">
                 <div className="flex flex-row  w-full h-full items-center">
                 <div className="relative w-1/2 h-full">

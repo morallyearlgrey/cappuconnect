@@ -6,6 +6,8 @@ import { z } from "zod"
 import { useRouter, useSearchParams } from "next/navigation"; // Changed import
 import Image from "next/image";
 import { Suspense } from "react"; // Added import
+import { Navbar } from "@/components/navbar";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -83,6 +85,9 @@ function RegisterForm() {
   const searchParams = useSearchParams();
   const emailFromUrl = searchParams.get('email') || ''; 
 
+   const { data: session, status } = useSession();
+        const isLoggedIn = status === "authenticated"; 
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -136,12 +141,13 @@ function RegisterForm() {
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
-        
+                         <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
+
       <div className="inset-0 fixed bg-[var(--brown)] -z-10">
         <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
       </div>
 
-      <div className="flex items-center justify-center h-screen w-screen ">
+      <div className="flex items-center justify-center h-screen w-screen -translate-y-20 ">
             <div className="bg-[var(--white)] w-[50rem] h-[30rem] flex items-center justify-center shadow-lg rounded-lg">
                 <div className="flex flex-row  w-full h-full items-center">
 

@@ -1,30 +1,21 @@
 "use client"
 
 import React, { useState } from 'react';
+import { Navbar } from "@/components/navbar";
+import { useSession } from "next-auth/react";
+
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('ACCOUNT');
+  const { data: session, status } = useSession();
+        const isLoggedIn = status === "authenticated"; 
 
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header Navigation */}
-      <div className="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-600 p-4">
-        <div className="flex justify-center space-x-12">
-          {['NETWORK', 'DISCOVER', 'ACCOUNT'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`text-lg font-semibold px-6 py-2 transition-all duration-200 ${
-                activeTab === tab
-                  ? 'text-blue-300 border-b-2 border-blue-300'
-                  : 'text-white hover:text-blue-200'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
+
+                        <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
+
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto p-6">
