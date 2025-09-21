@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cappuconnect",
+  title: "CappuConnect",
   description: "Where connections brew opportunities.",
 };
 
