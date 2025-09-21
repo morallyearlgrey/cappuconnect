@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
-import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid";
+//import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid";
 
 const routes: { title: string; href: string }[] = [
   { title: "Discover", href: "/discover" },
@@ -82,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, photo }) => {
           onClick={toggleMenu}
           className="sm:hidden bg-[var(--ieee-dark-yellow)] p-1 rounded z-50 cursor-pointer"
         >
-          {menuOpen ? <XMarkIcon className="h-7 w-7" /> : <Bars3Icon className="h-7 w-7" />}
+        {/* {menuOpen ? <XMarkIcon className="h-7 w-7" /> : <Bars3Icon className="h-7 w-7" />}*/}
         </button>
       </div>
 
