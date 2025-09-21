@@ -20,24 +20,24 @@ export async function GET(
   { params }: { params: { userId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions) as ExtendedSession | null;
-    
+    const session = (await getServerSession(authOptions)) as ExtendedSession | null;
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { userId } = params;
-    
+    const userId = params.userId;
+
     if (session.user.id !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const client = await clientPromise;
     const db = client.db("cappuconnect");
-    
+
     const user = await db.collection("users").findOne(
       { _id: new ObjectId(userId) },
-      { projection: { password: 0 } } 
+      { projection: { password: 0 } }
     );
 
     if (!user) {

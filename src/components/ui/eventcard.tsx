@@ -20,10 +20,10 @@ const EventCard: React.FC<EventCardProps> = ({
   tags,
 }) => {
   return (
-    <div className="bg-[#D5B893] rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex flex-col max-h-80 overflow-y-auto">
+    <div className="bg-[var(--light-blue)] rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex flex-col max-h-80 overflow-y-auto">
       <div className="mb-3">
         <h3 className="font-bold text-[#25344F] text-sm mb-2">{title}</h3>
-        <div className="w-32 h-20 bg-[#D5B893] rounded overflow-hidden mb-2">
+        <div className="w-32 h-20 bg-[var(--light-blue)] rounded overflow-hidden mb-2">
           <img 
             src={image} 
             alt={title}

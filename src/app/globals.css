@@ -43,6 +43,24 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+
+@font-face {
+  font-family: heading-font;
+  src: url(/fonts/AmaticSC-Bold.ttf); 
+
+}
+@font-face {
+  font-family: subheading-font;
+  src: url(/fonts/Nunito-VariableFont_wght.ttf); 
+
+}
+@font-face {
+  font-family: body-font;
+  src: url(/fonts/Roboto-Light.ttf); 
+
+}
+
+
 :root {
   --brown: #5f4130;
   --tan: #d5b893;

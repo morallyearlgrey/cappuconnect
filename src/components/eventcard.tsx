@@ -27,7 +27,7 @@ export const EventCard = ({
   };
 
   return (
-    <div className="bg-[var(--tan)] rounded-lg overflow-hidden">
+    <div className="bg-[var(--light-blue)] rounded-t-lg overflow-hidden">
       <div className="flex flex-col">
         <div className="relative w-full h-48">
           <Image
