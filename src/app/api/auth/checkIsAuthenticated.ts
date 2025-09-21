@@ -5,5 +5,11 @@ import { authOptions } from "@/lib/auth";
 
 export const checkIsAuthenticated = async () => {
   const session = await getServerSession(authOptions);
-  return !!session;
+
+  if (!session?.user) return null; // not logged in
+
+  return {
+    isAuthenticated: true,
+    user: session.user, // contains id, email, name
+  };
 };

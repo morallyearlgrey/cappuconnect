@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
       ...body,
       email: email.toLowerCase(),
       password: hashedPassword,
+      matched: [],  // add empty arrays
+      liked: [],
+      passed: [],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -59,6 +62,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to create user" }, { status: 500 });
   }
 }
+
 
 export async function PUT(req: NextRequest) {
   try {
