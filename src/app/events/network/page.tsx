@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import EventCard from "@/components/ui/eventcard";
+import PersonCard from "@/components/ui/personcard";
 
 const NetworkPage = () => {
   const [activeTab, setActiveTab] = useState('NETWORK');
@@ -103,24 +104,18 @@ const NetworkPage = () => {
 
       {/* Main Content */}
       <div className="flex h-[calc(100vh-100px)]">
+
         {/* People Section */}
         <div className="w-1/3 bg-[#768CA3] p-6">
           <h2 className="text-2xl font-bold text-[#25344F] mb-6">PEOPLE</h2>
           <div className="space-y-4">
             {people.map((person) => (
-              <div key={person.id} className="flex items-center space-x-4 bg-white bg-opacity-30 rounded-lg p-3 hover:bg-opacity-40 transition-all cursor-pointer">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-[#768CA3]">
-                  <img 
-                    src={person.image} 
-                    alt={person.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-[#25344F] font-semibold text-sm">{person.name}</h3>
-                  <p className="text-[#25344F] text-xs">{person.title}</p>
-                </div>
-              </div>
+              <PersonCard
+                key={person.id}
+                name={person.name}
+                title={person.title}
+                image={person.image}
+              />
             ))}
           </div>
         </div>
