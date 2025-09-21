@@ -5,7 +5,37 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
 
-// Shape of a user object from /api/users
+
+// temp variable to assume we are the user
+const kai_temp_id = "68cf6b837edad86a28bb857f";
+
+// shape returned by /api/matches/query (after optional API tweak above)
+type MatchDTO = {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  bio?: string;
+  photo?: string;
+  state?: string;
+  industry?: string;
+  experienceyears?: string;
+  overlap: number;
+  jaccard: number;
+  cosine: number;
+  commonSkills: string[];
+};
+
+function isValidMatch(x: any): x is MatchDTO {
+  return x && typeof x.id === "string" && typeof x.firstname === "string" && typeof x.lastname === "string";
+}
+
+// Shape of a user object as returned by /api/users (no password here).
+// This is grabbed from the specific system to get users without any filters
+// we need to repalce this going forward with the priority system
+// 
+// for now, we need to get the system so that we can do personal edits to our current user
+//
 type UserDTO = {
   _id: string;
   bio: string;
@@ -23,6 +53,7 @@ type UserDTO = {
   school: string;
   skills: string[];
   state: string;
+  commonSkills: string[];
 };
 
 // Type guard: unknown → UserDTO
@@ -40,55 +71,123 @@ function isValidUser(u: unknown): u is UserDTO {
 }
 
 export default function DiscoverPage() {
+  // users: cleaned/validated queue; idx: pointer to the current top card
+  
   const [users, setUsers] = useState<UserDTO[]>([]);
   const [idx, setIdx] = useState(0);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
   const { data: session, status } = useSession();
-  const isLoggedIn = status === "authenticated";
+  const isLoggedIn = status === "authenticated"; 
 
-  // Fetch users on mount
+  // update shit
+  
   useEffect(() => {
     let mounted = true;
+    const ctrl = new AbortController();
+
     (async () => {
+      // wait until we know auth state
+      if (status === "loading") return;
+
       try {
         setLoading(true);
         setErr(null);
 
-        const res = await fetch("/api/users", { cache: "no-store" });
+        // grab the current user's mongo _id from the session
+        const userId = (session as any)?.user?.id as string | undefined;
+        if (!userId) {
+          throw new Error("Missing userId on session. Ensure session.user.id is your Mongo _id.");
+        }
+
+        const params = new URLSearchParams({
+          userId,
+          limit: "50",       // tweak as you like
+          minOverlap: "1",   // bump to 2/3 to hide weak matches
+        });
+
+        const res = await fetch(`/api/matches/query?${params.toString()}`, {
+          cache: "no-store",
+          signal: ctrl.signal,
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const raw = (await res.json()) as unknown[];
+        //const raw = (await res.json()) as unknown[];
         const clean = (Array.isArray(raw) ? raw : [])
-          .filter(isValidUser)
+          .filter(isValidMatch)
           .map(u => ({
             ...u,
             firstname: u.firstname.trim(),
             lastname: u.lastname.trim(),
-            bio: u.bio.trim(),
-            photo: u.photo.trim(),
+            bio: (u.bio ?? "").trim(),
+            photo: (u.photo ?? "").trim(),
           }));
 
         if (mounted) {
           setUsers(clean);
           setIdx(0);
+          console.log("Loaded matches:", clean);
         }
-      } catch (e: unknown) {
-        if (mounted) {
-          if (e instanceof Error) setErr(e.message);
-          else setErr("Failed to load users");
-        }
+      } catch (e: any) {
+        if (mounted) setErr(e?.message || "Failed to load matches");
       } finally {
         if (mounted) setLoading(false);
       }
     })();
 
+
     return () => {
       mounted = false;
+      ctrl.abort();
     };
-  }, []);
+  }, [session, status]);
 
+  // Initial load: fetch users, validate, normalize a few fields, then store.
+  // useEffect(() => {
+  //   let mounted = true; // prevents state updates after unmount
+  //   (async () => {
+  //     try {
+  //       setLoading(true);
+  //       setErr(null);
+
+  //       // Fetch the latest users (no caching)
+  //       const USER_QUEUE = await fetch("/api/matches/query", { cache: "no-store" });
+  //       console.log(USER_QUEUE);
+  //       if (!USER_QUEUE.ok) throw new Error(`HTTP ${USER_QUEUE.status}`);
+
+  //       // Parse response and validate shape with the type guard
+  //       const raw = (await USER_QUEUE.json()) as unknown[];
+  //       const clean = (Array.isArray(raw) ? raw : [])
+  //         .filter(isValidUser) // narrows to UserDTO[]
+  //         .map(u => ({
+  //           ...u,
+  //           // Trim some key display fields for neatness
+  //           firstname: u.firstname.trim(),
+  //           lastname: u.lastname.trim(),
+  //           bio: u.bio.trim(),
+  //           photo: u.photo.trim(),
+  //         }));
+
+  //       if (mounted) {
+  //         setUsers(clean);
+  //         setIdx(0);
+  //         console.log("Loaded users:", clean);
+  //       }
+  //     } catch (e: any) {
+  //       if (mounted) setErr(e?.message || "Failed to load users");
+  //     } finally {
+  //       if (mounted) setLoading(false);
+  //     }
+  //   })();
+  //   // Cleanup: mark unmounted to avoid setState warnings if the fetch finishes late
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, []);
+
+  // Current card and the “next” card (for a subtle stacked look)
   const current = users[idx];
   const next = users[idx + 1];
 
@@ -106,7 +205,22 @@ export default function DiscoverPage() {
     if (power > 500) {
       const dir = info.offset.x > 0 ? "right" : "left";
 
-      // TODO: report swipe to API here if needed
+      // (Optional) report swipe to your API
+      // this is where we need to add to our current system
+
+      // fetch("/api/swipes", { method: "POST", headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ targetUserId: current?._id, dir }) });
+
+      // api call to add to our list:
+      if (dir === "right" && current?._id) {
+      // fire-and-forget; optionally await and handle 'mutual' response
+        fetch("/api/match", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ targetUserId: current._id }),
+        }).catch(() => {});
+    }
+
 
       setIdx(i => i + 1);
       x.set(0);
@@ -210,7 +324,7 @@ export default function DiscoverPage() {
               <div className="h-1/3 p-4 flex flex-col gap-3">
                 <p className="text-sm text-gray-700 line-clamp-3">{current.bio}</p>
                 <div className="flex flex-wrap gap-2">
-                  {current.skills.slice(0, 6).map(skill => (
+                  {current.commonSkills.slice(0, 6).map(skill => (
                     <span
                       key={skill}
                       className="text-xs bg-gray-100 border border-gray-200 px-2 py-1 rounded-full"

@@ -14,6 +14,11 @@ import { hash } from "bcrypt";
 // MongoDB `ObjectId` helper is needed when querying by the primary key (_id).
 import { ObjectId } from "mongodb";
 
+// bcrypt compare to check a plaintext password against a stored hash.
+import { compare } from "bcrypt";
+
+const current_table = "users_tag_spam"
+
 /**
  * getDB()
  * - Awaits the shared MongoClient
@@ -38,7 +43,7 @@ export async function GET(req: NextRequest) {
     // Query all docs in "users". The empty filter {} matches all documents.
     // The `projection` option excludes `password` field from the result set.
     const users = await db
-      .collection("users")
+      .collection(current_table)
       .find({}, { projection: { password: 0 } })
       .toArray();
 
@@ -63,6 +68,12 @@ export async function POST(req: NextRequest) {
   try {
     const db = await getDB();
     const body = await req.json(); // Parse JSON body
+    console.log("incomoing json request is the following")
+    console.log(req)
+    console.log("\nEnd of Request Json")
+    console.log("incomoing body request is the following")
+    console.log(body)
+    console.log("\nEnd of Request body")
 
     // Pull out the fields we care about (basic validation follows).
     const { firstname, lastname, email, password, state, linkedin } = body;
@@ -76,7 +87,7 @@ export async function POST(req: NextRequest) {
     const normalizedEmail = email.toLowerCase();
 
     // Check for existing user by email. (Also add a unique index server-side to prevent races.)
-    const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
+    const existingUser = await db.collection(current_table).findOne({ email: normalizedEmail });
     if (existingUser) {
       return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
@@ -98,7 +109,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Insert the document; MongoDB will generate an _id (ObjectId).
-    const result = await db.collection("users").insertOne(newUser);
+    const result = await db.collection(current_table).insertOne(newUser);
 
     // Omit password from the returned payload by destructuring it away.
     const { password: _omit, ...userWithoutPassword } = newUser;
@@ -143,7 +154,7 @@ export async function PUT(req: NextRequest) {
     // - $set to only change provided fields
     // - returnDocument: "after" returns the *updated* doc instead of the original
     const result = await db
-      .collection("users")
+      .collection(current_table)
       .findOneAndUpdate(
         { _id: new ObjectId(userId) },
         { $set: updateData },
@@ -161,5 +172,49 @@ export async function PUT(req: NextRequest) {
   } catch (err) {
     console.error("PUT user error:", err);
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+  }
+}
+
+/**
+ * LOGIN (helper)
+ * - Validates email & password.
+ * - Looks up user by normalized email, compares bcrypt hash.
+ * - Returns the user (without password) on success.
+ *
+ * NOTE: In Next.js App Router, HTTP verbs must be named GET/POST/PUT/DELETE, etc.
+ * If you want a login endpoint, place this in a separate route (e.g., /api/auth/login)
+ * and export `POST` from that file. Exporting `LOGIN` here won’t be auto-routed.
+ */
+export async function LOGIN(req: NextRequest) {
+  try {
+    const db = await getDB();
+    const { email, password } = await req.json();
+
+    if (!email || !password) {
+      return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+
+    // Fetch user by email. This should include the hashed password to compare.
+    const user = await db.collection(current_table).findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return NextResponse.json({ error: "User does not exist" }, { status: 404 });
+    }
+
+    // Compare the plaintext password to the stored hash.
+    const passwordMatch = await compare(password, user.password);
+    if (!passwordMatch) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+
+    // Never return the password hash to the client.
+    const { password: _omit, ...userWithoutPassword } = user;
+
+    return NextResponse.json(userWithoutPassword, { status: 200 });
+  } catch (err) {
+    console.error("Login error:", err);
+    return NextResponse.json({ error: "Failed to login" }, { status: 500 });
   }
 }

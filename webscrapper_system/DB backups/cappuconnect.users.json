@@ -1,0 +1,219 @@
+[{
+  "_id": {
+    "$oid": "68cf43d576605996e6594c5b"
+  },
+  "firstname": "Kai",
+  "lastname": "Sprunger",
+  "linkedin": "https://www.linkedin.com/in/kaisprunger",
+  "email": "kaisprunger@gmail.com",
+  "password": "$2b$12$jHDWrBR/eGV/ldZuO22LcutY7QqYtGGQ2hVIUxe43g24iJ4xExGXq",
+  "bio": "Hello, I am an undergraduate student majoring in Computer Science at the University of Central Florida's Burnett Honors College! Passionate about computer science and digital media, I'm looking forward to pursuing a career in full-stack development.",
+  "state": "Florida",
+  "school": "University of Central Florida",
+  "major": "Computer Science",
+  "experienceyears": "1",
+  "industry": "Technology & IT",
+  "skills": [
+    "Software Development",
+    "AI & Machine Learning",
+    "Data Analysis"
+  ],
+  "resume": "https://kaisprunger.com/Sprunger_Kai_Resume.pdf",
+  "photo": "https://img.freepik.com/free-photo/red-paper-background-elegant-scarlet-background-holiday-decoration-web-design-paper-texture_166373-2152.jpg?semt=ais_incoming&w=740&q=80",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1758413781565"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1758413781565"
+    }
+  },
+  "liked": [],
+  "matched": [
+    {
+      "$oid": "68cf70cc7edad86a28bb8583"
+    },
+    {
+      "$oid": "68cf6b837edad86a28bb857f"
+    }
+  ],
+  "passed": []
+},
+{
+  "_id": {
+    "$oid": "68cf6b837edad86a28bb857f"
+  },
+  "firstname": "Elon",
+  "lastname": "Musk",
+  "linkedin": "https://www.linkedin.com/in/elonmusk",
+  "email": "elonmusk@gmail.com",
+  "password": "$2b$12$gcdfXYkv3dwYycfAcj3QOuGpWHK/MeMGf9aRtwcHxjHgHcp80gtzq",
+  "bio": "I fucking suck.",
+  "state": "Texas",
+  "school": "University of Pennsylvania",
+  "major": "Physics",
+  "experienceyears": "0",
+  "industry": "Technology & IT",
+  "skills": [
+    "Project Management"
+  ],
+  "resume": "https://thisresumedoesnotexist.com/resume/elon-musk/",
+  "photo": "https://i.redd.it/jw59c4u9mad91.jpg",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1758423939358"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1758423939358"
+    }
+  },
+  "liked": [],
+  "matched": [],
+  "passed": []
+},
+{
+  "_id": {
+    "$oid": "68cf6c167edad86a28bb8580"
+  },
+  "firstname": "Jeff",
+  "lastname": "Bezos",
+  "linkedin": "https://www.linkedin.com/in/jeffbezos",
+  "email": "jeffbezos@gmail.com",
+  "password": "$2b$12$4wp1Ddy0w7pV/9ntT/Osoudy.MlEPPPUt755ihHiIW6I6AEGhHXWS",
+  "bio": "I fucking suck ass.",
+  "state": "Florida",
+  "school": "Princeton University",
+  "major": "Electrical Engineering",
+  "experienceyears": "5",
+  "industry": "Technology & IT",
+  "skills": [
+    "CAD Software",
+    "Financial Analysis",
+    "Software Development",
+    "Mechanical Design"
+  ],
+  "resume": "https://thisresumedoesnotexist.com/resume/jeff-bezos/",
+  "photo": "https://i.redd.it/onv9jagkt51d1.png",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1758424086356"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1758424086356"
+    }
+  },
+  "liked": [],
+  "matched": [],
+  "passed": []
+},
+{
+  "_id": {
+    "$oid": "68cf6cbb7edad86a28bb8581"
+  },
+  "firstname": "Mark",
+  "lastname": "Zuckerberg",
+  "linkedin": "https://www.linkedin.com/in/markzuckerberg",
+  "email": "markzuckerberg@gmail.com",
+  "password": "$2b$12$bbg7.EMNSOG4cwAOj4AB.ef.Py.mbKGN466uLjhfTblhYLOwuxFNi",
+  "bio": "I suck.",
+  "state": "New York",
+  "school": "Harvard University",
+  "major": "Psychology",
+  "experienceyears": "10",
+  "industry": "Technology & IT",
+  "skills": [
+    "Software Development",
+    "Cloud Computing"
+  ],
+  "resume": "https://thisresumedoesnotexist.com/resume/mark-zuckerberg/",
+  "photo": "https://i.imgur.com/PkfonsG.png",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1758424251271"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1758424251271"
+    }
+  },
+  "liked": [],
+  "matched": [],
+  "passed": []
+},
+{
+  "_id": {
+    "$oid": "68cf6d457edad86a28bb8582"
+  },
+  "firstname": "Bill",
+  "lastname": "Nye",
+  "linkedin": "https://www.linkedin.com/in/billnye",
+  "email": "billnye@gmail.com",
+  "password": "$2b$12$FpWf.auGkFZZ8h5ve5B2sOOldRylbbVYLJ4fss6odxiCu9KNQDqbG",
+  "bio": "I'm bill nye the science guy dodododoododo",
+  "state": "Minnesota",
+  "school": "Cornell University",
+  "major": "Mechanical Engineering",
+  "experienceyears": "20",
+  "industry": "Engineering & Manufacturing",
+  "skills": [
+    "Teaching & Mentoring",
+    "Mechanical Design",
+    "Community Outreach"
+  ],
+  "resume": "https://thisresumedoesnotexist.com/resume/bill-nye/",
+  "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Bill_Nye_2017.jpg",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1758424389647"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1758424389647"
+    }
+  },
+  "liked": [],
+  "matched": [],
+  "passed": []
+},
+{
+  "_id": {
+    "$oid": "68cf70cc7edad86a28bb8583"
+  },
+  "firstname": "Rene",
+  "lastname": "Sprunger",
+  "linkedin": "https://www.linkedin.com/in/renesprunger",
+  "email": "renesprunger@gmail.com",
+  "password": "$2b$12$f6EgiU1tyqfM7upnctkLu.h5xDyqnejBWKNwPsV5Df.0FvDIDGmrC",
+  "bio": "i am cool",
+  "state": "Florida",
+  "school": "University of Wisconsin-Madison",
+  "major": "Electrical Engineering",
+  "experienceyears": "20",
+  "industry": "Engineering & Manufacturing",
+  "skills": [
+    "CAD Software"
+  ],
+  "resume": "",
+  "photo": "",
+  "matched": [],
+  "liked": [],
+  "passed": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1758425292997"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1758425292997"
+    }
+  }
+}]
