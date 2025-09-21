@@ -7,12 +7,14 @@ from faker import Faker
 
 BASE_URL      = "http://localhost:3000"
 API_PATH      = "/api/users"
-COUNT         = 100
-CONCURRENCY   = 2
+COUNT         = 2000
+CONCURRENCY   = 20
 EMAIL_DOMAIN  = "example.com"
 DEFAULT_PASS  = "password"  # your API hashes it
 TIMEOUT_S     = 20
 RETRY_DUP     = 3
+MIN_TAGS      = 40
+MAX_TAGS      = 120
 
 # Match the browser-like headers in your sample
 BROWSER_HEADERS = {
@@ -105,7 +107,7 @@ fake = Faker()
 def slugify(s: str) -> str:
     return "".join(ch for ch in s.lower() if ch.isalnum() or ch == "-")
 
-def random_skills(min_k=3, max_k=8) -> List[str]:
+def random_skills(min_k=MIN_TAGS, max_k=MAX_TAGS) -> List[str]:
     k = random.randint(min_k, max_k)
     return random.sample(SKILLS, k=k)
 

@@ -9,21 +9,23 @@ load_dotenv()
 
 MONGODB_URI = os.getenv("MONGODB_URI")
 DB_NAME     = "cappuconnect"
-COLL_NAME   = "users"
+COLL_NAME   = "users_tag_spam"
 
 # Hardcoded test user ID (replace with your ObjectId hex string)
-TEST_ID = ObjectId("68cf43d576605996e6594c5b")
-TEST_ID = ObjectId("68cfc4760856c6c4332c55da")
+TEST_ID = ObjectId("68cf43d576605996e6594c5b") # kai
+TEST_ID = ObjectId("68cfc4760856c6c4332c55da") # alice
+TEST_ID = ObjectId("68cfc4760856c6c4332c55da") # alice
+
 print("\n")
 
 
 # --- CONFIG ---
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
+MONGODB_URI = os.getenv("MONGODB_URI")
 DB_NAME     = "cappuconnect"
-COLL_NAME   = "users"
+COLL_NAME   = "users_tag_spam"
 
 # <<< put Alice's ObjectId here >>>
-ALICE_ID = ObjectId("68cfc4760856c6c4332c55da")
+ALICE_ID = ObjectId("68cfd95e0856c6c4332c5672")
 
 # --- helpers ---
 def norm_skills(skills):
