@@ -303,6 +303,7 @@ export default function DiscoverPage() {
             onClick={() => {
               // Simulate a “left swipe”
               setIdx(i => i + 1);
+              
             }}
           >
             Pass
@@ -311,6 +312,16 @@ export default function DiscoverPage() {
             className="px-4 py-2 rounded-lg bg-gray-900 text-white"
             onClick={() => {
               // Simulate a “right swipe”
+              if (current?._id) {
+              // fire-and-forget; optionally await and handle 'mutual' response
+                fetch("/api/match", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ targetUserId: current._id }),
+                }).catch(() => {});
+            }
+
+              
               setIdx(i => i + 1);
             }}
           >
