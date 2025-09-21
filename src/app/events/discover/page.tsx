@@ -1,7 +1,73 @@
-import React, { useState } from 'react';
+"use client"
 
-const AccountPage = () => {
-  const [activeTab, setActiveTab] = useState('ACCOUNT');
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const DiscoverPage = () => {
+  const [activeTab, setActiveTab] = useState('DISCOVER');
+  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+
+  // Sample profile data - you can expand this array
+  const profiles = [
+    {
+      id: 1,
+      name: "Gigachad",
+      title: "Head of Department of Gigachad",
+      subtitle: "Serum PM",
+      field: "Product Management",
+      experience: "10+ Years of Experience",
+      location: "Orlando, FL",
+      linkedIn: "#",
+      resume: "#",
+      bio: "I am Gigachad, I sell serum to be like me. Strong and cool. My background in product development and coolness has been implemented in Meta and Apple.",
+      website: "www.gigachad.com",
+      skills: ["React", "Product Management", "Leadership"],
+      companies: ["Meta", "Apple", "iOS"],
+      image: "/api/placeholder/200/200"
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      title: "Senior Software Engineer",
+      subtitle: "Tech Lead",
+      field: "Software Development",
+      experience: "8+ Years of Experience",
+      location: "San Francisco, CA",
+      linkedIn: "#",
+      resume: "#",
+      bio: "Passionate full-stack developer with expertise in modern web technologies. Led multiple successful product launches at top tech companies.",
+      website: "www.janesmith.dev",
+      skills: ["JavaScript", "React", "Node.js"],
+      companies: ["Google", "Spotify", "Airbnb"],
+      image: "/api/placeholder/200/200"
+    },
+    {
+      id: 3,
+      name: "Alex Chen",
+      title: "UX Design Director",
+      subtitle: "Creative Lead",
+      field: "User Experience Design",
+      experience: "12+ Years of Experience",
+      location: "New York, NY",
+      linkedIn: "#",
+      resume: "#",
+      bio: "Award-winning designer focused on creating intuitive and delightful user experiences. Specializing in mobile-first design and accessibility.",
+      website: "www.alexchen.design",
+      skills: ["Figma", "User Research", "Design Systems"],
+      companies: ["Adobe", "Netflix", "Uber"],
+      image: "/api/placeholder/200/200"
+    }
+  ];
+
+  const currentProfile = profiles[currentProfileIndex];
+
+  const nextProfile = () => {
+    setCurrentProfileIndex((prev) => (prev + 1) % profiles.length);
+  };
+
+  const prevProfile = () => {
+    setCurrentProfileIndex((prev) => (prev - 1 + profiles.length) % profiles.length);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -25,116 +91,102 @@ const AccountPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="flex gap-0 h-[calc(100vh-200px)]">
-          {/* Settings Panel */}
-          <div className="w-1/2">
-            <div className="bg-slate-400 rounded-l-lg p-6 h-full">
-              <h2 className="text-2xl font-bold text-white mb-8">SETTINGS</h2>
-              <div className="space-y-4">
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Account Settings
-                </button>
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Privacy Settings
-                </button>
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Notifications
-                </button>
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Help & Support
-                </button>
-              </div>
-              
-              <div className="mt-12 space-y-4">
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Delete Account
-                </button>
-                <button className="w-full text-left text-white hover:text-gray-200 py-2 px-4 rounded transition-colors">
-                  Log Out
-                </button>
-              </div>
-            </div>
-          </div>
+      <div className="flex items-center justify-center min-h-[calc(100vh-100px)] p-6">
+        <div className="flex items-center space-x-8">
+          {/* Left Arrow */}
+          <button
+            onClick={prevProfile}
+            className="bg-slate-600 hover:bg-slate-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110"
+          >
+            <ChevronLeft size={32} />
+          </button>
 
-          {/* Profile Panel */}
-          <div className="w-1/2">
-            <div className="bg-amber-200 rounded-r-lg p-6 h-full overflow-y-auto">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">PROFILE</h2>
-              
-              <div className="flex flex-col gap-6">
-                {/* Profile Image */}
-                <div className="flex-shrink-0">
-                  <div className="w-32 h-32 bg-gray-600 rounded-lg overflow-hidden">
-                    <img 
-                      src="/api/placeholder/128/128" 
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+          {/* Profile Card */}
+          <div className="bg-amber-200 rounded-lg p-8 w-96 shadow-xl">
+            <div className="flex gap-6 mb-6">
+              {/* Profile Image */}
+              <div className="flex-shrink-0">
+                <div className="w-32 h-32 bg-gray-600 rounded-lg overflow-hidden">
+                  <img 
+                    src={currentProfile.image} 
+                    alt={currentProfile.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
+              </div>
 
-                {/* Profile Info */}
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Gigachad</h3>
-                  <p className="text-gray-700 font-semibold mb-1">Head of Department of Gigachad</p>
-                  <p className="text-gray-700 font-semibold mb-3">Serum PM</p>
-                  
-                  <div className="space-y-1 text-sm text-gray-700 mb-4">
-                    <p><span className="font-semibold">DOB:</span> 1/1/2000</p>
-                    <p><span className="font-semibold">Product Management</span></p>
-                    <p><span className="font-semibold">10+ Years of Experience</span></p>
-                    <p>
-                      <a href="#" className="text-blue-600 hover:underline font-semibold">LinkedIn</a>
-                      <span className="mx-2">|</span>
-                      <a href="#" className="text-blue-600 hover:underline font-semibold">Resume</a>
-                    </p>
-                  </div>
-
-                  <p className="text-gray-800 mb-6 leading-relaxed">
-                    I am Gigachad, I sell serum to be like me. Strong and cool.
-                    My background in product development and coolness has
-                    been implemented in Meta and Apple.
+              {/* Profile Info */}
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">{currentProfile.name}</h3>
+                <p className="text-gray-700 font-semibold mb-1">{currentProfile.title}</p>
+                <p className="text-gray-700 font-semibold mb-3">{currentProfile.subtitle}</p>
+                
+                <div className="space-y-1 text-sm text-gray-700 mb-4">
+                  <p className="font-semibold text-blue-600">{currentProfile.field}</p>
+                  <p className="font-semibold text-blue-600">{currentProfile.experience}</p>
+                  <p className="font-semibold text-blue-600">{currentProfile.location}</p>
+                  <p>
+                    <a href={currentProfile.linkedIn} className="text-blue-600 hover:underline font-semibold">LinkedIn</a>
+                    <span className="mx-2">|</span>
+                    <a href={currentProfile.resume} className="text-blue-600 hover:underline font-semibold">Resume</a>
                   </p>
-
-                  <p className="text-gray-600 mb-4 italic">Insert website if you have one</p>
-
-                  {/* Skill Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      React
-                    </span>
-                    <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Product Management
-                    </span>
-                    <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Leadership
-                    </span>
-                    <span className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Meta
-                    </span>
-                    <span className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Apple
-                    </span>
-                    <span className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      iOS
-                    </span>
-                  </div>
-
-                  {/* Edit Profile Button */}
-                  <div className="flex justify-end">
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
-                      Edit Profile
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Bio */}
+            <p className="text-gray-800 mb-4 leading-relaxed">
+              {currentProfile.bio}
+            </p>
+
+            {/* Website */}
+            <p className="text-blue-600 hover:underline cursor-pointer mb-6 font-medium">
+              {currentProfile.website}
+            </p>
+
+            {/* Skill Tags */}
+            <div className="flex flex-wrap gap-2">
+              {currentProfile.skills.map((skill, index) => (
+                <span key={index} className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium">
+                  {skill}
+                </span>
+              ))}
+              {currentProfile.companies.map((company, index) => (
+                <span key={index} className="bg-amber-700 text-white px-4 py-2 rounded-full text-sm font-medium">
+                  {company}
+                </span>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-between mt-6">
+              <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                Pass
+              </button>
+              <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                Connect
+              </button>
+            </div>
           </div>
+
+          {/* Right Arrow */}
+          <button
+            onClick={nextProfile}
+            className="bg-slate-600 hover:bg-slate-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110"
+          >
+            <ChevronRight size={32} />
+          </button>
         </div>
+      </div>
+
+      {/* Profile Counter */}
+      <div className="text-center pb-6">
+        <span className="text-gray-600 font-medium">
+          {currentProfileIndex + 1} of {profiles.length}
+        </span>
       </div>
     </div>
   );
 };
 
-export default AccountPage;
+export default DiscoverPage;

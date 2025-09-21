@@ -1,5 +1,6 @@
 // app/page.tsx - Network & Events App
 "use client";
+
 import React, { useState } from 'react';
 
 // Types
