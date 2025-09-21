@@ -1,0 +1,18 @@
+//in mongodbShell
+use("cappuconnect");
+
+db.events.deleteMany({
+  $or: [
+    { tags: { $exists: false } },
+    { tags: { $type: "array", $size: 0 } }
+  ]
+});
+
+
+// add attendeees array into the shell system
+db.events.updateMany(({
+        $set: {
+        "attendees": [] 
+        },
+        }
+))
