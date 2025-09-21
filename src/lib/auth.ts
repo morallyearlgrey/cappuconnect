@@ -5,6 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt'; 
 
 export const authOptions: AuthOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
     adapter: MongoDBAdapter(clientPromise),
 
     providers: [
