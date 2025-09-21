@@ -62,9 +62,9 @@ function isValidUser(u: unknown): u is UserDTO {
   return (
     typeof x._id === "string" &&
     typeof x.firstname === "string" && x.firstname.trim().length > 0 &&
-    typeof x.lastname  === "string" && x.lastname.trim().length  > 0 &&
-    typeof x.bio       === "string" && x.bio.trim().length       > 0 &&
-    typeof x.photo     === "string" && x.photo.trim().length     > 0 &&
+    typeof x.lastname === "string" && x.lastname.trim().length > 0 &&
+    typeof x.bio === "string" && x.bio.trim().length > 0 &&
+    typeof x.photo === "string" && x.photo.trim().length > 0 &&
     Array.isArray(x.skills)
   );
 }
@@ -78,8 +78,11 @@ export default function DiscoverPage() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
+  // State to manage the bio toggle
+  const [isBioExpanded, setIsBioExpanded] = useState(false);
+
   const { data: session, status } = useSession();
-      const isLoggedIn = status === "authenticated"; 
+  const isLoggedIn = status === "authenticated";
 
   // Initial load: fetch users, validate, normalize a few fields, then store.
   useEffect(() => {
@@ -149,13 +152,13 @@ export default function DiscoverPage() {
 
       // api call to add to our list:
       if (dir === "right" && current?._id) {
-      // fire-and-forget; optionally await and handle 'mutual' response
+        // fire-and-forget; optionally await and handle 'mutual' response
         fetch("/api/match", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ targetUserId: current._id }),
         }).catch(() => {});
-    }
+      }
 
 
       // Move to next card, reset animation state
@@ -214,7 +217,7 @@ export default function DiscoverPage() {
   // Main swipe UI
   return (
     <main className="bg-[#5F4130] overflow-x-hidden">
-                <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
+      <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
 
 
       <div className="w-full max-w-lg mx-auto p-4">
@@ -230,7 +233,7 @@ export default function DiscoverPage() {
               style={{ x, rotate, opacity }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }} // free horizontal drag
-              dragElastic={0.2}                         // resistance (lower = stiffer)
+              dragElastic={0.2} // resistance (lower = stiffer)
               onDragEnd={onDragEnd}
               className="absolute inset-0 rounded-2xl overflow-hidden shadow-xl bg-[#D5B893] border border-gray-200"
             >
@@ -257,7 +260,16 @@ export default function DiscoverPage() {
 
               {/* Bio + skills + links */}
               <div className="h-1/3 p-4 flex flex-col gap-3">
-                <p className="text-sm text-[#25344F] line-clamp-3">{current.bio}</p>
+                <p className={`text-sm text-[#25344F] ${isBioExpanded ? '' : 'line-clamp-3'}`}>{current.bio}</p>
+                {/* Toggle button, only shows if bio is long enough */}
+                {current.bio.length > 100 && ( 
+                  <button 
+                    onClick={() => setIsBioExpanded(!isBioExpanded)}
+                    className="text-sm underline text-white hover:text-white focus:outline-none"
+                  >
+                    {isBioExpanded ? 'Read less' : 'Read more'}
+                  </button>
+                )}
                 <div className="flex flex-wrap gap-2">
                   {(current.skills || []).slice(0, 6).map(s => (
                     <span
@@ -284,7 +296,7 @@ export default function DiscoverPage() {
                       href={current.resume}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-sm underline text-white"
+                      className="text-sm underline text-gray-900"
                     >
                       Resume
                     </a>
@@ -320,5 +332,3 @@ export default function DiscoverPage() {
     </main>
   );
 }
-
-
