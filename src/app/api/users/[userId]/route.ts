@@ -17,7 +17,7 @@ interface ExtendedSession {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
     const session = (await getServerSession(authOptions)) as ExtendedSession | null;
@@ -26,6 +26,8 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Await the params since they're now a Promise in Next.js 15+
+    const params = await context.params;
     const userId = params.userId;
 
     if (session.user.id !== userId) {
