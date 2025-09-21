@@ -66,6 +66,12 @@ export async function POST(req: NextRequest) {
   try {
     const db = await getDB();
     const body = await req.json(); // Parse JSON body
+    console.log("incomoing json request is the following")
+    console.log(req)
+    console.log("\nEnd of Request Json")
+    console.log("incomoing body request is the following")
+    console.log(body)
+    console.log("\nEnd of Request body")
 
     // Pull out the fields we care about (basic validation follows).
     const { firstname, lastname, email, password, state, linkedin } = body;
