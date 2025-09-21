@@ -44,6 +44,13 @@
 }
 
 :root {
+  --brown: #5f4130;
+  --tan: #d5b893;
+  --light-blue: #768ca3;
+  --dark-blue: #25344f;
+  --white: #f7f7f5;
+
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
