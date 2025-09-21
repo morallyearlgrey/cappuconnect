@@ -93,6 +93,9 @@ export async function POST(req: NextRequest) {
       ...body,
       email: normalizedEmail,
       password: hashedPassword,
+      matched: [],  // add empty arrays
+      liked: [],
+      passed: [],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
