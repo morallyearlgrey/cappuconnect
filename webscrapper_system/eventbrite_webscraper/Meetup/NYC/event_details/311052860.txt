@@ -1,0 +1,6 @@
+Amplify the Essential with Tim Ottinger
+
+The AI talk is an exploration of code readability, simplicity, and maintainability by raising the visibility of the most significant elements in a passage of code, and removing (or repositioning) any repetitive or insignificant elements of the passage. We will review some classes, functions, and tests by examining transformations to 'exalt the significant' and 'eliminate the redundant' -- this may change how you think about readability of code.
+
+About the Speaker:
+Tim is a long-time agilist, trainer, mentor, coach, and keynote speaker in conferences in the US and abroad. He is a co-author of Clean Code and Agile In A Flash, and a prolific blogger at both the Industrial Logic blog and Agile Otter blog, as well as having a high-traffic Twitter feed.

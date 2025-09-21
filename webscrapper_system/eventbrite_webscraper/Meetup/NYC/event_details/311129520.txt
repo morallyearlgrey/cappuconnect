@@ -1,0 +1,19 @@
+Daniel Clement Dennett III (1942 – 2024) was an American philosopher and cognitive scientist. His research centered on the philosophy of mind the philosophy of science, and the philosophy of biology, particularly as those fields relate to evolutionary biology and cognitive science. Dennett is a proponent of materialism in the philosophy of mind arguing that mental states, including consciousness, are entirely the result of physical processes in the brain.
+
+For this Meetup we will be extending our philosophy of mind series to include Daniel Dennett’s work, From Bacteria to Back and Back The Evolution of Minds. Dennett writes in a modular style, often revisiting concepts across multiple chapters. So, while each chapter introduces its own theme, they’re part of a larger ecosystem. Consequently, rather than asking the group to read the entire work, I have selected a set of chapters that hopefully form a cohesive whole and give a representation of Dennett’s project.
+We will be discussing
+
+Chapter 1: Before Bacteria and Back (~10 pages)
+This is an intro into Dennett’s central question: how can minds arise from mindless processes?
+
+Chapter 8: Two Strange Inversions of Reasoning (~25 pages)
+Dennett explores two revolutionary ideas – Darwin’s theory of evolution and Turing’s theory of computation – both of which invert traditional reasoning.
+
+Chapter 10: The Origins of Language (~30 pages)
+Here, the evolution of language is considered treating it as a cultural artefact shaped by natural selection.
+
+Chapter 13: Consciousness as an Evolving User-Illusion (~70 pages)
+This is undoubtedly the most provocative part of the reading where Dennett argues that consciousness is not a “thing” but, rather, a “user-illusion”.
+I’ll be using the version from Norton Press (ISBN 978-0-393-35550-5
+
+Hope to see you at the session.

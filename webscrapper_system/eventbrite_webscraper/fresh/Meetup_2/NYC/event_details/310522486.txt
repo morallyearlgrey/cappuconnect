@@ -1,0 +1,11 @@
+Details
+
+We're a group of folks brought together by our shared love of community, coffee, software development and operations (DevOps) in NYC.
+
+Come on by, have a seat, enjoy a nice (hot|cold) cup of (coffee|tea), and chat with some fellow early-risers about the things that we're passionate about: dev+ops, human+ops, leadership, automation, metrics, infrastructure as code, and all the other things that make what we do so fascinating.
+
+We use the lean coffee process (https://www.meetup.com/nyc-kanban/pages/19274429/Running_a_Lean_Coffee) to help facilitate discussion among DevOps enthusiasts, DevOps Engineers, and those interested in learning more about the topic. Everyone is welcome!
+
+Please note that we strictly follow the CoffeeOps Contributor Covenant Code of Conduct (http://bit.ly/2G1fVYI).
+
+Inspired by #CoffeeOps, started in San Francisco by the amazing Jennifer Davis (@sigje).

@@ -1,0 +1,25 @@
+Overview
+Cloud bills often spiral out of control for startups and small businesses — resources are left running, services are over-provisioned, or spend simply isn’t tracked. In fact, more than half of companies say they’re overspending on cloud. The good news? With a few practical strategies, you can cut costs significantly without sacrificing performance.
+
+What You’ll Learn
+
+Cloud basics in plain English – what you really need to know about IaaS, PaaS, and SaaS.
+Where the money goes – why compute usually eats up most of your bill.
+Simple cost-saving wins – turning off unused resources, using reserved pricing, rightsizing.
+Tools & habits that help – from dashboards to “light” FinOps practices.
+Case study inspiration – how companies reduced waste and made cloud spend work for growth.
+
+Who Should Attend
+
+Startup founders and SMB owners running on AWS, Azure, or GCP.
+Operations and tech leads looking to get smarter about spend.
+Professionals preparing for cloud certifications who want real-world applications.
+
+Facilitator
+
+Hubert Dagbo – Entrepreneur, investor, and digital strategy consultant with over a decade of experience across finance, private equity, and technology. Hubert has worked with global companies on digital transformation and brings a clear, business-first perspective on how to manage cloud costs effectively.
+
+Jide Osan – A full-stack engineer with 17 years of experience building AI-powered platforms and scalable solutions. He has developed digital products for startups and Fortune 500 companies like Nike and Safeway and previously served as CTO of an edtech startup that raised over $1M. Jide specializes in creating user-friendly, cutting-edge technology solutions.
+
+Format
+A 45-minute interactive session (with optional extra Q&A) combining insights, case studies, and practical cost-saving strategies for startups and SMBs.

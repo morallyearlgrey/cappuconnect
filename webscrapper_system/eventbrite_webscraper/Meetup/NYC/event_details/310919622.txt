@@ -1,0 +1,10 @@
+## Details
+
+Join PyData NYC at 125 W 25th St (Cockroach Labs) on October 15th at 6:00 pm for a talk night with Jacopo Tagliabue and Ciro Greco from Bauplan. Please sign up with your full official name and bring a government-issued ID.
+🍕 Pizza and drinks sponsored by Bauplan and venue hosted by Cockroach Labs - thank you!
+
+Agenda:
+Git for Data:
+Distributed version control systems - such as Git - unlock software development in multi-player mode: devs can safely work over the same code base, with standard (albeit perhaps not user-friendly!) abstractions for snapshotting, time-travel, and branching. Data folks have rarely been so lucky, as their projects crucially depend on data, whose life-cycle management is often cumbersome and custom. In this talk, we present open formats - such as Apache Iceberg - to practitioners with limited to zero exposure to modern cloud infrastructure. In particular, we show how moving from datasets to tables unlocks a similar multi-player mode when building data pipelines, with equivalent abstractions for snapshotting, time-travel, branching, and a unified backbone for pipelines, data science, and AI use cases.
+
+RSVP required

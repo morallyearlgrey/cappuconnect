@@ -1,0 +1,7 @@
+Details
+
+Go over solving a Data Structures and Algorithms (DSA) problem for practice.
+In this session we might go over the following problems:
+https://leetcode.com/problems/remove-element
+https://leetcode.com/problems/move-zeroes
+https://leetcode.com/problems/sort-colors

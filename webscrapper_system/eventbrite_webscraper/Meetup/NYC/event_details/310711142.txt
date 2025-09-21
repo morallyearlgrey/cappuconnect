@@ -1,0 +1,1 @@
+A deep dive into lesser-known areas of Microsoft Azure and hybrid environments, exploring how they work, how they can be attacked, and the strategies to defend and mitigate risks.

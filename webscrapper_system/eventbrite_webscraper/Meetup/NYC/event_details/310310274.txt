@@ -1,0 +1,14 @@
+Join us for a dynamic journey across the evolving landscape of IT, where real-world challenges meet innovative solutions. In this session, we follow the arc of a multifaceted tech initiative—from its consulting roots in data analytics, through the transformation into a cutting-edge microservices IoT platform with insights and lessons learned.
+Whether you're a developer, architect, business strategist, or just curious about the behind-the-scenes of complex digital solutions, this story brings technical depth and practical relevance.
+
+Agenda Highlights:
+
+🧭 Intro: the begin
+🧠 Modern Application Development and domain knowledge
+🛠️ Technical Deep Dive
+💡 Demo
+🔍 Production Use Cases
+💬 Q&A
+
+Who Should Attend:
+Developers, cloud architects, IT consultants, solution engineers, and anyone interested in bridging analytics, IoT, and modern microservices architecture.

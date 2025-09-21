@@ -1,0 +1,22 @@
+Details
+
+AI agents are transforming enterprise IT by driving automation, decision-making, and intelligent workflows. But with innovation comes new risks and the need for stronger observability and security.
+
+Join our complimentary 40-minute live webinar “Building and Securing AI Agents with Cisco Observability and Security” to explore how to design, deploy, and secure AI agents using Cisco’s advanced infrastructure, unified security stack, and observability platforms.
+
+📅 Date: Tue, September 23, 2025
+⏰ Time: 12:00 PM – 12:40 PM EST
+🔗 Register now for FREE - https://cutt.ly/FrKdx9Us
+
+Discover strategies to build scalable, compliant, and resilient AI-driven systems while ensuring visibility, security, and control across modern IT environments.
+
+This session is perfect for tech professionals across IT, security, data, cloud, and networking who want to understand how AI agents are being operationalized in real-world environments.
+
+What you will learn -
+
+What AI agents are and why they matter for modern businesses
+How to design and deploy them at scale
+Ways to secure AI agents with zero-trust access and real-time threat detection
+How observability tools ensure performance, compliance, and visibility
+
+👉 Reserve your spot and explore how to build and secure AI agents in today’s evolving digital landscape. LINK

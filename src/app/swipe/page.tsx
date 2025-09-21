@@ -1,8 +1,9 @@
-export default function Swipes() {
-  return (
-    <div>
-        
+import { Button } from "@/components/ui/button";
 
+export default function Home() {
+  return (
+    <div className="fixed w-screen h-screen overflow-hidden ">
+        
     </div>
   );
 }

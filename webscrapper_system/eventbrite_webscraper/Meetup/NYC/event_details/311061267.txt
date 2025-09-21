@@ -1,0 +1,11 @@
+Come to our Sep 25 2025 meetup hosted by Incredibuild, with food provided by our host.
+
+Please fill out this form before RSVPing. Registrants who have not filled out the form will not be able to attend and will removed from the RSVP list in the days leading up to the event.
+
+Featured Speaker: Amir Kirsh
+Talk Title: Refactoring C++ Code
+Description
+Writing C++ code is one thing, keeping it clean, readable and maintainable over time is another. In this talk, we'll review the basics of refactoring C++ code, focusing on strategies to improve code clarity, reduce duplication, and make your code easier to maintain. We will also explore how to modernize your code by leveraging new C++ features when relevant. Refactoring code has become quite essential nowadays, as AI starts generating bigger parts of our codebase, requiring, in many cases, rework of our code to enhance clarity, reduce complexity, and improve long-term maintainability. The talk will include a few code examples for discussion. Participants will be encouraged to actively participate in identifying code smells and potentials for meaningful refactoring options.
+
+Speaker Bio
+Amir Kirsh is a C++ lecturer at the Academic College of Tel-Aviv-Yaffo. Previously the Chief Programmer at Comverse, a telecom company with headquarters in NYC. In addition, Amir is also a known speaker at C++ conferences and a co-organizer of the annual Core C++ conference and meetup group.

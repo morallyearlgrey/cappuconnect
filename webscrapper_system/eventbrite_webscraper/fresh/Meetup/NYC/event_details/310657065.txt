@@ -1,0 +1,5 @@
+Details
+
+Welcome to our soldering basics class! This class is for beginners and designed to teach you a few important fundamentals on soldering, an essential skill for anyone interested in electronics or DIY projects. We’ll go over solder types, soldering temperatures, and basic through hole component soldering. You’ll learn techniques and tips on how to properly flow solder into a joint, and how to inspect it to ensure you have a good connection. All of this will be taught on a custom circuit board designed for practicing a variety of different circumstances and techniques, which is yours to take home after the class.
+
+No experience is necessary, and all equipment and tools will be provided for you to use during the class. The class will run around 1.5-2 hours.

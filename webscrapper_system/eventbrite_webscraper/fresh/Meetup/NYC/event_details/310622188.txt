@@ -1,0 +1,27 @@
+We are excited to announce a 3-part AI workshop series designed to provide valuable ML/DS insights and practical knowledge to our growing WiMLDS community. Each session will feature expert presenters and cover distinct aspects of AI, from foundational concepts to advanced applications and career discussions. Join us for one, two, or all three sessions that build upon each other as we end our series with a tech panel of expert women in the field.
+
+Building on our first session, our second workshop, Bootcamp #2: Advanced LLMs & Agentic AI, will be led by industry expert Hari Prasad Renganathan. With over 34,000 followers on LinkedIn, Hari has spoken at numerous events and is an expert in this area.
+
+This session will explore the cutting-edge realm of Agentic AI. Hari will present a custom outline focused on advanced applications and techniques with LLMs. While not required, attendance at Bootcamp #1 will provide a helpful foundation for this session.
+
+How to prepare:
+
+We recommend you bring a computer for a short hands-on portion at the end of the presentation.
+
+Agenda:
+
+6:00 PM - 6:10 PM: Doors Open & Arrival
+6:10 PM - 6:20 PM: Welcome & Intros by WiMLDS and BrainStation
+6:20 PM - 7:20 PM: Presentation
+7:20 PM - 7:35 PM: Q&A
+7:35 PM - 8:00 PM: Networking
+
+This event is hosted by our wonderful partners at BrainStation, and this event will be recorded and shared.
+
+BrainStation is a global leader in digital skills training and workforce transformation, offering certificate courses and bootcamps in disciplines such as Data Science, UX Design, Digital Marketing, and Product Management. In addition to education, BrainStation hosts a wide range of industry events, panel discussions, and thought leadership sessions that connect professionals, hiring partners, and industry leaders. With campuses in major cities and a strong online presence, BrainStation empowers individuals and organizations to thrive in the digital economy.
+
+Stay connected:
+
+WiMLDS NYC LinkedIn
+WiMLDS NYC on X
+Or request to join our Slack (send us a message on Meetup or LinkedIn)

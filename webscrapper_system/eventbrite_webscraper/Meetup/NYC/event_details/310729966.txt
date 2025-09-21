@@ -1,0 +1,32 @@
+Topic: Bridging Lake and Database: The Technology Behind Apache Doris Real-time Queries on Iceberg
+
+Description:
+The convergence of Data Lakes and Databases has become an inevitable trend in modern data infrastructure. While Data Lakes provide open, cost-efficient, and scalable storage, Databases excel in query performance, concurrency, and usability. The key challenge is how to combine the strengths of both worlds to achieve flexible yet high-performance real-time queriesa problem that is attracting growing industry attention.
+
+In this talk, We will deep-dive into how Apache Doris supports real-time queries on Iceberg tables, covering:
+
+The background and industry trend of Data LakeDatabase convergence
+How Apache Doris integrates with Iceberg at the architectural level
+The core techniques behind Doriss real-time query engine: vectorized execution, smart caching and materialized view, etc.
+Typical real-world use cases and performance benchmarks of Doris on Iceberg
+A forward-looking perspective on the evolution of the Data Lakehouse ecosystem
+
+By the end of this session, you will understand how Apache Doris empowers organizations to run low-latency, high-concurrency analytics directly on Data Lakes, and gain insights into the latest trends in data architecture.
+
+Speak with Our Knowledgeable Advisor
+
+Access Our Complimentary Career Guide
+
+Transform Your Career with Us in Just 14 Weeks
+
+Discover More About WeCloudData
+
+---
+
+ABOUT US
+
+WeCloudData is the leading accredited education institute in North America that focuses on Data Science, Data Engineering, DevOps, Artificial Intelligence, and Business Intelligence.
+
+Developed by industry experts, and hiring managers, and highly recognized by our hiring partners,WeCloudDatas learning paths have helped many students make successful transitions into data and DevOps roles that fit their backgrounds and passions.WeCloudData provides a different and more practical teaching methodology, so that students not only learn the technical skills but also acquire the soft skills that will make them stand out in a work environment.
+
+WeCloudData has also partnered with many big companies to help them adopt the latest tech in Data, AI, and DevOps. Visit our website for more information: https://weclouddata.com

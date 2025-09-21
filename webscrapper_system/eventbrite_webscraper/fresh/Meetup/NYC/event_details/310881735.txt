@@ -1,0 +1,25 @@
+Aman Khan has become one of the leading voices in building reliable AI products—from hackathons to production. In this fireside chat, Aman will share how to turn AI experiments into dependable products: systematic testing, guardrails that actually catch issues, and upgrade plans so your app improves as models change.
+
+Aman is the Head of Product at Arize, an AI observability and LLM evaluation startup. He has contributed multiple guest posts on Lenny Rachitsky’s newsletter/podcast and created a Deeplearning.ai course on Evaluating AI Agents with top 10% NPS.
+
+Mingle with the best product people in NYC at the welcoming Fractal Tech Williamsburg space, with free light food and drinks.
+
+~~~~~~~~~~~~~~
+
+Who should attend: Senior PMs on the edge of product leadership, EMs/tech leads partnering with PMs on AI features, founders, and design leaders bringing AI to customer-facing flows.
+
+~~~~~~~~~~~~~~
+
+Agenda
+6:00–6:30 Doors & Networking
+6:30–7:15 Fireside chat with Aman
+7:15–7:30 Audience Q&A
+7:30–8:00 Mingle
+
+~~~~~~~~~~~~~~
+
+Hosted by Dan Storms, former CPO of The Rounds—a sustainable grocery delivery service—and CookUnity—one of the fastest startups to surpass $100m ARR. Dan co-founded the NY Product community in 2016.
+
+~~~~~~~~~~~~~~
+
+Special thanks to Fractal! The Fractal Tech Hub is a meeting place in the heart of Williamsburg for startup founders and engineers to do their most ambitious work. They offer 4000+ square feet of both shared office space and private offices, two kitchens, a communal lounge, and a 5000+ square foot private roof deck.

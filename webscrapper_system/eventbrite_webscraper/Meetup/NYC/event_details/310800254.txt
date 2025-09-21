@@ -1,0 +1,34 @@
+In this meeting series, we're reading through Allen Hatcher's Algebraic Topology book.
+
+https://pi.math.cornell.edu/~hatcher/AT/AT.pdf
+
+There is a lecture series on Youtube from Pierre Albin using this book
+
+https://www.youtube.com/playlist?list=PLpRLWqLFLVTCL15U6N3o35g4uhMSBVA2b
+
+You may find NJ Wildberger's lecture series helpful too
+
+https://www.youtube.com/playlist?list=PL6763F57A61FE6FE8
+
+Gabriel Islambouli's lecture series
+
+https://www.youtube.com/playlist?list=PLevbjS885lNS9Nk8ve13FE5tMdZejsTrE
+
+MIT Lecture Notes on Algebraic Topology
+https://www.ams.org/open-math-notes/omn-view-listing?listingId=110764
+
+Discord https://discord.gg/jMTs5gmVRj
+
+Please read section 49 Comohology Rings of Surfaces in Munkres' Elements Of Algebraic Topology and try exercises 49.3 and 49.4.
+
+Notes can be found at
+
+https://github.com/boygao1992/bookCollection/blob/master/allen-hatcher_algebraic-topology/ch2.svgz
+
+in Stylus Lab http://www.styluslabs.com/
+
+format.
+
+(Browser won't trigger "Save as" dialog when clicking Download button so you need to right click and "Save link as".)
+
+If you've done any exercises or have organized talk on topics related to category theory, feel free to present during the meeting.

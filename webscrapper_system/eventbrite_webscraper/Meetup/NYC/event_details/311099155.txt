@@ -1,0 +1,13 @@
+Join the OWASP NYC Chapter for a NYC Hackfest with a Secure Code Showdown Tournament
+
+Date: Thursday - October 9th 2025
+Where: AWS NYC Office - 7 W 34th St., New York, NY 10001 (near 5th Ave)
+Time: 11:00 am to 4:00 pm
+Lunch: Provided
+Register Required:
+
+https://tinyurl.com/OWASP-Hackfest-Tournament
+
+Come and test your wonderful skill against others in a series of vulnerable code challenges that ask you to identify a problem, locate insecure code, and fix a vulnerability. You don’t need extensive programming knowledge, as this will be a great way to learn the foundations and intermediates of leveraging code that is not only functional but also secure. Players can choose to compete in their preferred software language, including Java Spring, C# MVC, C# WebForms, Go, Ruby on Rails, Python Django & Flask, Scala Play, Node.js, React, and both iOS and Android development languages.
+
+Join industry experts and fellow cybersecurity enthusiasts to share knowledge and experiences in this ever-evolving field. Don't miss this opportunity to network, learn, and stay updated on the latest in application security.

@@ -1,0 +1,60 @@
+## ​Community Hosted n8n Meetup – NYC
+
+​📅 Friday, October 10
+🕕 6:00 PM – 9:00 PM
+📍 LaGuardia Community College, Queens NYC
+​👉 Event Details: https://luma.com/j3b76ibw
+👉 Platform Information: https://n8n.io
+
+***
+
+​What is n8n?
+​n8n is an open-source workflow automation platform that allows you to connect apps, services, and APIs — without writing heavy custom code. It’s designed to help businesses and individuals build automations that are scalable, reliable, and easy to maintain.
+​Common use cases include:
+
+​Business Automation: CRM updates, lead tracking, and email campaigns
+​Data Syncing: Keeping databases and SaaS tools aligned
+​Monitoring & Alerts: Sending alerts when systems fail or thresholds are met
+​ETL & Data Processing: Moving and transforming data between APIs and warehouses
+​Custom AI Pipelines: Building workflows with OpenAI, Hugging Face, ElevenLabs, and more
+
+***
+
+​About the Event
+​This community-hosted meetup brings together automation builders, AI enthusiasts, and professionals who want to share practical experience and learn from each other’s workflows. Expect presentations, live demos, and plenty of networking.
+
+***
+
+​🛠️ Presentations
+
+​Dave Edghill (LinkedIn | Portfolio)
+Multi-Cloud Solutions Architect and founder of MercGen AI. Dave designs automation-first systems that help businesses scale faster, integrating cloud, AI, and workflow automation for real results.
+➡️ Presentation: Dave will set the stage with an overview of automation and AI trends, sharing how businesses are embracing automation-first strategies to unlock efficiency and new revenue opportunities.
+​Robert Breen (LinkedIn | n8n Creator Profile)
+AI Consultant and one of the Top 9 n8n Template Creators. Robert specializes in production-ready automations for API integrations, marketing flows, data pipelines, and AI-powered assistants.
+➡️ Presentation: Robert will showcase n8n community resources (like forums and templates) and run live demos of top-performing templates — showing how to implement them step by step for real-world use cases.
+​Sandeep Patharkar (LinkedIn)
+AI Agent Builder and Technical Account Executive at TrueHorizon AI. Sandeep builds chatbots, voice assistants, and knowledge bots that help small and mid-sized businesses automate lead capture and client engagement.
+➡️ Presentation: Sandeep will share a hands-on case study, walking through how n8n workflows and AI agents can be applied to automate lead management and client engagement, including lessons learned and best practices.
+
+***
+
+​Agenda
+
+​5:30 – 6:00 PM → Check-in & Networking
+​6:00 – 8:00 PM → Community Presentations & Q&A
+​8:00 – 9:00 PM → Social Hour & Pizza
+
+***
+
+​Who Should Attend?
+
+​Developers curious about workflow automation and AI agents
+​Teams looking to integrate automation into their business
+​Students and professionals exploring real-world use cases of n8n
+​Anyone ready to share, learn, and connect with the community
+
+***
+
+​⚡ Space is limited to 100 attendees — please RSVP only if you plan to attend.
+🍕 Pizza and drinks will be provided.

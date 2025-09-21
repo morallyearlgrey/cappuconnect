@@ -1,0 +1,43 @@
+Quality is everyone’s responsibility - and empathy is at the heart of it.
+
+Join us at The Test Tribe’s 4th New York Meetup for an engaging session on how fostering quality ownership and user empathy can help engineering teams deliver exceptional products. Led by Christina Thalayasingam, this session will explore how integrating a collaborative mindset and user-focused thinking into development practices drives better outcomes for both teams and end-users.
+
+Event Details
+
+Date: 1st October 2025 (Wednesday)
+Time: 5:30 PM – 7:30 PM EDT
+Venue: 307 West 38th Street Studio 1401, New York, NY 10018
+Maps: https://maps.app.goo.gl/6ccyPfQPciJgJWrEA
+
+Session: Build Great Products with Quality and Empathy
+
+Speaker: Christina Thalayasingam
+
+Session Overview:
+Too often, testers are portrayed as people who “prove developers wrong,” while quality is seen as someone else’s responsibility. Christina Thalayasingam challenges this mindset, emphasizing that quality and empathy are shared responsibilities across the entire engineering team.
+Drawing from her experience managing an engineering team for Northwestern Mutual’s client website, Christina will share how her team integrates functional and non-functional testing, alongside strong user empathy, to ensure products are not just “done” but genuinely useful and user-friendly.
+
+Attendees will learn how embedding these values into team culture improves both processes and product outcomes, fostering collaboration, continuous improvement, and customer-centric development.
+
+Key Takeaways
+
+Collaborative Approach: Everyone owns product quality
+User-Centric Focus: Empathy drives better product decisions
+Continuous Improvement: Build processes and culture that enable high-quality delivery
+
+About the Speaker
+Christina Thalayasingam is an experienced engineering people manager with over 10 years in the industry. She is the Assistant Director of Engineering Transformation Strategy and Operations, focusing on process standardization, tooling, and overall engineering quality output.
+With a background spanning development, automation testing, project management, and DevOps, Christina has worked with UK consulting firms, government clients, Sysco, and Dassault Systèmes® in clinical trials, and currently manages an engineering team at Northwestern Mutual.
+
+Passionate about testing, she advocates for rigorous quality standards and speaks regularly at conferences and meetups to share insights on building effective, empathetic engineering teams.
+
+Why You Should Attend
+
+Discover how to embed quality ownership across your team
+Learn the impact of user empathy on product outcomes
+
+About the The Test Tribe
+
+The Test Tribe is the world’s largest software testing community, empowering testers globally since 2018. With 400+ events and 120K+ members across 130+ countries, we bring software testers together to learn, grow, and connect through expert-led courses, membership programs, cohorts, and community events.
+
+By RSVPing, you agree to our Terms and Conditions and Privacy Policy and consent to be contacted by The Test Tribe and our event partners.

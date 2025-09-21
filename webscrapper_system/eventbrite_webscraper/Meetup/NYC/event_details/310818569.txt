@@ -1,0 +1,31 @@
+Since the pandemic, we are online only.
+
+This group is for anyone interested in pursuing Machine Learning, Artificial Intelligence and Data Science. All skill levels are welcome. We help organize and support Kaggle challenge teams, Open AI challenges and try to provide career mentoring. Everyone is welcome to attend (even if you are not pursuing a career in AI).
+
+We all have a lot of awesome ideas but we keep procrastinating, need an extra hand or can’t find the right time/motivation to execute. This is a space to be accountable for each other and execute our side projects. The codes and intellectual property of these projects will belong solely to the creators and not ConnectAITogether.
+
+We intend to help you execute your AI or ML specific hobby projects.
+
+We are dedicated to easing your learning and also facilitate your job search and career building. We intend to bring hiring managers and passionate job seekers a step closer and understand each others’ needs better.
+
+Our mission is to facilitate an understanding of AI as an interdisciplinary field and acknowledgement that advancement in this field requires an understanding of Mathematics, Neuroscience, Computer science, Social Sciences and Humanities. We are driven to reaching the Third Wave of Artificial Intelligence and learn more and more.
+
+Not a tutorial session and will not be led by anyone.
+
+First Time Checklist (optional):
+
+Know python or start learning it.
+Suggest additions to this list.
+
+More Settled In:
+
+Provide moral support and company.
+Start playing around in another Kaggle competition and encourage others to join you.
+Swap notes on good courses, academic programs, links for learning.
+Apply code used in past Kaggle competitions on a custom dataset that interests you.
+Meet people working advanced side projects.
+Already professionally established and learning something new.
+
+Some people will come and go, as they just want to see what all this "ai" buzz is about. There are also a handful of usual suspects, who are studying and working side projects - come and say "hi"!
+
+This Meetup has a strong focus on helping beginners. When none of the above is happening, we have a weekly discussion about anything tangentially related to data science.

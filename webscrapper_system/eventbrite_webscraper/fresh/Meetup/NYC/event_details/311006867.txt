@@ -1,0 +1,24 @@
+Join us on Wednesday, September 24th at Materialize. Doors open at 6:30 p.m. to give attendees plenty of time to grab pizza and socialize, and the talks begin at 7:30 p.m.
+
+Talk 1 — Nicolas Posner - MS Data Science at University of Chicago - Rust/Python Interop
+
+Beyond systems programming and other 'foundational software' use cases where Rust excels, there is increasing interest in embedding Rust into codebases primarily written in other languages: not a full rewrite, but a surgical injection.
+
+One of the main targets for this treatment is Python, one of the most widely used programming languages globally with a long history of interoperation with C and C++. This talk examines the specific use case of Rust in scientific Python codebases, evaluates it against other options on both technical and organizational grounds, and provides hands-on examples of the benefits from augmenting existing Python codebases with Rust.
+
+Talk 2 — Richard Hart - Principal Software Engineer at Antithesis
+
+Writing a Database that folds and bends time in Rust... from Design to Production in 9 months.
+
+Brief overview of Pangolin and what types of queries it supports (5 min)
+Overview of Pangolin's MVCC implementation (10 min)
+Pros of Rust for this problem-space (5 min)
+Cons of Rust for this problem-space (5 min)
+Synergies of Rust (formal-methods) and simulation testing (5 min)
+Enablement along the way for new developers moving to Rust.
+
+Lawrence Harvey is Rust NYC's official recruitment partner, with Ross providing support as a co-organizer and financial support.
+
+Huge thanks to Antithesis who will be covering the cost of food and drink for the evening!
+
+The space is generously sponsored by our longstanding partner Materialize.

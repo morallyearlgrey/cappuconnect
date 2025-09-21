@@ -1,0 +1,13 @@
+Details
+
+George Lively will be leading the LitheSpeed Livestream on Thursday, October 2nd at 12pm ET.
+
+Topic:
+Platform Engineering is transforming the way enterprises deliver value—providing internal platforms with self-service capabilities, automation, and built-in governance that enable teams to deliver faster and more securely. Yet, its success depends on more than just technology; it requires clear alignment with business priorities and a way to measure its impact.
+
+In this session, we’ll explore how to approach Platform Engineering from a Value Management Office (VMO) perspective—treating the platform as a product with its own stakeholders, value streams, and success metrics. We’ll discuss quantifiable measures such as reducing onboarding friction for customers, increasing delivery velocity and scalability, improving predictability, providing differentiators over current solutions, and ensuring foundational capabilities meet or exceed existing alternatives. These metrics not only inform feature prioritization but also demonstrate clear business value.
+
+You’ll leave with a practical framework for engaging with Platform Engineering initiatives, identifying and tracking the right metrics, and demonstrating how platforms accelerate organizational value delivery.
+
+About our Speaker:
+George, LitheSpeed's VP of Emerging Technologies, has two decades of experience in Agile Software Development, concentrating heavily on Extreme Programming (XP), Scrum, SAFe, TDD, CI/CD, and DevOps. He has managed, mentored, coached, and trained Agile teams, serving in many capacities such as TechnicalLead, Scrum Master, Agile Coach & Trainer with a focus on developing people and improving how teams work together using agile methods to achieve desired results. As a software craftsman and adept practitioner of agile development practices, George has helped organizations and teams realize business value quickly and with high quality, and a high degree of customer satisfaction.

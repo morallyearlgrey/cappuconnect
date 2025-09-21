@@ -1,0 +1,43 @@
+Whether you're actively pursuing certification or looking to deepen your understanding of building, deploying, and managing robust ML models on Google Cloud Platform, this event is for you.
+
+We'll cover key concepts and explore the tools and services used by professional ML Engineers, including data processing, model development, MLOps, and more, all within the Google Cloud ecosystem.
+
+This session will provide a valuable opportunity to:
+
+Gain insights into the Google Cloud Professional Machine Learning Engineer certification exam domains.
+
+Review core machine learning concepts and their application on GCP.
+
+Understand the role of a Professional Machine Learning Engineer.
+
+* Architect low-code AI solutions
+
+*Collaborate within and across teams to manage data and models
+
+*Scale prototypes into ML models
+
+*Serve and scale models
+
+*Automate and orchestrate ML pipelines
+
+*Monitor AI solutions
+
+Connect with fellow developers and ML enthusiasts in the Bethesda area.
+
+Come ready to learn, discuss, and take a significant step in your Machine Learning journey with Google Cloud!
+
+Target Audience: Developers, Data Scientists, and anyone interested in building and deploying Machine Learning solutions on Google Cloud.
+
+Agenda
+
+---
+
+Speaker
+
+Elizabeth Leonard - Olive Consulting (CEO)
+
+Hosted By
+
+Elizabeth Leonard, GDG Organizer
+
+Complete your event RSVP here: https://gdg.community.dev/events/details/google-gdg-bethesda-presents-professional-machine-learning-engineer-5-2025-09-22/.

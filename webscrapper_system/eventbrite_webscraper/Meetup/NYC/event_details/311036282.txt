@@ -1,0 +1,16 @@
+What if your existing PowerShell scripts could instantly become AI tools?
+In this session, I’ll show how to extend AI agents with your own functions. Using my PSToolboxAI module, any PowerShell function can be registered as an AI-callable tool—no custom schemas or complex setup. Just write the function, drop it in a folder, and the AI can call it on demand.
+
+We’ll cover:
+
+How the toolbox works (inspired by Sourcegraph’s Amp).
+Registering and surfacing your own PowerShell functions to AI.
+Swapping entire toolsets just by flipping an environment variable.
+Real demos: from simple utilities to building apps live.
+
+Whether you’re automating ops tasks, managing data, or experimenting with AI agents, this approach bridges what you already know in PowerShell with the new world of AI orchestration.
+
+About Doug
+Doug Finke is a 16-time Microsoft MVP and creator of the PowerShell AI module — chat in your console, NLP in your scripts — plus other popular tools like PowerShell + Excel integration.
+
+With 40+ years in tech (from punch cards to AI), Doug is now focused on the next evolution: building autonomous tools and showing others how to think and build with AI — not just code around it.

@@ -1,0 +1,3 @@
+Note: You must be RSVP'd (not on the waitlist) for the main meetup event to attend this session.
+
+This workshop is a beginner-friendly crash course on the Model Context Protocol (MCP). We’ll walk through the basics of how MCP works, why it matters, and how to start building with it using TypeScript. By the end, you’ll have a clear foundation and practical steps to continue exploring MCP on your own.

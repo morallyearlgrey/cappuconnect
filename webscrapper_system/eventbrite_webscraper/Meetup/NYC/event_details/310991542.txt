@@ -1,0 +1,18 @@
+As enterprises adopt GenAI, the challenge isn’t just accessing powerful LLMs — it’s building scalable, reliable, and production-ready applications that deliver real business value. In this session, we’ll introduce FloTorch, a framework designed to simplify development by enabling evaluation, observability, and guardrails across different model providers.
+
+We’ll begin with an overview of the core challenges in deploying AI systems at scale — from model selection and evaluation to monitoring performance and ensuring responsible behavior. Then we’ll show how FloTorch provides a unified workflow to integrate LLMs from multiple providers, helping teams experiment, benchmark, and operationalize models without vendor lock-in.
+
+A live demo will walk through building a scalable application with FloTorch, highlighting how developers can add monitoring, safety checks, and structured evaluation into their pipelines. We’ll also explore strategies for ensuring trust, compliance, and efficiency when deploying AI into customer-facing workflows.
+
+#### What We Will Cover:
+
+Key challenges in deploying GenAI at scale
+How FloTorch enables interoperability across multiple providers
+Building evaluation pipelines to measure model quality and performance
+Adding observability and guardrails to ensure safe, reliable outputs
+Strategies for scaling applications from prototype to production
+Real-world use cases and business applications powered by FloTorch
+
+#### Hands-On Insights:
+
+Through live demos and interactive Q&A, participants will learn how to use FloTorch to rapidly prototype, evaluate, and operationalize GenAI solutions — with built-in tools for observability, guardrails, and scalability.

@@ -1,0 +1,9 @@
+Details
+
+Welcome to our Grab a Byte lunch series! This month's topic is about the Python package manager uv.
+
+uv can set you free of your environment and dependency issues in python. Setting virtual environments, managing package dependencies and installing/ loading them across systems was never this easier.
+
+For R lovers stuck with figuring python code, think of a version of combination of pak::pak() , here::here() and more.
+
+Join us every month, typically we meet the third Friday of the month at noon. We take turns sharing something Python-related and of interest to our community. We're always looking for presenters! So if you have a cool project or tool you have been using, please let us know.

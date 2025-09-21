@@ -1,0 +1,14 @@
+Join up for an opportunity to work together on optimizing our sites.
+
+Have a site you'd like us to analyze? Add it here - https://bit.ly/meet4speed-submit
+
+You can benefit even if you can't edit your site right now - we will be happy to share the knowledge. We'll all learn how to see what's slow and how to make it fast!
+
+Here is what you can learn:
+
+Identify optimization opportunities using WebPageTest and Chrome DevTools
+Become a master in reading the network waterfall.
+Understand the most of the performance flame chart.
+Learn the latest trends in measuring site speed.
+
+To be able to attend our events, you will need to show your ID at the security desk. Please make sure to provide your full name if your name on Meetup platform doesn't match your ID.

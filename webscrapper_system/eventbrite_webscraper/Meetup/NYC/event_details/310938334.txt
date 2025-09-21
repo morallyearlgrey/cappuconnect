@@ -1,0 +1,19 @@
+Sign up through Luma
+
+Everyone talks about Infrastructure as Code as if it’s the solved foundation of modern engineering. The reality? Most teams are stuck in endless scanning, alert fatigue, and ticket purgatory. IaC was supposed to speed you up, but in 2025, it slows more teams down than it helps.
+
+At this meetup, we’re bringing the controversy to the table:
+
+Is IaC the biggest bottleneck in platform engineering today?
+Do “golden paths” actually work, or are they just governance theater?
+Is AI fixing misconfigurations… or creating bigger ones?
+
+Expect blunt takes, real-world stories, and zero sugarcoating. Whether you think IaC is the future or a dead weight, come ready to debate.
+
+Why join?
+Because platform engineering isn’t about buzzwords. It’s about making hard calls. You’ll walk away knowing where your team really sits in the IaC maturity journey (👉🏻 most orgs never make it past Level 2), and what radical moves can actually break you out of the cycle.
+
+🍸 Agenda
+5:00 – 5:30 pm | Welcome + networking
+5:30 – 6:30 pm | Panel + audience debate: IaC is broken - prove us wrong
+6:30 – 7:00 pm | Networking, war stories, and refreshments
