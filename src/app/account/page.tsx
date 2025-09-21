@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 import Image from "next/image";
 
 interface UserProfile {
@@ -17,6 +18,16 @@ interface UserProfile {
   industry?: string;
   major?: string;
   experience?: number; // years of experience
+}
+
+// Extended session type to include user id
+interface ExtendedSession extends Session {
+  user: {
+    id?: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
 }
 
 const AccountPage = () => {
@@ -34,7 +45,7 @@ const AccountPage = () => {
       }
 
       // Type assertion to handle NextAuth session types
-      const userSession = session as any;
+      const userSession = session as ExtendedSession;
       if (!userSession.user) {
         setLoading(false);
         return;
@@ -57,10 +68,15 @@ const AccountPage = () => {
     fetchProfile();
   }, [isLoggedIn, session]);
 
+  // Helper function to safely get user image
+  const getUserImage = (sessionData: typeof session): string => {
+    return (sessionData as ExtendedSession)?.user?.image || "/caffeine.jpeg";
+  };
+
   if (!isLoggedIn) {
     return (
       <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
-        <Navbar isLoggedIn={isLoggedIn} photo={(session as any)?.user?.image || "/caffeine.jpeg"} />
+        <Navbar isLoggedIn={isLoggedIn} photo={getUserImage(session)} />
         
         <div className="inset-0 fixed bg-[var(--brown)] -z-10">
           <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
@@ -81,7 +97,7 @@ const AccountPage = () => {
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
-        <Navbar isLoggedIn={isLoggedIn} photo={(session as any)?.user?.image || "/caffeine.jpeg"} />
+        <Navbar isLoggedIn={isLoggedIn} photo={getUserImage(session)} />
         
         <div className="inset-0 fixed bg-[var(--brown)] -z-10">
           <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />
@@ -101,7 +117,7 @@ const AccountPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden fixed">
-      <Navbar isLoggedIn={isLoggedIn} photo={(session as any)?.user?.image || "/caffeine.jpeg"} />
+      <Navbar isLoggedIn={isLoggedIn} photo={getUserImage(session)} />
 
       <div className="inset-0 fixed bg-[var(--brown)] -z-10">
         <Image src="/caffeine.jpeg" alt="photo" fill className="object-cover opacity-30 -z-11" priority />

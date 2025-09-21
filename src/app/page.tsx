@@ -18,17 +18,51 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
+interface CarouselItemType {
+  feature: string;
+  desc: string;
+  photo: string;
+}
+
+interface EventType {
+  _id: string;
+  name: string;
+  time: string;
+  host: string;
+  address?: string;
+  cleaned_url: string;
+  image_url?: string;
+  map_url?: string;
+  tags: string[];
+  attendees: string[];
+}
+
+interface StatsType {
+  users: number;
+  events: number;
+  attendees: number;
+}
+
 export default function HomePage() {
   const { data: session, status } = useSession();
-  const isLoggedIn = status === "authenticated"; 
+  const isLoggedIn = status === "authenticated";
 
-  const carouselRef = useRef(null);
-  const carouselList = [
-    { feature: "DISCOVER", desc:"Brew your network by swiping through professionals with similar backgrounds, curated by our vector cosine similarity algorithm.", photo: "/discovercarousel.png" },
-    { feature: "NETWORK", desc:"Stir through curated upcoming events, where you can sign up and join your connections in attending what everyone’s excited about.", photo: "/networkcarousel.png" },
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const carouselList: CarouselItemType[] = [
+    {
+      feature: "DISCOVER",
+      desc: "Brew your network by swiping through professionals with similar backgrounds, curated by our vector cosine similarity algorithm.",
+      photo: "/discovercarousel.png",
+    },
+    {
+      feature: "NETWORK",
+      desc: "Stir through curated upcoming events, where you can sign up and join your connections in attending what everyone’s excited about.",
+      photo: "/networkcarousel.png",
+    },
   ];
 
-  const [stats, setStats] = useState({ users: 0, events: 0, attendees: 0 });
+  const [stats, setStats] = useState<StatsType>({ users: 0, events: 0, attendees: 0 });
 
   // Fetch stats from API
   useEffect(() => {
@@ -41,7 +75,7 @@ export default function HomePage() {
         const eventsData = await eventsRes.json();
 
         const totalAttendees = eventsData.events.reduce(
-          (sum: number, event: any) => sum + (event.attendees?.length || 0),
+          (sum: number, event: EventType) => sum + (event.attendees?.length || 0),
           0
         );
 
