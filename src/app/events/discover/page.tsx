@@ -5,6 +5,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
+// temp variable to assume we are the user
+const kai_temp_id = "68cf6b837edad86a28bb857f";
+
 // Shape of a user object as returned by /api/users (no password here).
 // This is grabbed from the specific system to get users without any filters
 // we need to repalce this going forward with the priority system
@@ -134,8 +137,20 @@ export default function DiscoverPage() {
 
       // (Optional) report swipe to your API
       // this is where we need to add to our current system
+
       // fetch("/api/swipes", { method: "POST", headers: { "Content-Type": "application/json" },
       //   body: JSON.stringify({ targetUserId: current?._id, dir }) });
+
+      // api call to add to our list:
+      if (dir === "right" && current?._id) {
+      // fire-and-forget; optionally await and handle 'mutual' response
+        fetch("/api/match", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ targetUserId: current._id }),
+        }).catch(() => {});
+    }
+
 
       // Move to next card, reset animation state
       setIdx(i => i + 1);
