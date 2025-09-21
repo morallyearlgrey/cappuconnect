@@ -4,6 +4,9 @@
 // React hooks + Framer Motion for swipe physics/animation.
 import { useEffect, useMemo, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { Navbar } from "@/components/navbar";
+import { useSession } from "next-auth/react";
+
 
 // Shape of a user object as returned by /api/users (no password here).
 // This is grabbed from the specific system to get users without any filters
@@ -71,6 +74,9 @@ export default function DiscoverPage() {
   // Loading/error states for nice UX
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+
+  const { data: session, status } = useSession();
+      const isLoggedIn = status === "authenticated"; 
 
   // Initial load: fetch users, validate, normalize a few fields, then store.
   useEffect(() => {
@@ -192,8 +198,12 @@ export default function DiscoverPage() {
 
   // Main swipe UI
   return (
-    <main className="p-4">
-      <div className="w-full max-w-lg mx-auto">
+    <main className="">
+
+                <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"}></Navbar>
+
+
+      <div className="w-full max-w-lg mx-auto p-4">
         <div className="relative h-[70vh]">
           {/* Subtle “stacked” preview of the next card */}
           {next && (
