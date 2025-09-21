@@ -1,5 +1,5 @@
 // Route handlers for a Next.js (App Router) API route that talks to MongoDB.
-// Exposes GET (list users), POST (create user), PUT (update user), and a LOGIN helper.
+// Exposes GET (list users), POST (create user), PUT (update user).
 
 // These types help with type-safe request/response handling in Next.js App Router.
 import { NextRequest, NextResponse } from "next/server";
@@ -32,7 +32,7 @@ async function getDB() {
 }
 
 /**
- * GET /api/<route>
+ * GET /api/users
  * - Fetch all users, but exclude the password field.
  * - 200 with JSON list on success, 500 on error.
  */
@@ -51,13 +51,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(users, { status: 200 });
   } catch (err) {
     console.error("GET users error:", err);
-    // Return a generic error (don’t leak internals); status 500.
+    // Return a generic error (don't leak internals); status 500.
     return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
   }
 }
 
 /**
- * POST /api/<route>
+ * POST /api/users
  * - Create a new user document.
  * - Validates required fields.
  * - Enforces unique email (by checking first; ideally also add a unique index).
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * PUT /api/<route>
+ * PUT /api/users
  * - Update user fields by userId (Mongo _id).
  * - If `password` is included, it is re-hashed before saving.
  * - Always updates `updatedAt`.
@@ -161,7 +161,7 @@ export async function PUT(req: NextRequest) {
         { returnDocument: "after" }
       );
 
-    // If no match, the user wasn’t found.
+    // If no match, the user wasn't found.
     if (!result?.value) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

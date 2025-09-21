@@ -5,8 +5,7 @@ const options = {};
 
 if (!MONGODB_URI) throw new Error("oh nooo");
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
+let client: MongoClient; // only used inside block
 
 declare global {
   var _mongoClientPromise: Promise<MongoClient>;
@@ -17,6 +16,6 @@ if (!global._mongoClientPromise) {
   global._mongoClientPromise = client.connect();
 }
 
-clientPromise = global._mongoClientPromise;
+const clientPromise = global._mongoClientPromise;
 
 export default clientPromise;
