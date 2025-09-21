@@ -1,0 +1,77 @@
+// run in the mongoSH terminal in mongoCompass
+// fixes the tag system by doing the regex issues 
+
+// === SETTINGS ===
+const DB_NAME = "cappuconnect";
+const COLL    = "events";
+const BATCH_SIZE = 1000;
+const DRY_RUN = false; // set to true to preview updates without writing
+
+// === HELPERS ===
+function slugify(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function toSlugArrayFromPipes(input) {
+  if (typeof input !== "string") return [];
+  return input
+    .split("|")
+    .map(t => t.trim())
+    .filter(Boolean)
+    .map(slugify)
+    .filter((t, i, arr) => arr.indexOf(t) === i);
+}
+
+// === MAIN ===
+use(DB_NAME);
+
+const coll = db.getCollection(COLL);
+
+// Only documents where tags is a string
+const cursor = coll.find(
+  { tags: { $type: "string" } },
+  { _id: 1, tags: 1 }
+);
+
+let ops = [];
+let seen = 0;
+let updated = 0;
+
+while (cursor.hasNext()) {
+  const doc = cursor.next();
+  seen++;
+
+  const newTags = toSlugArrayFromPipes(doc.tags);
+
+  if (DRY_RUN) {
+    printjson({ _id: doc._id, before: doc.tags, after: newTags });
+  } else {
+    ops.push({
+      updateOne: {
+        filter: { _id: doc._id },
+        update: { $set: { tags_raw: doc.tags, tags: newTags } }
+      }
+    });
+    if (ops.length >= BATCH_SIZE) {
+      const res = coll.bulkWrite(ops, { ordered: false });
+      updated += res.modifiedCount || 0;
+      print(`Updated ${updated} documents so far...`);
+      ops = [];
+    }
+  }
+}
+
+// Flush remainder
+if (!DRY_RUN && ops.length) {
+  const res = coll.bulkWrite(ops, { ordered: false });
+  updated += res.modifiedCount || 0;
+}
+
+print(`Scanned ${seen} docs. ${DRY_RUN ? "DRY RUN (no writes)." : `Updated ${updated} docs.`}`);
+
+// Optional: create an index to speed up overlap queries
+// coll.createIndex({ tags: 1 });

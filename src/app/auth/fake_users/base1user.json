@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "68cf43d576605996e6594c5b"
+  },
+  "firstname": "Kai",
+  "lastname": "Sprunger",
+  "linkedin": "https://www.linkedin.com/in/kaisprunger",
+  "email": "kaisprunger@gmail.com",
+  "password": "$2b$12$jHDWrBR/eGV/ldZuO22LcutY7QqYtGGQ2hVIUxe43g24iJ4xExGXq",
+  "bio": "Hello, I am an undergraduate student majoring in Computer Science at the University of Central Florida's Burnett Honors College! Passionate about computer science and digital media, I'm looking forward to pursuing a career in full-stack development.",
+  "state": "Florida",
+  "school": "University of Central Florida",
+  "major": "Computer Science",
+  "experienceyears": "1",
+  "industry": "Technology & IT",
+  "skills": [
+    "Software Development",
+    "AI & Machine Learning",
+    "Data Analysis"
+  ],
+  "resume": "https://kaisprunger.com/Sprunger_Kai_Resume.pdf",
+  "photo": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fkaisprunger&psig=AOvVaw3ZajD8D-L8OWO495pYcMrI&ust=1758500098267000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCMiwgMDJ6I8DFQAAAAAdAAAAABAE",
+  "createdAt": {
+    "$date": "2025-09-21T00:16:21.565Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-21T00:16:21.565Z"
+  }
+},
+
+{
+      "_id": {
+    "$oid": "68cf43d576605996e6594c5b"
+  },
+    "bio": "Mid-level software engineer with a passion for creating intuitive user experiences. Specializing in the MERN stack and cloud deployment.",
+    "createdAt": {
+    "$date": "2025-09-21T00:16:21.565Z"
+	},
+    "email": "jane.doe@example.com",
+    "experienceyears": "5",
+    "firstname": "Jane",
+    "industry": "Software Development",
+    "lastname": "Doe",
+    "linkedin": "https://www.linkedin.com/in/janedoe-example",
+    "major": "Computer Science",
+    "password": "$2b$10$fakesaltandverylonghashstring123",
+    "photo": "https://s3.amazonaws.com/myapp-profiles/jane_doe_photo.jpg",
+    "resume": "https://s3.amazonaws.com/myapp-resumes/jane_doe_resume.pdf",
+    "school": "University of Central Florida",
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "AWS",
+      "REST APIs"
+    ],
+    "state": "FL",
+    "updatedAt": {
+    "$date": "2025-09-21T00:16:21.565Z"
+  }
+  }
+
+
+]
