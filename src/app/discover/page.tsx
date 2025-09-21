@@ -53,6 +53,7 @@ type UserDTO = {
   school: string;
   skills: string[];
   state: string;
+  commonSkills: string[];
 };
 
 // Type guard: unknown → UserDTO
@@ -113,7 +114,7 @@ export default function DiscoverPage() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const raw = (await res.json()) as unknown[];
-        const raw = (await res.json()) as unknown[];
+        //const raw = (await res.json()) as unknown[];
         const clean = (Array.isArray(raw) ? raw : [])
           .filter(isValidMatch)
           .map(u => ({
@@ -323,7 +324,7 @@ export default function DiscoverPage() {
               <div className="h-1/3 p-4 flex flex-col gap-3">
                 <p className="text-sm text-gray-700 line-clamp-3">{current.bio}</p>
                 <div className="flex flex-wrap gap-2">
-                  {current.skills.slice(0, 6).map(skill => (
+                  {current.commonSkills.slice(0, 6).map(skill => (
                     <span
                       key={skill}
                       className="text-xs bg-gray-100 border border-gray-200 px-2 py-1 rounded-full"
