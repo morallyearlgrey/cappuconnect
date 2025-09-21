@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
-
+import EventCard from "@/components/ui/eventcard";
 
 const NetworkPage = () => {
   const [activeTab, setActiveTab] = useState('NETWORK');
@@ -92,12 +92,12 @@ const NetworkPage = () => {
       {/* Main Content */}
       <div className="flex h-[calc(100vh-100px)]">
         {/* People Section */}
-        <div className="w-1/3 bg-slate-400 p-6">
-          <h2 className="text-2xl font-bold text-white mb-6">PEOPLE</h2>
+        <div className="w-1/3 bg-[#768CA3] p-6">
+          <h2 className="text-2xl font-bold text-[#25344F] mb-6">PEOPLE</h2>
           <div className="space-y-4">
             {people.map((person) => (
-              <div key={person.id} className="flex items-center space-x-4 bg-white bg-opacity-10 rounded-lg p-3 hover:bg-opacity-20 transition-all cursor-pointer">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-300">
+              <div key={person.id} className="flex items-center space-x-4 bg-white bg-opacity-30 rounded-lg p-3 hover:bg-opacity-40 transition-all cursor-pointer">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-[#768CA3]">
                   <img 
                     src={person.image} 
                     alt={person.name}
@@ -105,8 +105,8 @@ const NetworkPage = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold text-sm">{person.name}</h3>
-                  <p className="text-blue-200 text-xs">{person.title}</p>
+                  <h3 className="text-[#25344F] font-semibold text-sm">{person.name}</h3>
+                  <p className="text-[#25344F] text-xs">{person.title}</p>
                 </div>
               </div>
             ))}
@@ -114,51 +114,24 @@ const NetworkPage = () => {
         </div>
 
         {/* Events Section */}
-        <div className="w-2/3 bg-white p-6 overflow-y-auto">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">EVENTS</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {events.map((event) => (
-              <div key={event.id} className="bg-amber-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow aspect-square flex flex-col">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-bold text-gray-800 text-sm">{event.title}</h3>
-                  <div className="w-16 h-12 bg-gray-300 rounded overflow-hidden ml-2">
-                    <img 
-                      src={event.image} 
-                      alt="Event"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-                
-                <div className="text-right text-xs text-gray-600 mb-3">
-                  <p>{event.location}</p>
-                  <p>{event.date}</p>
-                </div>
-
-                <p className="text-gray-700 text-xs mb-4 leading-relaxed flex-1">
-                  {event.description}
-                </p>
-
-                <div className="flex flex-wrap gap-1 mt-auto">
-                  {event.tags.map((tag, index) => (
-                    <span 
-                      key={index}
-                      className={`px-2 py-1 rounded text-xs font-medium ${
-                        tag === 'SQL' || tag === 'JavaScript' 
-                          ? 'bg-blue-400 text-white' 
-                          : 'bg-amber-700 text-white'
-                      }`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+        <div className="w-2/3 bg-[#F7F7F5] p-6 overflow-y-auto">
+         <h2 className="text-2xl font-bold text-[#25344F] mb-6">EVENTS</h2>
+         <div className="grid grid-cols-2 gap-4">
+          {events.map((event) => (
+            <EventCard
+                key={event.id}
+                title={event.title}
+                location={event.location}
+                date={event.date}
+                description={event.description}
+                image={event.image}
+                tags={event.tags}
+              />
             ))}
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 
