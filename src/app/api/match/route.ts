@@ -9,6 +9,7 @@ declare module "next-auth" {
     id: string;
   }
 }
+
 declare module "next-auth/jwt" {
   interface JWT {
     id?: string;
@@ -19,10 +20,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
-import { Db, ObjectId } from "mongodb";
+import { Db, ObjectId, UpdateFilter } from "mongodb";
 import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
-// ✅ Add a type for your collection
+// ✅ Proper type definition for your User document
 interface User {
   _id: ObjectId;
   matched: ObjectId[];
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing targetUserId" }, { status: 400 });
     }
 
-   console.error("match:", session.user.id, "->", targetUserId);
+    console.error("match:", session.user.id, "->", targetUserId);
 
     const viewerId = new ObjectId(session.user.id);
     const targetId = new ObjectId(String(targetUserId));
@@ -53,8 +54,8 @@ export async function POST(req: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db(DB_NAME);
-    // ✅ Typed collection
-    const users = db.collection(USERS_COLL);
+    // ✅ Properly typed collection
+    const users = db.collection<User>(USERS_COLL);
 
     // Ensure target exists
     const targetExists = await users.findOne({ _id: targetId }, { projection: { _id: 1 } });
@@ -62,17 +63,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Target user not found" }, { status: 404 });
     }
 
-    // ✅ TS-safe update
-    await users.updateOne(
-      { _id: viewerId },
-      {
-        $addToSet: { matched: targetId },
-        $pull: { passed: targetId }, // no error now
-        $set: { updatedAt: new Date() },
-      }
-    );
+    // ✅ Type-safe update with proper typing
+    const updateQuery: UpdateFilter<User> = {
+      $addToSet: { matched: targetId },
+      $pull: { passed: targetId },
+      $set: { updatedAt: new Date() },
+    };
 
-    // Check mutual
+    await users.updateOne({ _id: viewerId }, updateQuery);
+
+    // Check mutual match
     const mutual = !!(await users.findOne(
       { _id: targetId, matched: viewerId },
       { projection: { _id: 1 } }

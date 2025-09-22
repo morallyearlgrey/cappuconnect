@@ -30,6 +30,40 @@ function isValidMatch(x: any): x is MatchDTO {
   return x && typeof x.id === "string" && typeof x.firstname === "string" && typeof x.lastname === "string";
 }
 
+// Total number of random photos in public/images_dir (user_0002.jpg to user_0100.jpg)
+const TOTAL_RANDOM_PHOTOS = 99; // user_0002 to user_0100 = 99 photos
+
+// Function to get a consistent random photo for a user
+function getRandomPhotoForUser(userId: string): string {
+  // Use userId to generate a consistent hash so the same user always gets the same random photo
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) {
+    const char = userId.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  const photoNumber = (Math.abs(hash) % TOTAL_RANDOM_PHOTOS) + 2; // Start from 2 (user_0002)
+  const paddedNumber = photoNumber.toString().padStart(4, '0'); // Pad to 4 digits
+  return `/images_dir/user_${paddedNumber}.jpg`; // e.g., user_0002.jpg, user_0099.jpg, user_0100.jpg
+}
+
+// Function to check if a photo URL is valid/accessible
+function isValidPhotoUrl(url: string): boolean {
+  if (!url || url.trim() === "") return false;
+  
+  // Check for common placeholder or invalid URLs
+  const invalidPatterns = [
+    "placeholder.jpg",
+    "placeholder.png", 
+    "Image not found",
+    "undefined",
+    "null"
+  ];
+  
+  const lowerUrl = url.toLowerCase();
+  return !invalidPatterns.some(pattern => lowerUrl.includes(pattern.toLowerCase()));
+}
+
 export default function DiscoverPage() {
   const [users, setUsers] = useState<MatchDTO[]>([]);
   const [idx, setIdx] = useState(0);
@@ -122,6 +156,14 @@ export default function DiscoverPage() {
   const resetDeck = () => setIdx(0);
   const canSwipe = useMemo(() => users.length > 0 && idx < users.length, [users.length, idx]);
 
+  // Get the appropriate photo URL for the current user
+  const getPhotoForUser = (user: MatchDTO): string => {
+    if (user.photo && isValidPhotoUrl(user.photo)) {
+      return user.photo;
+    }
+    return getRandomPhotoForUser(user.id);
+  };
+
   if (loading) {
     return (
       <main className="p-6 min-h-[60vh] grid place-items-center text-gray-600">
@@ -192,11 +234,12 @@ export default function DiscoverPage() {
             >
               <div className="h-2/3 bg-gray-100 relative">
                 <img
-                  src={current.photo || "/placeholder.jpg"}
+                  src={getPhotoForUser(current)}
                   alt={`${current.firstname} ${current.lastname}`}
                   className="h-full w-full object-cover"
                   onError={e => {
-                    (e.currentTarget as HTMLImageElement).src = "/placeholder.jpg";
+                    // If even the random photo fails, fall back to a default
+                    (e.currentTarget as HTMLImageElement).src = "/caffeine.jpeg";
                   }}
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">

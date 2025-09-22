@@ -1,7 +1,7 @@
 // src/components/eventcard.tsx
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 interface EventCardProps {
@@ -22,18 +22,8 @@ export const EventCard = ({
     attendees
 }: EventCardProps) => {
     
-  const [imageError, setImageError] = useState(false);
-
-  // Determine which image to use
-  const getImageSrc = () => {
-    if (imageError || !image_url || image_url === "Image not found") {
-      return "/caffeine.jpeg";
-    }
-    return image_url;
-  };
-
-  const handleImageError = () => {
-    setImageError(true);
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = "/caffeine.jpeg";
   };
 
   return (
@@ -42,14 +32,12 @@ export const EventCard = ({
         <div className="relative w-full h-48">
           <Image
             className="w-full h-full object-cover"
-            src={getImageSrc()}
+            src={image_url && image_url !== "Image not found" ? image_url : "/caffeine.jpeg"} 
             alt={name}
             width={400}
             height={200}
             onError={handleImageError}
             priority={false}
-            // Add unoptimized prop to bypass Next.js image optimization for external URLs
-            unoptimized={!imageError && !!image_url && !image_url.startsWith('/')}
           />
         </div>
         
