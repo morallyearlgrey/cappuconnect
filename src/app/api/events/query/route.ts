@@ -43,7 +43,7 @@ type EventDoc = Document & {
   cleaned_url?: string;
   map_url?: string;
   tags?: string[];
-  attendees?: any[];
+  attendees?: string[];
   commonTags?: string[];
   overlap?: number;
   jaccard?: number;
