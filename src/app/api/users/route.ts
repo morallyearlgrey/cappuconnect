@@ -186,36 +186,36 @@ export async function PUT(req: NextRequest) {
  * If you want a login endpoint, place this in a separate route (e.g., /api/auth/login)
  * and export `POST` from that file. Exporting `LOGIN` here won’t be auto-routed.
  */
-export async function LOGIN(req: NextRequest) {
-  try {
-    const db = await getDB();
-    const { email, password } = await req.json();
+// export async function LOGIN(req: NextRequest) {
+//   try {
+//     const db = await getDB();
+//     const { email, password } = await req.json();
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
-    }
+//     if (!email || !password) {
+//       return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
+//     }
 
-    const normalizedEmail = email.toLowerCase();
+//     const normalizedEmail = email.toLowerCase();
 
-    // Fetch user by email. This should include the hashed password to compare.
-    const user = await db.collection(current_table).findOne({ email: normalizedEmail });
+//     // Fetch user by email. This should include the hashed password to compare.
+//     const user = await db.collection(current_table).findOne({ email: normalizedEmail });
 
-    if (!user) {
-      return NextResponse.json({ error: "User does not exist" }, { status: 404 });
-    }
+//     if (!user) {
+//       return NextResponse.json({ error: "User does not exist" }, { status: 404 });
+//     }
 
-    // Compare the plaintext password to the stored hash.
-    const passwordMatch = await compare(password, user.password);
-    if (!passwordMatch) {
-      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
-    }
+//     // Compare the plaintext password to the stored hash.
+//     const passwordMatch = await compare(password, user.password);
+//     if (!passwordMatch) {
+//       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+//     }
 
-    // Never return the password hash to the client.
-    const { password: _omit, ...userWithoutPassword } = user;
+//     // Never return the password hash to the client.
+//     const { password: _omit, ...userWithoutPassword } = user;
 
-    return NextResponse.json(userWithoutPassword, { status: 200 });
-  } catch (err) {
-    console.error("Login error:", err);
-    return NextResponse.json({ error: "Failed to login" }, { status: 500 });
-  }
-}
+//     return NextResponse.json(userWithoutPassword, { status: 200 });
+//   } catch (err) {
+//     console.error("Login error:", err);
+//     return NextResponse.json({ error: "Failed to login" }, { status: 500 });
+//   }
+// }
