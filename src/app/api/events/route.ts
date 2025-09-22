@@ -2,13 +2,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
 export async function GET(request: NextRequest) {
   try {
     const client = await clientPromise;
-    const db = client.db("cappuconnect");
+    const db = client.db(DB_NAME);
     
-    const events = await db.collection("events")
+    const events = await db.collection(EVENTS_COLL)
       .find({})
       .sort({ createdAt: -1 })
       .toArray();
@@ -40,13 +41,13 @@ export async function POST(request: NextRequest) {
     }
 
     const client = await clientPromise;
-    const db = client.db("cappuconnect");
+    const db = client.db(DB_NAME);
     
     const updateOperation = action === "attend" 
       ? { $addToSet: { attendees: userId } } // addToSet prevents duplicates
       : { $pull: { attendees: userId } };
     
-    const result = await db.collection("events").updateOne(
+    const result = await db.collection(EVENTS_COLL).updateOne(
       { _id: new ObjectId(eventId) },
       updateOperation
     );

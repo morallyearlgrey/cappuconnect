@@ -16,8 +16,9 @@ import { ObjectId } from "mongodb";
 
 // bcrypt compare to check a plaintext password against a stored hash.
 import { compare } from "bcrypt";
+import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
-const current_table = "users_tag_spam"
+const current_table = USERS_COLL
 
 /**
  * getDB()
@@ -28,7 +29,7 @@ const current_table = "users_tag_spam"
 async function getDB() {
   const client = await clientPromise;   // resolves to MongoClient
   await client.connect();               // safe if already connected (driver tracks state)
-  return client.db("cappuconnect");     // choose your logical database
+  return client.db(DB_NAME);     // choose your logical database
 }
 
 /**
