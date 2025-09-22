@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   try {
     let userId = req.nextUrl.searchParams.get("userId");
     // TEMP override
-    userId = "68d051df54ca4d057ba91bed";
+    // userId = "68d051df54ca4d057ba91bed";
 
     if (!userId) {
       return NextResponse.json({ error: "userId required" }, { status: 400 });
