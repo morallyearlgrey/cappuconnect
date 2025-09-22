@@ -1,69 +1,31 @@
-// src/components/eventcard.tsx
 "use client";
 
-import React from "react";
 import Image from "next/image";
 
 interface EventCardProps {
   name: string;
-  time: string;
-  cleaned_url: string;
-  image_url?: string;
-  tags: string[]
-  attendees: string[];    // array of attendee IDs
+  time: string; // make sure this is a pre-formatted string from your API
+  image?: string | null;
 }
 
-export const EventCard = ({
-    name,
-    time,
-    cleaned_url,
-    image_url,
-    tags,
-    attendees
-}: EventCardProps) => {
-    
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = "/caffeine.jpeg";
-  };
+export function EventCard({ name, time, image }: EventCardProps) {
+  const fallbackImage = "/caffeine.jpeg";
+  const imageUrl = image && image.trim() !== "" ? image : fallbackImage;
 
   return (
-    <div className="bg-[var(--light-blue)] rounded-t-lg overflow-hidden">
-      <div className="flex flex-col">
-        <div className="relative w-full h-48">
-          <Image
-            className="w-full h-full object-cover"
-            src={image_url && image_url !== "Image not found" ? image_url : "/caffeine.jpeg"} 
-            alt={name}
-            width={400}
-            height={200}
-            onError={handleImageError}
-            priority={false}
-          />
-        </div>
-        
-        {/* Event Details */}
-        <div className="p-4 space-y-2">
-          <h3 className="font-bold text-lg leading-tight line-clamp-2" style={{ color: '#5f4130' }}>
-            {name}
-          </h3>
-          
-          <p className="text-sm" style={{ color: '#5f4130' }}>
-            <span className="font-medium">Date:</span> {time}
-          </p>
-          
-          
-          <div className="pt-2">
-            <a 
-              href={cleaned_url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-sm text-[var(--brown)] hover:text-[var(--white)] underline"
-            >
-              View on Meetup →
-            </a>
-          </div>
-        </div>
+    <div className="rounded-t-xl border bg-[var(--light-blue)] shadow-md overflow-hidden">
+      <Image
+        src={imageUrl }
+        alt={name}
+        width={400}
+        height={200}
+        className="w-full h-48 object-cover"
+        priority={false}
+      />
+      <div className="p-4">
+        <h3 className="text-lg font-semibold">{name}</h3>
+        <p className="text-sm text-white">{time}</p>
       </div>
     </div>
   );
-};
+}

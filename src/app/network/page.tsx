@@ -60,7 +60,27 @@ export default function Events() {
   const isLoggedIn = status === "authenticated";
   const extendedSession = session as ExtendedSession | null;
     const [profile, setProfile] = useState<User | null>(null);
-  
+  const [otherEvents, setOtherEvents] = useState<EventCardProps[]>([]);
+
+const fetchOtherEventData = async () => {
+  try {
+    const res = await fetch("/api/events/query", { method: "GET" });
+    if (res.ok) {
+      const data = await res.json();
+      // Set the events directly to otherEvents
+      setOtherEvents(data);  
+    } else {
+      console.error("Failed to fetch events");
+    }
+  } catch (error) {
+    console.error("Error fetching events:", error);
+  }
+};
+
+useEffect(() => {
+  fetchOtherEventData();
+}, []);
+
 
   useEffect(() => {
     if (status === "authenticated" && extendedSession?.user?.id) {
@@ -245,27 +265,28 @@ export default function Events() {
             </div>
 
         {/* People Section */}
-          <div className="bg-[var(--brown)] p-6 h-screen">
-            <h2 className="text-2xl font-[subheading-font] text-[var(--white)] p-2 text-center mb-6 ">CONNECTIONS</h2>
-            <div className="space-y-4">
-              {users
-                .filter(person => extendedSession?.user?.id && person.matched?.includes(extendedSession.user.id))
-                .map(person => (
-                  <PersonCard
-                    key={person._id}
-                    firstname={person.firstname}
-                    lastname={person.lastname}
-                    linkedin={`https://linkedin.com/in/${person._id}`} // if you have linkedin field, use it
-                    industry={person.industry || "Unknown"}
-                    state={person.state || "N/A"}
-                    school={person.school}
-                    major={person.major}
-                    experienceyears={person.experienceyears || "0"}
-                    image={person.photo}
-                  />
-                ))}
-            </div>
-        </div>
+<div className="bg-[var(--brown)] p-6 h-screen">
+  <h2 className="text-2xl font-[subheading-font] text-[var(--white)] p-2 text-center mb-6">CONNECTIONS</h2>
+  <div className="space-y-4">
+    {users
+      .filter(person => userMatches.includes(person._id)) // <-- use userMatches
+      .map(person => (
+        <PersonCard
+          key={person._id}
+          firstname={person.firstname}
+          lastname={person.lastname}
+          linkedin={`https://linkedin.com/in/${person._id}`}
+          industry={person.industry || "Unknown"}
+          state={person.state || "N/A"}
+          school={person.school}
+          major={person.major}
+          experienceyears={person.experienceyears || "0"}
+          image={person.photo}
+        />
+      ))}
+  </div>
+</div>
+
 
           </div>
 
@@ -275,14 +296,14 @@ export default function Events() {
           {/* Header */}
           <div className="flex justify-between items-center mb-8 flex-col">
             <h1 className="text-4xl font-[subheading-font] text-[var(--white)]">
-              UPCOMING EVENTS
+              EVENTS YOUR CONNECTIONS ARE ATTENDING
             </h1>
            
           </div>
 
           {/* Events Grid */}
           {filteredEvents.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 white">
               {showAllEvents
                 ? "No events available."
                 : userMatches.length === 0
@@ -331,8 +352,8 @@ export default function Events() {
                       tags={event.tags}
                       attendees={event.attendees}
                     />
-                    <div className="p-4 rounded-b-lg bg-[var(--light-blue)]">
-                      <div className="flex justify-between items-center text-sm text-gray-600">
+                    <div className="p-4 -translate-y-1 rounded-b-lg bg-[var(--light-blue)]">
+                      <div className="flex justify-between items-center text-sm text-white">
                         <span>{event.attendees.length} attending</span>
                       </div>
                       {event.tags?.length > 0 && (
@@ -351,9 +372,48 @@ export default function Events() {
                   </div>
                 </div>
               ))}
+                {/* All Other Events Section */}
+
+
             </div>
           )}
+        <h1 className="text-4xl font-[subheading-font] text-[var(--white)] place-self-center  self-center ">
+             EVENTS THAT YOU MAY ENJOY
+            </h1>
+            <div className="grid gap-6 grid-cols-2 w-full">
+
+
+        {otherEvents.map((event, index) => (
+  <div key={event._id|| index} className="relative">
+    <EventCard
+      name={event.name}
+      time={event.time}
+      cleaned_url={event?.cleaned_url}
+      image_url={event.image_url}
+      tags={event.tags}
+      attendees={event.attendees}
+    />
+    <div className="p-4 rounded-b-lg bg-[var(--light-blue)] -translate-y-1">
+                      <div className="flex justify-between items-center text-sm text-white">
+                      </div>
+                      {event.tags?.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {event.tags.slice(0, 3).map((tag, index) => (
+                            <span
+                              key={index}
+                              className="px-2 py-1 text-xs rounded-full bg-[var(--brown)] text-white"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+  </div>
+))}
         </div>
+  </div>
+
       </div>
     </div>
   );
