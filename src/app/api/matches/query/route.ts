@@ -3,11 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ObjectId, Document } from "mongodb";
 import clientPromise from "@/lib/mongodb";
-import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
+import { DB_NAME, USERS_COLL } from "@/lib/config";
 
 // Config
-//const DB_NAME = "cappuconnect";
-//const COLL = "users_tag_spam";
 const DEFAULT_LIMIT = 10;
 
 export interface MatchDTO {
@@ -29,15 +27,13 @@ export interface MatchDTO {
 export async function GET(req: NextRequest) {
   try {
     let userId = req.nextUrl.searchParams.get("userId");
-    // TEMP override
+
+    // TEMP override with session user
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    
-
-
-    userId = session.user.id; //"68d051df54ca4d057ba91bed" //"68d051df54ca4d057ba91bed";
+    userId = session.user.id;
 
     if (!userId) {
       return NextResponse.json({ error: "userId required" }, { status: 400 });
@@ -78,6 +74,7 @@ export async function GET(req: NextRequest) {
         },
       }
     );
+
     if (!me) return NextResponse.json({ error: "user not found" }, { status: 404 });
 
     const A: string[] = Array.isArray(me.skills) ? me.skills : [];
@@ -104,11 +101,7 @@ export async function GET(req: NextRequest) {
       {
         $addFields: {
           jaccard: {
-            $cond: [
-              { $gt: ["$unionSize", 0] },
-              { $divide: ["$overlap", "$unionSize"] },
-              0,
-            ],
+            $cond: [{ $gt: ["$unionSize", 0] }, { $divide: ["$overlap", "$unionSize"] }, 0],
           },
           cosine: {
             $cond: [
@@ -132,7 +125,7 @@ export async function GET(req: NextRequest) {
       { $limit: limit },
     ];
 
-    const rows: MatchDTO[] = (await users.aggregate(pipeline).toArray()).map((r: any) => ({
+    const rows: MatchDTO[] = (await users.aggregate<Document>(pipeline).toArray()).map((r) => ({
       id: r._id.toString(),
       firstname: r.firstname ?? "",
       lastname: r.lastname ?? "",
@@ -142,7 +135,7 @@ export async function GET(req: NextRequest) {
       state: r.state ?? "",
       industry: r.industry ?? "",
       experienceyears: r.experienceyears ?? "",
-      overlap: r.overlap,
+      overlap: r.overlap ?? 0,
       jaccard: Number(r.jaccard?.toFixed?.(3) ?? r.jaccard ?? 0),
       cosine: Number(r.cosine?.toFixed?.(3) ?? r.cosine ?? 0),
       commonSkills: r.commonSkills ?? [],

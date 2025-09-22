@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
-
-// temp variable to assume we are the user
-const kai_temp_id = "68cf6b837edad86a28bb857f";
+import type { Session } from "next-auth"; // ✅ import from "next-auth" for the type
 
 // Shape returned by /api/matches/query
 type MatchDTO = {
@@ -26,42 +24,38 @@ type MatchDTO = {
 };
 
 // Type guard for MatchDTO
-function isValidMatch(x: any): x is MatchDTO {
-  return x && typeof x.id === "string" && typeof x.firstname === "string" && typeof x.lastname === "string";
+function isValidMatch(x: unknown): x is MatchDTO {
+  if (!x || typeof x !== "object") return false;
+  const m = x as Partial<MatchDTO>;
+  return (
+    typeof m.id === "string" &&
+    typeof m.firstname === "string" &&
+    typeof m.lastname === "string"
+  );
 }
 
 // Total number of random photos in public/images_dir (user_0002.jpg to user_0100.jpg)
-const TOTAL_RANDOM_PHOTOS = 99; // user_0002 to user_0100 = 99 photos
+const TOTAL_RANDOM_PHOTOS = 99;
 
 // Function to get a consistent random photo for a user
 function getRandomPhotoForUser(userId: string): string {
-  // Use userId to generate a consistent hash so the same user always gets the same random photo
   let hash = 0;
   for (let i = 0; i < userId.length; i++) {
     const char = userId.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
+    hash |= 0; // Convert to 32-bit integer
   }
-  const photoNumber = (Math.abs(hash) % TOTAL_RANDOM_PHOTOS) + 2; // Start from 2 (user_0002)
-  const paddedNumber = photoNumber.toString().padStart(4, '0'); // Pad to 4 digits
-  return `/images_dir/user_${paddedNumber}.jpg`; // e.g., user_0002.jpg, user_0099.jpg, user_0100.jpg
+  const photoNumber = (Math.abs(hash) % TOTAL_RANDOM_PHOTOS) + 2;
+  const paddedNumber = photoNumber.toString().padStart(4, "0");
+  return `/images_dir/user_${paddedNumber}.jpg`;
 }
 
 // Function to check if a photo URL is valid/accessible
 function isValidPhotoUrl(url: string): boolean {
-  if (!url || url.trim() === "") return false;
-  
-  // Check for common placeholder or invalid URLs
-  const invalidPatterns = [
-    "placeholder.jpg",
-    "placeholder.png", 
-    "Image not found",
-    "undefined",
-    "null"
-  ];
-  
+  if (!url.trim()) return false;
+  const invalidPatterns = ["placeholder.jpg", "placeholder.png", "image not found", "undefined", "null"];
   const lowerUrl = url.toLowerCase();
-  return !invalidPatterns.some(pattern => lowerUrl.includes(pattern.toLowerCase()));
+  return !invalidPatterns.some(pattern => lowerUrl.includes(pattern));
 }
 
 export default function DiscoverPage() {
@@ -84,7 +78,7 @@ export default function DiscoverPage() {
         setLoading(true);
         setErr(null);
 
-        const userId = (session as any)?.user?.id as string | undefined;
+        const userId = (session as Session)?.user?.id;
         if (!userId) throw new Error("Missing userId on session.");
 
         const params = new URLSearchParams({
@@ -97,9 +91,10 @@ export default function DiscoverPage() {
           cache: "no-store",
           signal: ctrl.signal,
         });
+
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const raw = (await res.json()) as unknown[];
+        const raw: unknown[] = await res.json();
         const clean = (Array.isArray(raw) ? raw : [])
           .filter(isValidMatch)
           .map(u => ({
@@ -115,8 +110,11 @@ export default function DiscoverPage() {
           setIdx(0);
           console.log("Loaded matches:", clean);
         }
-      } catch (e: any) {
-        if (mounted) setErr(e?.message || "Failed to load matches");
+      } catch (e: unknown) {
+        if (mounted) {
+          if (e instanceof Error) setErr(e.message);
+          else setErr("Failed to load matches");
+        }
       } finally {
         if (mounted) setLoading(false);
       }
@@ -135,11 +133,10 @@ export default function DiscoverPage() {
   const rotate = useTransform(x, [-300, 300], [-12, 12]);
   const opacity = useTransform(x, [-300, 0, 300], [0.65, 1, 0.65]);
 
-  const onDragEnd = (_: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number }; velocity: { x: number } }) => {
+  const onDragEnd = (_: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     const power = Math.abs(info.offset.x) + Math.abs(info.velocity.x) * 0.25;
-    if (power > 500) {
-      const dir = info.offset.x > 0 ? "right" : "left";
-      if (dir === "right" && current?.id) {
+    if (power > 500 && current?.id) {
+      if (info.offset.x > 0) {
         fetch("/api/match", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -156,73 +153,47 @@ export default function DiscoverPage() {
   const resetDeck = () => setIdx(0);
   const canSwipe = useMemo(() => users.length > 0 && idx < users.length, [users.length, idx]);
 
-  // Get the appropriate photo URL for the current user
   const getPhotoForUser = (user: MatchDTO): string => {
-    if (user.photo && isValidPhotoUrl(user.photo)) {
-      return user.photo;
-    }
-    return getRandomPhotoForUser(user.id);
+    return user.photo && isValidPhotoUrl(user.photo) ? user.photo : getRandomPhotoForUser(user.id);
   };
 
-  if (loading) {
-    return (
-      <main className="p-6 min-h-[60vh] grid place-items-center text-gray-600">
-        Loading users...
-      </main>
-    );
-  }
-
-  if (err) {
-    return (
-      <main className="p-6 max-w-lg mx-auto">
-        <div className="p-4 border border-red-200 bg-red-50 text-red-800 rounded-xl">
-          <div className="font-semibold mb-1">Failed to load</div>
-          <div className="text-sm">{err}</div>
-        </div>
-      </main>
-    );
-  }
-
-  if (status === "unauthenticated") {
-    return (
-      <div className="h-full bg-[var(--brown)]">
-        <Navbar isLoggedIn={isLoggedIn} photo={"/caffeine.jpeg"} />
-        <div className="flex flex-col items-center justify-center min-h-screen -translate-y-20">
-          <h2 className="text-2xl font-[subheading-font] text-white mb-4">
-            Please log in to view events
-          </h2>
-          <p className="text-white font-[subheading-font]">
-            You need to be logged in to see events with your matches.
-          </p>
-        </div>
+  if (loading) return <main className="p-6 min-h-[60vh] grid place-items-center text-gray-600">Loading users...</main>;
+  if (err) return (
+    <main className="p-6 max-w-lg mx-auto">
+      <div className="p-4 border border-red-200 bg-red-50 text-red-800 rounded-xl">
+        <div className="font-semibold mb-1">Failed to load</div>
+        <div className="text-sm">{err}</div>
       </div>
-    );
-  }
-
-  if (!canSwipe) {
-    return (
-      <main className="p-6 min-h-[60vh] grid place-items-center">
-        <div className="flex flex-col items-center gap-3 text-gray-700">
-          <div className="text-lg font-semibold">No more profiles</div>
-          <button
-            onClick={resetDeck}
-            className="px-4 py-2 rounded-lg bg-gray-900 text-white"
-          >
-            Reset deck
-          </button>
-        </div>
-      </main>
-    );
-  }
+    </main>
+  );
+  if (status === "unauthenticated") return (
+    <div className="h-full bg-[var(--brown)]">
+      <Navbar isLoggedIn={isLoggedIn} photo={"/caffeine.jpeg"} />
+      <div className="flex flex-col items-center justify-center min-h-screen -translate-y-20">
+        <h2 className="text-2xl font-[subheading-font] text-white mb-4">
+          Please log in to view events
+        </h2>
+        <p className="text-white font-[subheading-font]">
+          You need to be logged in to see events with your matches.
+        </p>
+      </div>
+    </div>
+  );
+  if (!canSwipe) return (
+    <main className="p-6 min-h-[60vh] grid place-items-center">
+      <div className="flex flex-col items-center gap-3 text-gray-700">
+        <div className="text-lg font-semibold">No more profiles</div>
+        <button onClick={resetDeck} className="px-4 py-2 rounded-lg bg-gray-900 text-white">Reset deck</button>
+      </div>
+    </main>
+  );
 
   return (
-    <main className="">
+    <main>
       <Navbar isLoggedIn={isLoggedIn} photo={session?.user?.image || "/caffeine.jpeg"} />
       <div className="w-full max-w-lg mx-auto p-4">
         <div className="relative h-[70vh]">
-          {next && (
-            <div className="absolute inset-0 translate-y-2 scale-[0.98] rounded-2xl bg-gray-100" />
-          )}
+          {next && <div className="absolute inset-0 translate-y-2 scale-[0.98] rounded-2xl bg-gray-100" />}
           {current && (
             <motion.article
               style={{ x, rotate, opacity }}
@@ -237,30 +208,18 @@ export default function DiscoverPage() {
                   src={getPhotoForUser(current)}
                   alt={`${current.firstname} ${current.lastname}`}
                   className="h-full w-full object-cover"
-                  onError={e => {
-                    // If even the random photo fails, fall back to a default
-                    (e.currentTarget as HTMLImageElement).src = "/caffeine.jpeg";
-                  }}
+                  onError={e => { (e.currentTarget as HTMLImageElement).src = "/caffeine.jpeg"; }}
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
-                  <h2 className="text-xl font-semibold">
-                    {current.firstname} {current.lastname}
-                  </h2>
-                  <p className="text-sm opacity-90">
-                    {current.industry} • {current.state}
-                  </p>
+                  <h2 className="text-xl font-semibold">{current.firstname} {current.lastname}</h2>
+                  <p className="text-sm opacity-90">{current.industry} • {current.state}</p>
                 </div>
               </div>
               <div className="h-1/3 p-4 flex flex-col gap-3">
                 <p className="text-sm text-gray-700 line-clamp-3">{current.bio}</p>
                 <div className="flex flex-wrap gap-2">
                   {current.commonSkills.slice(0, 6).map(skill => (
-                    <span
-                      key={skill}
-                      className="text-xs bg-gray-100 border border-gray-200 px-2 py-1 rounded-full"
-                    >
-                      {skill}
-                    </span>
+                    <span key={skill} className="text-xs bg-gray-100 border border-gray-200 px-2 py-1 rounded-full">{skill}</span>
                   ))}
                 </div>
               </div>
@@ -269,18 +228,8 @@ export default function DiscoverPage() {
         </div>
 
         <div className="mt-4 flex justify-center gap-4">
-          <button
-            className="px-4 py-2 rounded-lg border border-gray-300"
-            onClick={() => setIdx(i => i + 1)}
-          >
-            Pass
-          </button>
-          <button
-            className="px-4 py-2 rounded-lg bg-gray-900 text-white"
-            onClick={() => setIdx(i => i + 1)}
-          >
-            Connect
-          </button>
+          <button className="px-4 py-2 rounded-lg border border-gray-300" onClick={() => setIdx(i => i + 1)}>Pass</button>
+          <button className="px-4 py-2 rounded-lg bg-gray-900 text-white" onClick={() => setIdx(i => i + 1)}>Connect</button>
         </div>
       </div>
     </main>

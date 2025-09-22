@@ -1,6 +1,3 @@
-// app/api/matches/events/route.ts
-// legit copy and paste from query people.
-// sends back the people we want to connect with
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -15,7 +12,7 @@ const DEFAULT_LIMIT = 10;
 
 export type EventMatchDTO = {
   mongoId: string;          // event _id
-  id: number;               // your int id
+  id: number;               
   name: string;
   time: string;
   venue: string;
@@ -26,7 +23,6 @@ export type EventMatchDTO = {
   map_url: string;
   tags: string[];
 
-  // scores
   overlap: number;
   jaccard: number;
   cosine: number;
@@ -34,15 +30,37 @@ export type EventMatchDTO = {
   attendeesCount: number;
 };
 
+type EventDoc = Document & {
+  _id: ObjectId;
+  id?: number;
+  name?: string;
+  time?: string;
+  venue?: string;
+  address?: string;
+  host?: string;
+  image_url?: string;
+  cleaned_url?: string;
+  map_url?: string;
+  tags?: string[];
+  attendees?: any[];
+  commonTags?: string[];
+  overlap?: number;
+  jaccard?: number;
+  cosine?: number;
+  attendeesCount?: number;
+};
+
+type UserDoc = Document & {
+  skills?: string[];
+};
+
 export async function GET(req: NextRequest) {
   try {
-    // Require a logged-in user
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Use session user by default; allow ?userId override if you ever need it
     const userId = req.nextUrl.searchParams.get("userId") || session.user.id;
 
     if (!ObjectId.isValid(userId)) {
@@ -56,33 +74,22 @@ export async function GET(req: NextRequest) {
     );
     const minOverlap = Math.max(1, Number(req.nextUrl.searchParams.get("minOverlap") ?? 1));
 
-    // DB handles
     const client = await clientPromise;
     const db = client.db(DB_NAME);
-    const users = db.collection(USERS_COLL);
-    const events = db.collection(EVENTS_COLL);
+    const users = db.collection<UserDoc>(USERS_COLL);
+    const events = db.collection<EventDoc>(EVENTS_COLL);
 
-    // 1) Load the source user (to get their skills)
-    const me = await users.findOne(
-      { _id },
-      { projection: { skills: 1 } }
-    );
+    const me = await users.findOne({ _id }, { projection: { skills: 1 } });
     if (!me) return NextResponse.json({ error: "user not found" }, { status: 404 });
 
-    const A: string[] = Array.isArray((me as any).skills) ? (me as any).skills : [];
+    const A: string[] = Array.isArray(me.skills) ? me.skills : [];
     if (!A.length) return NextResponse.json({ error: "user has no skills" }, { status: 400 });
     const aSize = A.length;
 
-    // 2) Aggregate over EVENTS: overlap(user.skills, event.tags)
     const pipeline: Document[] = [
       { $match: { tags: { $exists: true, $ne: [] } } },
-      { $match: { tags: { $in: A } } }, // prefilter: share ANY tag
-      {
-        $addFields: {
-          S_user: A,
-          commonTags: { $setIntersection: ["$tags", A] },
-        },
-      },
+      { $match: { tags: { $in: A } } },
+      { $addFields: { S_user: A, commonTags: { $setIntersection: ["$tags", A] } } },
       {
         $addFields: {
           overlap: { $size: "$commonTags" },
@@ -92,9 +99,7 @@ export async function GET(req: NextRequest) {
       },
       {
         $addFields: {
-          jaccard: {
-            $cond: [{ $gt: ["$unionSize", 0] }, { $divide: ["$overlap", "$unionSize"] }, 0],
-          },
+          jaccard: { $cond: [{ $gt: ["$unionSize", 0] }, { $divide: ["$overlap", "$unionSize"] }, 0] },
           cosine: {
             $cond: [
               { $and: [{ $gt: ["$otherSize", 0] }, { $gt: [aSize, 0] }] },
@@ -106,19 +111,12 @@ export async function GET(req: NextRequest) {
         },
       },
       { $match: { overlap: { $gte: minOverlap } } },
-      // Sort: strongest semantic match first, then popularity, then ID
       { $sort: { overlap: -1, jaccard: -1, attendeesCount: -1, id: -1 } },
-      {
-        $project: {
-          S_user: 0, unionSize: 0, otherSize: 0,
-          // keep only the fields you want to return
-          // (leave all other event fields implicit unless needed)
-        },
-      },
+      { $project: { S_user: 0, unionSize: 0, otherSize: 0 } },
       { $limit: limit },
     ];
 
-    const rows: EventMatchDTO[] = (await events.aggregate(pipeline).toArray()).map((r: any) => ({
+    const rows: EventMatchDTO[] = (await events.aggregate<EventDoc>(pipeline).toArray()).map((r) => ({
       mongoId: r._id.toString(),
       id: r.id ?? 0,
       name: r.name ?? "",
@@ -131,9 +129,9 @@ export async function GET(req: NextRequest) {
       map_url: r.map_url ?? "",
       tags: Array.isArray(r.tags) ? r.tags : [],
 
-      overlap: r.overlap || 0,
-      jaccard: Number(r.jaccard?.toFixed?.(3) ?? r.jaccard ?? 0),
-      cosine: Number(r.cosine?.toFixed?.(3) ?? r.cosine ?? 0),
+      overlap: r.overlap ?? 0,
+      jaccard: Number(r.jaccard?.toFixed?.(3) ?? 0),
+      cosine: Number(r.cosine?.toFixed?.(3) ?? 0),
       commonTags: Array.isArray(r.commonTags) ? r.commonTags : [],
       attendeesCount: r.attendeesCount ?? 0,
     }));
