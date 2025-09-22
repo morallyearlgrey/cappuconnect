@@ -1,4 +1,4 @@
-##CappuConnect
+**CappuConnect**
 **Inspiration:**
 In today’s fast-changing world, networking often feels overwhelming and time-consuming. A global LinkedIn survey of nearly 16,000 professionals found that while 80% see networking as essential to career success, 40% admit they struggle with it. Between limited time, difficulty finding relevant events, and the intimidation of in-person interactions, especially for new graduates, many people feel stuck. Our team set out to ease those challenges by making professional development more approachable, flexible, and tailored to individual goals.
 
