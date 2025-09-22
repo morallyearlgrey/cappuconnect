@@ -1,31 +1,42 @@
+// src/components/eventcard.tsx
 "use client";
 
+import React from "react";
 import Image from "next/image";
 
 interface EventCardProps {
   name: string;
-  time: string; // make sure this is a pre-formatted string from your API
-  image?: string | null;
+  time: string;
+  cleaned_url: string; // <-- make sure this exists here
+  image_url?: string;
+  tags: string[];
+  attendees: string[];
 }
 
-export function EventCard({ name, time, image }: EventCardProps) {
-  const fallbackImage = "/caffeine.jpeg";
-  const imageUrl = image && image.trim() !== "" ? image : fallbackImage;
-
+export const EventCard = ({
+  name,
+  time,
+  cleaned_url, // <-- destructure it here
+  image_url,
+  tags,
+  attendees,
+}: EventCardProps) => {
   return (
-    <div className="rounded-t-xl border bg-[var(--light-blue)] shadow-md overflow-hidden">
-      <Image
-        src={imageUrl }
-        alt={name}
-        width={400}
-        height={200}
-        className="w-full h-48 object-cover"
-        priority={false}
-      />
-      <div className="p-4">
-        <h3 className="text-lg font-semibold">{name}</h3>
-        <p className="text-sm text-white">{time}</p>
+    <div className="relative">
+      <a href={cleaned_url} target="_blank" rel="noopener noreferrer">
+        <div className="text-lg font-bold">{name}</div>
+      </a>
+      <div>{time}</div>
+      {image_url && (
+        <Image src={image_url} alt={name} width={300} height={200} />
+      )}
+      <div className="flex gap-2">
+        {tags.map((tag, idx) => (
+          <span key={idx} className="px-2 py-1 bg-gray-200 rounded">
+            {tag}
+          </span>
+        ))}
       </div>
     </div>
   );
-}
+};
