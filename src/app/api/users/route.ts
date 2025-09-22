@@ -218,4 +218,10 @@ export async function LOGIN(req: NextRequest) {
     console.error("Login error:", err);
     return NextResponse.json({ error: "Failed to login" }, { status: 500 });
   }
+  finally
+  {
+    console.error("Login error:");
+    return NextResponse.json({ error: "Failed to login fail pas" }, { status: 500 });
+
+  }
 }
