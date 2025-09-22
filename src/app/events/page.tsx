@@ -1,9 +1,61 @@
+// event tinder shit
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
+
+import { EventCard } from "@/components/eventcard";
+import PersonCard from "@/components/personcard"; // ⬅️ import PersonCard
+//import { useEffect, useState } from "react";
+//import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+//import { Navbar } from "@/components/navbar";
+import Image from "next/image";
+
+
+interface EventCardProps {
+  _id: string;
+  name: string;
+  time: string;
+  host: string;
+  address?: string;
+  cleaned_url: string;
+  image_url?: string;
+  map_url?: string;
+  tags: string[];
+  attendees: string[];
+}
+
+interface User {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  matched: string[];
+  photo?: string;
+  industry?: string;
+  state?: string;
+  school?: string;
+  major?: string;
+  experienceyears?: string;
+}
+
+interface ExtendedUser {
+  id: string;
+  email: string;
+  name: string;
+  image?: string;
+}
+
+interface ExtendedSession {
+  user: ExtendedUser;
+}
+
+
+
+
 
 type EventDTO = {
   // mapped for the UI
@@ -33,8 +85,12 @@ export default function DiscoverEventsPage() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
+  
+
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
+
+  
 
   useEffect(() => {
     let mounted = true;
@@ -116,6 +172,49 @@ export default function DiscoverEventsPage() {
     if (power > 500) {
       // If you later want to record "like/pass", post here with current.id
 
+      // 
+      const dir = info.offset.x > 0 ? "right" : "left";
+
+      if (dir === "right" && current?.id) {
+
+        fetch("/api/events", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ targetUserId: current.id }),
+        }).catch(() => {});
+
+
+      }
+    //   if (!extendedSession?.user?.id) return;
+    // const userId = extendedSession.user.id;
+    // const action = isUserAttendingById(eventId) ? "leave" : "attend";
+
+    // try {
+    //   const res = await fetch(`/api/events`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ eventId, userId, action }),
+    //   });
+
+    //   if (res.ok) {
+    //     const result = await res.json();
+    //     setEvents(prev =>
+    //       prev.map(event =>
+    //         event._id === eventId
+    //           ? {
+    //               ...event,
+    //               attendees: result.attending
+    //                 ? [...event.attendees, userId]
+    //                 : event.attendees.filter(id => id !== userId),
+    //             }
+    //           : event
+    //       )
+    //     );
+    //   }
+    // } catch (error) {
+    //   console.error("Error toggling attendance:", error);
+    // }
+      //
       
 
 
