@@ -35,6 +35,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { eventId, userId, action } = await request.json();
+
+    console.log("recieved this as the request")
+    console.log(eventId)
+    console.log(userId)
+    console.log(action)
     
     if (!eventId || !userId || !action) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });

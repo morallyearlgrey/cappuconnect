@@ -175,49 +175,27 @@ export default function DiscoverEventsPage() {
       // 
       const dir = info.offset.x > 0 ? "right" : "left";
 
+      console.log("swiped");
+      console.log(current.id);
+      console.log(current.name);
+
       if (dir === "right" && current?.id) {
 
-        fetch("/api/events", {
+        const userId = session?.user.id;
+        const eventId = current.id;
+        const action = "attend";
+
+        console.log(`Wanting to let you now that ${userId} is planning to ${action} event ${eventId}`)
+
+        const res = fetch(`/api/events`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ targetUserId: current.id }),
-        }).catch(() => {});
+          body: JSON.stringify({ eventId, userId, action }),
+        });
+        console.log("did i post?")
 
 
       }
-    //   if (!extendedSession?.user?.id) return;
-    // const userId = extendedSession.user.id;
-    // const action = isUserAttendingById(eventId) ? "leave" : "attend";
-
-    // try {
-    //   const res = await fetch(`/api/events`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ eventId, userId, action }),
-    //   });
-
-    //   if (res.ok) {
-    //     const result = await res.json();
-    //     setEvents(prev =>
-    //       prev.map(event =>
-    //         event._id === eventId
-    //           ? {
-    //               ...event,
-    //               attendees: result.attending
-    //                 ? [...event.attendees, userId]
-    //                 : event.attendees.filter(id => id !== userId),
-    //             }
-    //           : event
-    //       )
-    //     );
-    //   }
-    // } catch (error) {
-    //   console.error("Error toggling attendance:", error);
-    // }
-      //
-      
-
-
       setIdx((i) => i + 1);
       x.set(0);
     } else {
