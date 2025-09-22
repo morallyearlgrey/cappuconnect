@@ -3,6 +3,7 @@ import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
 interface ExtendedUser {
   id: string;
@@ -35,9 +36,9 @@ export async function GET(
     }
 
     const client = await clientPromise;
-    const db = client.db("cappuconnect");
+    const db = client.db(DB_NAME);
 
-    const user = await db.collection("users").findOne(
+    const user = await db.collection(USERS_COLL).findOne(
       { _id: new ObjectId(userId) },
       { projection: { password: 0 } }
     );

@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { ObjectId, Document } from "mongodb";
 import clientPromise from "@/lib/mongodb";
+import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
 // Config
-const DB_NAME = "cappuconnect";
-const COLL = "users_tag_spam";
+//const DB_NAME = "cappuconnect";
+//const COLL = "users_tag_spam";
 const DEFAULT_LIMIT = 10;
 
 export interface MatchDTO {
@@ -27,7 +30,14 @@ export async function GET(req: NextRequest) {
   try {
     let userId = req.nextUrl.searchParams.get("userId");
     // TEMP override
-    // userId = "68d051df54ca4d057ba91bed";
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    
+
+
+    userId = session.user.id; //"68d051df54ca4d057ba91bed" //"68d051df54ca4d057ba91bed";
 
     if (!userId) {
       return NextResponse.json({ error: "userId required" }, { status: 400 });
@@ -48,7 +58,7 @@ export async function GET(req: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db(DB_NAME);
-    const users = db.collection(COLL);
+    const users = db.collection(USERS_COLL);
 
     // 1) Load the source user
     const me = await users.findOne(

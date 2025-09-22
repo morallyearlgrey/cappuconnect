@@ -19,7 +19,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { Db, ObjectId } from "mongodb";
+import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
 // ✅ Add a type for your collection
 interface User {
@@ -51,9 +52,9 @@ export async function POST(req: NextRequest) {
     }
 
     const client = await clientPromise;
-    const db = client.db("cappuconnect");
+    const db = client.db(DB_NAME);
     // ✅ Typed collection
-    const users = db.collection("users");
+    const users = db.collection(USERS_COLL);
 
     // Ensure target exists
     const targetExists = await users.findOne({ _id: targetId }, { projection: { _id: 1 } });
