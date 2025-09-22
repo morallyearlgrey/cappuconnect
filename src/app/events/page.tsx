@@ -313,7 +313,21 @@ export default function DiscoverEventsPage() {
           </button>
           <button
             className="px-4 py-2 rounded-lg bg-gray-900 text-white"
-            onClick={() => setIdx((i) => i + 1)}
+            onClick={() => {
+              
+              const userId = session?.user.id;
+        const eventId = current.id;
+        const action = "attend";
+
+        console.log(`Wanting to let you now that ${userId} is planning to ${action} event ${eventId}`)
+
+              const res = fetch(`/api/events`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ eventId, userId, action }),
+              });
+              console.log("did i post?")
+              setIdx((i) => i + 1)}}
           >
             Save
           </button>
