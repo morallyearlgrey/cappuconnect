@@ -6,8 +6,60 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { useSession } from "next-auth/react";
 
+import { EventCard } from "@/components/eventcard";
+import PersonCard from "@/components/personcard"; // ⬅️ import PersonCard
+//import { useEffect, useState } from "react";
+//import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+//import { Navbar } from "@/components/navbar";
+import Image from "next/image";
+
+
+interface EventCardProps {
+  _id: string;
+  name: string;
+  time: string;
+  host: string;
+  address?: string;
+  cleaned_url: string;
+  image_url?: string;
+  map_url?: string;
+  tags: string[];
+  attendees: string[];
+}
+
+interface User {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  matched: string[];
+  photo?: string;
+  industry?: string;
+  state?: string;
+  school?: string;
+  major?: string;
+  experienceyears?: string;
+}
+
+interface ExtendedUser {
+  id: string;
+  email: string;
+  name: string;
+  image?: string;
+}
+
+interface ExtendedSession {
+  user: ExtendedUser;
+}
+
+
+
+
+
 type EventDTO = {
-  id: string;               // event mongo _id (string)
+  // mapped for the UI
+  id: string;                 // use event mongo _id as string
   name: string;
   image_url?: string;
   venue?: string;
@@ -15,20 +67,17 @@ type EventDTO = {
   address?: string;
   host?: string;
   tags?: string[];
+
+  // scores returned by /api/events/query
   overlap: number;
   jaccard: number;
   cosine: number;
   commonTags: string[];
 };
 
-// type guard without `any`
-function isValidEvent(x: unknown): x is EventDTO {
-  if (!x || typeof x !== "object") return false;
-  const o = x as Record<string, unknown>;
-  return typeof o.id === "string" && typeof o.name === "string";
+function isValidEvent(x: any): x is EventDTO {
+  return x && typeof x.id === "string" && typeof x.name === "string";
 }
-
-type DragInfo = { offset: { x: number }; velocity: { x: number } };
 
 export default function DiscoverEventsPage() {
   const [events, setEvents] = useState<EventDTO[]>([]);
@@ -36,8 +85,12 @@ export default function DiscoverEventsPage() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
+  
+
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
+
+  
 
   useEffect(() => {
     let mounted = true;
@@ -50,7 +103,7 @@ export default function DiscoverEventsPage() {
         setLoading(true);
         setErr(null);
 
-        const userId = (session?.user as { id?: string } | undefined)?.id;
+        const userId = (session as any)?.user?.id as string | undefined;
         if (!userId) throw new Error("Missing userId on session.");
 
         const params = new URLSearchParams({
@@ -65,33 +118,25 @@ export default function DiscoverEventsPage() {
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const raw: unknown = await res.json();
-        const arr = Array.isArray(raw) ? raw : [];
+        const raw = (await res.json()) as any[];
 
-        const clean: EventDTO[] = arr
-          .map((r) => {
-            const o = r as Record<string, unknown>;
-            const tags =
-              Array.isArray(o.tags) ? (o.tags.filter((t) => typeof t === "string") as string[]) : [];
-            const commonTags =
-              Array.isArray(o.commonTags)
-                ? (o.commonTags.filter((t) => typeof t === "string") as string[])
-                : [];
-            return {
-              id: String(o.mongoId ?? o._id ?? o.id ?? ""),
-              name: typeof o.name === "string" ? o.name : "",
-              image_url: typeof o.image_url === "string" ? o.image_url : "",
-              venue: typeof o.venue === "string" ? o.venue : "",
-              time: typeof o.time === "string" ? o.time : "",
-              address: typeof o.address === "string" ? o.address : "",
-              host: typeof o.host === "string" ? o.host : "",
-              tags,
-              overlap: typeof o.overlap === "number" ? o.overlap : Number(o.overlap ?? 0),
-              jaccard: typeof o.jaccard === "number" ? o.jaccard : Number(o.jaccard ?? 0),
-              cosine: typeof o.cosine === "number" ? o.cosine : Number(o.cosine ?? 0),
-              commonTags,
-            };
-          })
+        // Normalize: /api/events/query returns something like:
+        // { mongoId, id (int), name, image_url, venue, time, address, host, tags, overlap, jaccard, cosine, commonTags }
+        const clean = (Array.isArray(raw) ? raw : [])
+          .map((r) => ({
+            id: String(r.mongoId ?? r._id ?? r.id), // prefer mongoId
+            name: String(r.name ?? ""),
+            image_url: String(r.image_url ?? ""),
+            venue: String(r.venue ?? ""),
+            time: String(r.time ?? ""),
+            address: String(r.address ?? ""),
+            host: String(r.host ?? ""),
+            tags: Array.isArray(r.tags) ? r.tags : [],
+            overlap: Number(r.overlap ?? 0),
+            jaccard: Number(r.jaccard ?? 0),
+            cosine: Number(r.cosine ?? 0),
+            commonTags: Array.isArray(r.commonTags) ? r.commonTags : [],
+          }))
           .filter(isValidEvent);
 
         if (mounted) {
@@ -99,9 +144,8 @@ export default function DiscoverEventsPage() {
           setIdx(0);
           console.log("Loaded events:", clean);
         }
-      } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if (mounted) setErr(msg || "Failed to load events");
+      } catch (e: any) {
+        if (mounted) setErr(e?.message || "Failed to load events");
       } finally {
         if (mounted) setLoading(false);
       }
@@ -120,34 +164,37 @@ export default function DiscoverEventsPage() {
   const rotate = useTransform(x, [-300, 300], [-12, 12]);
   const opacity = useTransform(x, [-300, 0, 300], [0.65, 1, 0.65]);
 
-  const onDragEnd = async (
+  const onDragEnd = (
     _: PointerEvent | MouseEvent | TouchEvent,
-    info: DragInfo
+    info: { offset: { x: number }; velocity: { x: number } }
   ) => {
     const power = Math.abs(info.offset.x) + Math.abs(info.velocity.x) * 0.25;
     if (power > 500) {
-      if (current) {
-        const dir = info.offset.x > 0 ? "right" : "left";
+      // If you later want to record "like/pass", post here with current.id
 
-        if (dir === "right") {
-          const userId = (session?.user as { id?: string } | undefined)?.id;
-          const eventId = current.id;
-          if (userId && eventId) {
-            try {
-              console.log(`Posting: user ${userId} will attend event ${eventId}`);
-              const res = await fetch(`/api/events`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ eventId, userId, action: "attend" }),
-              });
-              if (!res.ok) {
-                console.error("POST /api/events failed:", res.status, await res.text());
-              }
-            } catch (e) {
-              console.error("attendance error:", e);
-            }
-          }
-        }
+      // 
+      const dir = info.offset.x > 0 ? "right" : "left";
+
+      console.log("swiped");
+      console.log(current.id);
+      console.log(current.name);
+
+      if (dir === "right" && current?.id) {
+
+        const userId = session?.user.id;
+        const eventId = current.id;
+        const action = "attend";
+
+        console.log(`Wanting to let you now that ${userId} is planning to ${action} event ${eventId}`)
+
+        const res = fetch(`/api/events`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId, userId, action }),
+        });
+        console.log("did i post?")
+
+
       }
       setIdx((i) => i + 1);
       x.set(0);
@@ -266,27 +313,7 @@ export default function DiscoverEventsPage() {
           </button>
           <button
             className="px-4 py-2 rounded-lg bg-gray-900 text-white"
-            onClick={async () => {
-              if (!current) return;
-              const userId = (session?.user as { id?: string } | undefined)?.id;
-              const eventId = current.id;
-              if (!userId || !eventId) return;
-
-              try {
-                console.log(`Posting: user ${userId} will attend event ${eventId}`);
-                const res = await fetch(`/api/events`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ eventId, userId, action: "attend" }),
-                });
-                if (!res.ok) {
-                  console.error("POST /api/events failed:", res.status, await res.text());
-                }
-              } catch (e) {
-                console.error("attendance error:", e);
-              }
-              setIdx((i) => i + 1);
-            }}
+            onClick={() => setIdx((i) => i + 1)}
           >
             Save
           </button>
