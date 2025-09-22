@@ -14,13 +14,21 @@ declare module "next-auth/jwt" {
     id?: string;
   }
 }
-// app/api/match/route.ts
-// app/api/match/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+
+// ✅ Add a type for your collection
+interface User {
+  _id: ObjectId;
+  matched: ObjectId[];
+  passed: ObjectId[];
+  liked: ObjectId[];
+  updatedAt?: Date;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,7 +41,8 @@ export async function POST(req: NextRequest) {
     if (!targetUserId) {
       return NextResponse.json({ error: "Missing targetUserId" }, { status: 400 });
     }
-    console.error("match:", session.user.id, "->", targetUserId);
+
+   console.error("match:", session.user.id, "->", targetUserId);
 
     const viewerId = new ObjectId(session.user.id);
     const targetId = new ObjectId(String(targetUserId));
@@ -43,26 +52,31 @@ export async function POST(req: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db("cappuconnect");
+    // ✅ Typed collection
     const users = db.collection("users");
 
-    // Ensure target exists (optional)
+    // Ensure target exists
     const targetExists = await users.findOne({ _id: targetId }, { projection: { _id: 1 } });
     if (!targetExists) {
       return NextResponse.json({ error: "Target user not found" }, { status: 404 });
     }
 
-    // Core MongoDB call: add to matched (no dupes), optionally remove from passed
+    // ✅ TS-safe update
     await users.updateOne(
       { _id: viewerId },
       {
         $addToSet: { matched: targetId },
-        $pull: { passed: { $in: [targetId] } }, // TS-safe even if 'passed' is loosely typed
+        $pull: { passed: targetId }, // no error now
         $set: { updatedAt: new Date() },
       }
     );
 
-    // (Optional) compute mutual
-    const mutual = !!(await users.findOne({ _id: targetId, matched: viewerId }, { projection: { _id: 1 } }));
+    // Check mutual
+    const mutual = !!(await users.findOne(
+      { _id: targetId, matched: viewerId },
+      { projection: { _id: 1 } }
+    ));
+
     return NextResponse.json({ ok: true, mutual });
   } catch (err) {
     console.error("POST /api/match error:", err);

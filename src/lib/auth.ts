@@ -3,6 +3,7 @@ import clientPromise from "@/lib/mongodb";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt'; 
+import { DB_NAME, USERS_COLL, EVENTS_COLL } from "@/lib/config";
 
 export const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
@@ -21,7 +22,7 @@ export const authOptions: AuthOptions = {
   if (!credentials?.email || !credentials?.password) return null;
 
   const client = await clientPromise;
-  const users = client.db("cappuconnect").collection("users");
+  const users = client.db(DB_NAME).collection(USERS_COLL);
 
   const user = await users.findOne({ email: credentials.email.toLowerCase() });
   if (!user || !user.password) return null;
